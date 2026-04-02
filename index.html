@@ -298,7 +298,6 @@ tbody tr:hover td { background: #FEF0E6; }
 .prog-bar-wrap { background: #EFEFEF; border-radius: 4px; height: 5px; min-width: 60px; }
 .prog-bar { height: 5px; border-radius: 4px; background: var(--orange); }
 
-  <!-- ── APRIL ASSIGNMENTS CALENDAR ────────────── -->  <div class="spacer" id="april-cal"></div>  <div class="section-hdr">    <div class="dot-accent"><span></span><span></span><span></span><span></span></div>    ASSIGNMENTS RECEIVED — <span style="color:var(--orange);">APRIL 2026</span>  </div>  <div class="chart-card" style="margin-bottom:14px;padding:20px 24px;">    <div id="aprilCalendar"></div>  </div>  <!-- ── CLAIMS STATUS SECTION ────────────────────────────────────────── */
 .funnel-wrap {
   background: var(--white);
   border-radius: 0 0 var(--radius) var(--radius);
@@ -601,6 +600,16 @@ tbody tr:hover td { background: #FEF0E6; }
     </div>
   </div>
 
+
+  <!-- ── APRIL ASSIGNMENTS CALENDAR ──────────────── -->
+  <div class="spacer" id="april-cal"></div>
+  <div class="section-hdr">
+    <div class="dot-accent"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    ASSIGNMENTS RECEIVED — <span style="color:var(--orange);">APRIL 2026</span>
+  </div>
+  <div class="chart-card" style="margin-bottom:14px;padding:20px 24px;">
+    <div id="aprilCalendar"></div>
+  </div>
   <div class="spacer" id="claims"></div>
   <div class="section-hdr">
     <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
@@ -756,6 +765,7 @@ const DATA = {
     revenueMTD:       41125.0,
     wipCount:         6,
     wipRevenue:       4250.0,
+    pctMTD:           98,
   },
   forecast: {
     labels:   ["Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
