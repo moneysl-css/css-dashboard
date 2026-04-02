@@ -588,7 +588,6 @@ tbody tr:hover td { background: #FEF0E6; }
     </div>
   </div>
 
-  "client": "Royal Engineers & Consultants", "claims": 1, "revenue": 600.0}],  aprilCalendar: [2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], ─────────────────── -->
   <div class="spacer" id="claims"></div>
   <div class="section-hdr">
     <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
@@ -758,7 +757,9 @@ const DATA = {
   },
   wonDeals:   [{"name": "NC CDBG-DR \u2014 RM Quality Construction", "value": 250000, "date": "03/31/2026"}, {"name": "FL FDEM Elevate Florida \u2014 Ducky Recovery", "value": 100000, "date": "04/01/2026"}, {"name": "BCA & Engineering Technical Assistance \u2014 Ernst & Young", "value": 200000, "date": "10/15/2025"}],
   openDeals:  [{"name": "AR - CDBG-DR Allocation", "company": "Timberline Construction Group", "amount": 200000.0, "weighted": 40000.0, "stage": "Presentation", "prob": 20, "close": "5/29/2026", "owner": "Mike Gaskins"}, {"name": "AR - CDBG-DR Allocation", "company": "GrantWorks", "amount": 262000.0, "weighted": 196500.0, "stage": "Negotiation", "prob": 75, "close": "5/29/2026", "owner": "Mike Gaskins"}, {"name": "BCA and Engineering Technical Assistance", "company": "Ernst & Young", "amount": 200000.0, "weighted": 200000.0, "stage": "Won", "prob": 100, "close": "10/15/2025", "owner": "Mike Gaskins"}, {"name": "FED - HUD ARC NSPIRE Backlog Inspection", "company": "ProGov Partners LLC.", "amount": 9570973.0, "weighted": 5742584.0, "stage": "Qualified", "prob": 60, "close": "10/1/2026", "owner": "Shane Lucas"}, {"name": "FL - City of Miami Beach HQS-NSPIRE RFP 01-2026", "company": "Housing Authority of the City of Miami Beach (HACMB)", "amount": 563475.0, "weighted": 281738.0, "stage": "Presentation", "prob": 50, "close": "4/1/2026", "owner": "Shane Lucas"}, {"name": "FL - FDEM Elevate Florida Elevation Inspections", "company": "Ducky Recovery", "amount": 100000.0, "weighted": 100000.0, "stage": "Won", "prob": 100, "close": "4/1/2026", "owner": "Shane Lucas"}, {"name": "GA - Dept of Community Affairs ARRP", "company": "Timberline Construction Group", "amount": 300000.0, "weighted": 75000.0, "stage": "Presentation", "prob": 25, "close": "4/24/2026", "owner": "Mike Gaskins"}, {"name": "LA - OCD Program Management and Construction Management Services", "company": "Ducky Recovery", "amount": 1395917.0, "weighted": 697959.0, "stage": "Presentation", "prob": 50, "close": "8/1/2027", "owner": "Shane Lucas"}, {"name": "LA - OCD RFP", "company": "Dynamic", "amount": 400000.0, "weighted": 200000.0, "stage": "Presentation", "prob": 50, "close": "5/15/2026", "owner": "Mike Gaskins"}, {"name": "LA - OCD RFP", "company": "GrantWorks", "amount": 400000.0, "weighted": 200000.0, "stage": "Presentation", "prob": 50, "close": "5/15/2026", "owner": "Mike Gaskins"}, {"name": "NC - Staff Augmentation CDBG-DR Expert Administrative Support", "company": "OST Global", "amount": 250000.0, "weighted": 162500.0, "stage": "Negotiation", "prob": 65, "close": "5/1/2026", "owner": "Shane Lucas"}, {"name": "NC CDBG-DR", "company": "RM Quality Construction", "amount": 250000.0, "weighted": 250000.0, "stage": "Won", "prob": 100, "close": "3/31/2026", "owner": "Mike Gaskins"}, {"name": "NM - Hermits Peak/Calf Canyon Fires", "company": "IEM", "amount": 53040.0, "weighted": 47736.0, "stage": "Negotiation", "prob": 90, "close": "4/30/2026", "owner": "Mike Gaskins"}, {"name": "NY - NYC HRO PMO Services for Crisis Response Programs", "company": "Neris", "amount": 1000000.0, "weighted": 200000.0, "stage": "Presentation", "prob": 20, "close": "5/15/2026", "owner": "Mike Gaskins"}],
-  production: [{"client": "Mora Housing Management, Inc.", "claims": 47, "revenue": 23400.0}, {actual:   [41125, 0, 0, 0, 0, 0, 0, 0, 0, 0],, {"client": "Ducky Recovery", "claims": 16, "revenue": 5225.0}, {"client": "RM Quality Construction, LLC", "claims": 1, "revenue": 700.0}, {"client": "GrantWorks", "claims": 35, "revenue": 11200.0}
+  actual:   [41125, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  production: [{"client": "Mora Housing Management, Inc.", "claims": 47, "revenue": 23400.0}, {"client": "GrantWorks", "claims": 35, "revenue": 11200.0}, {"client": "Ducky Recovery", "claims": 16, "revenue": 5225.0}, {"client": "RM Quality Construction, LLC", "claims": 1, "revenue": 700.0}, {"client": "Royal Engineers & Consultants", "claims": 1, "revenue": 600.0}],
+  aprilCalendar: [2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 };
 
 
@@ -1109,6 +1110,32 @@ DATA.clientRevenue.forEach((d,i)=>{
   clientRevTbody.appendChild(tr);
 });
 
+// ── APRIL ASSIGNMENTS CALENDAR ──────────────────────────────────────
+(function buildAprilCalendar() {
+  const wrap = document.getElementById('aprilCalendar');
+  if (!wrap) return;
+  const YEAR = 2026, MONTH = 4, DAYS_IN_MONTH = 30;
+  const FIRST_DOW_ISO = 2; // April 1 = Wednesday (Mon=0-indexed)
+  const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const today = new Date();
+  const todayDay = (today.getFullYear()===YEAR && today.getMonth()===MONTH-1) ? today.getDate() : -1;
+  const data = DATA.aprilCalendar || [];
+  let html = '<div class="cal-grid">';
+  DAY_NAMES.forEach(function(d){ html += '<div class="cal-dow-header">' + d + '</div>'; });
+  for (let e = 0; e < FIRST_DOW_ISO; e++) { html += '<div class="cal-cell empty"></div>'; }
+  for (let day = 1; day <= DAYS_IN_MONTH; day++) {
+    const count = data[day-1] || 0;
+    const dow = DAY_NAMES[(FIRST_DOW_ISO + day - 1) % 7];
+    let cls = 'cal-cell';
+    if (count > 0) cls += ' has-data';
+    if (day === todayDay) cls += ' today';
+    html += '<div class="' + cls + '"><span class="cal-cell-day">' + day + '</span><span class="cal-cell-dow">' + dow + '</span><div class="cal-cell-count">' + (count > 0 ? count : '') + '</div></div>';
+  }
+  html += '</div>';
+  const total = data.reduce(function(s,v){ return s+v; }, 0);
+  html += '<div class="cal-month-total">April total: <strong>' + total + '</strong> assignments received</div>';
+  wrap.innerHTML = html;
+})();
 </script>
 </body>
 </html>
