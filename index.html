@@ -730,7 +730,7 @@ tbody tr:hover td { background: #FEF0E6; }
 
 const DATA = {
   asOf: new Date().toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}),
-  currentMonth: "March",
+  currentMonth: "April",
   claimsStatus: [
     {status:'Open',          count:0,    value:0.00,        color:'#B62126'},
     {status:'Unassigned',    count:4,    value:3350.00,     color:'#C94020'},
@@ -759,18 +759,18 @@ const DATA = {
     weightedForecast: 8394017.0,
     openDeals:        11,
     
-    claimsMTD:        100,
-    forecastMTD:      41955,
+    claimsMTD:        12,
+    forecastMTD:      49587,
     wonTotal:         550000,
-    revenueMTD:       41125.0,
+    revenueMTD:       0,
     wipCount:         6,
     wipRevenue:       4250.0,
-    pctMTD:           98,
+    pctMTD:           0,
   },
   forecast: {
     labels:   ["Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     forecast: [41955, 49587, 91577, 373379, 543921, 942475, 1248697, 1099610, 703149, 316857],
-    pctMTD:           98,
+    pctMTD:           0,
     actual:   [41125, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     wip:      [15075, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
@@ -780,9 +780,9 @@ const DATA = {
     weighted:[5742584, 406736, 1694697, 550000],
   },
   wonDeals:   [{"name": "NC CDBG-DR \u2014 RM Quality Construction", "value": 250000, "date": "03/31/2026"}, {"name": "FL FDEM Elevate Florida \u2014 Ducky Recovery", "value": 100000, "date": "04/01/2026"}, {"name": "BCA & Engineering Technical Assistance \u2014 Ernst & Young", "value": 200000, "date": "10/15/2025"}],
-  openDeals:  [{"name": "AR - CDBG-DR Allocation", "company": "Timberline Construction Group", "amount": 200000.0, "weighted": 40000.0, "stage": "Presentation", "prob": 20, "close": "5/29/2026", "owner": "Mike Gaskins"}, {"name": "AR - CDBG-DR Allocation", "company": "GrantWorks", "amount": 262000.0, "weighted": 196500.0, "stage": "Negotiation", "prob": 75, "close": "5/29/2026", "owner": "Mike Gaskins"}, {"name": "BCA and Engineering Technical Assistance", "company": "Ernst & Young", "amount": 200000.0, "weighted": 200000.0, "stage": "Won", "prob": 100, "close": "10/15/2025", "owner": "Mike Gaskins"}, {"name": "FED - HUD ARC NSPIRE Backlog Inspection", "company": "ProGov Partners LLC.", "amount": 9570973.0, "weighted": 5742584.0, "stage": "Qualified", "prob": 60, "close": "10/1/2026", "owner": "Shane Lucas"}, {"name": "FL - City of Miami Beach HQS-NSPIRE RFP 01-2026", "company": "Housing Authority of the City of Miami Beach (HACMB)", "amount": 563475.0, "weighted": 281738.0, "stage": "Presentation", "prob": 50, "close": "4/1/2026", "owner": "Shane Lucas"}, {"name": "FL - FDEM Elevate Florida Elevation Inspections", "company": "Ducky Recovery", "amount": 100000.0, "weighted": 100000.0, "stage": "Won", "prob": 100, "close": "4/1/2026", "owner": "Shane Lucas"}, {"name": "GA - Dept of Community Affairs ARRP", "company": "Timberline Construction Group", "amount": 300000.0, "weighted": 75000.0, "stage": "Presentation", "prob": 25, "close": "4/24/2026", "owner": "Mike Gaskins"}, {"name": "LA - OCD Program Management and Construction Management Services", "company": "Ducky Recovery", "amount": 1395917.0, "weighted": 697959.0, "stage": "Presentation", "prob": 50, "close": "8/1/2027", "owner": "Shane Lucas"}, {"name": "LA - OCD RFP", "company": "Dynamic", "amount": 400000.0, "weighted": 200000.0, "stage": "Presentation", "prob": 50, "close": "5/15/2026", "owner": "Mike Gaskins"}, {"name": "LA - OCD RFP", "company": "GrantWorks", "amount": 400000.0, "weighted": 200000.0, "stage": "Presentation", "prob": 50, "close": "5/15/2026", "owner": "Mike Gaskins"}, {"name": "NC - Staff Augmentation CDBG-DR Expert Administrative Support", "company": "OST Global", "amount": 250000.0, "weighted": 162500.0, "stage": "Negotiation", "prob": 65, "close": "5/1/2026", "owner": "Shane Lucas"}, {"name": "NC CDBG-DR", "company": "RM Quality Construction", "amount": 250000.0, "weighted": 250000.0, "stage": "Won", "prob": 100, "close": "3/31/2026", "owner": "Mike Gaskins"}, {"name": "NM - Hermits Peak/Calf Canyon Fires", "company": "IEM", "amount": 53040.0, "weighted": 47736.0, "stage": "Negotiation", "prob": 90, "close": "4/30/2026", "owner": "Mike Gaskins"}, {"name": "NY - NYC HRO PMO Services for Crisis Response Programs", "company": "Neris", "amount": 1000000.0, "weighted": 200000.0, "stage": "Presentation", "prob": 20, "close": "5/15/2026", "owner": "Mike Gaskins"}],
-  production: [{"client": "Mora Housing Management, Inc.", "claims": 47, "revenue": 23400.0}, {"client": "GrantWorks", "claims": 35, "revenue": 11200.0}, {"client": "Ducky Recovery", "claims": 16, "revenue": 5225.0}, {"client": "RM Quality Construction, LLC", "claims": 1, "revenue": 700.0}, {"client": "Royal Engineers & Consultants", "claims": 1, "revenue": 600.0}],
-  aprilCalendar: [2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  openDeals:  [{"name":"AR - CDBG-DR Allocation","company":"Timberline Construction Group","amount":200000,"weighted":40000,"stage":"Presentation","prob":20,"close":"5/29/2026","owner":"Mike Gaskins"},{"name":"AR - CDBG-DR Allocation","company":"GrantWorks","amount":262000,"weighted":196500,"stage":"Negotiation","prob":75,"close":"5/29/2026","owner":"Mike Gaskins"},{"name":"BCA and Engineering Technical Assistance","company":"Ernst & Young","amount":200000,"weighted":200000,"stage":"Won","prob":100,"close":"10/15/2025","owner":"Mike Gaskins"},{"name":"FED - HUD ARC NSPIRE Backlog Inspection","company":"ProGov Partners LLC.","amount":9570973,"weighted":5742584,"stage":"Qualified","prob":60,"close":"10/1/2026","owner":"Shane Lucas"},{"name":"FL - City of Miami Beach HQS-NSPIRE RFP 01-2026","company":"Housing Authority of the City of Miami Beach (HACMB)","amount":563475,"weighted":281738,"stage":"Presentation","prob":50,"close":"4/1/2026","owner":"Shane Lucas"},{"name":"GA - Dept of Community Affairs ARRP","company":"Timberline Construction Group","amount":300000,"weighted":75000,"stage":"Presentation","prob":25,"close":"4/24/2026","owner":"Mike Gaskins"},{"name":"LA - OCD Program Management and Construction Management Services","company":"Ducky Recovery","amount":1395917,"weighted":697959,"stage":"Presentation","prob":50,"close":"8/1/2027","owner":"Shane Lucas"},{"name":"LA - OCD RFP","company":"Dynamic","amount":400000,"weighted":200000,"stage":"Presentation","prob":50,"close":"5/15/2026","owner":"Mike Gaskins"},{"name":"LA - OCD RFP","company":"GrantWorks","amount":400000,"weighted":200000,"stage":"Presentation","prob":50,"close":"5/15/2026","owner":"Mike Gaskins"},{"name":"NC - Staff Augmentation CDBG-DR Expert Administrative Support","company":"OST Global","amount":250000,"weighted":162500,"stage":"Negotiation","prob":65,"close":"5/1/2026","owner":"Shane Lucas"},{"name":"NC CDBG-DR","company":"RM Quality Construction","amount":250000,"weighted":250000,"stage":"Won","prob":100,"close":"3/31/2026","owner":"Mike Gaskins"},{"name":"NM - Hermits Peak/Calf Canyon Fires","company":"IEM","amount":53040,"weighted":47736,"stage":"Negotiation","prob":90,"close":"4/30/2026","owner":"Mike Gaskins"},{"name":"NY - NYC HRO PMO Services for Crisis Response Programs","company":"Neris","amount":1000000,"weighted":200000,"stage":"Presentation","prob":20,"close":"5/15/2026","owner":"Mike Gaskins"}],
+  production: [{"client": "Mora Housing Management, Inc.", "claims": 4, "revenue": 0}, {"client": "Ducky Recovery", "claims": 8, "revenue": 0}],
+  aprilCalendar: [2,2,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 };
 
 
