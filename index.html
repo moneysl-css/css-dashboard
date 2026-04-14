@@ -811,7 +811,7 @@ const kpiDefs = [
   {lbl:'Total Claims',      val:'2,569',                          sub:'All-time records',       cls:''},
   {lbl:'Total Svc Value',   val:'$1.71M',                         sub:'All-time svc value',     cls:'ops'},
   {lbl:'Approval Rate',     val:'97.4%',                          sub:'2,502 of 2,569 approved',cls:'ops'},
-  {lbl:'Won YTD',           val:fmt$(DATA.kpi.wonTotal),         sub:'3 deals closed',         cls:'won'},
+  {lbl:'Won YTD',           val:fmt$(DATA.kpi.wonTotal),         sub:DATA.wonDeals.length + ' deal' + (DATA.wonDeals.length !== 1 ? 's' : '') + ' closed',         cls:'won'},
 ];
 
 const kpiGrid = document.getElementById('kpiGrid');
