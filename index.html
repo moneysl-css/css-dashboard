@@ -916,6 +916,8 @@ stageTbody.appendChild(totTr);
 
 // ── Deal Detail Table ────────────────────────────────────
 const dealsTbody = document.getElementById('dealsTbody');
+DATA.openDeals.sort((a,b)=>new Date(a.close)-new Date(b.close));
+DATA.wonDeals.sort((a,b)=>new Date(a.date)-new Date(b.date));
 let dTot=0, dWgt=0;
 DATA.openDeals.forEach(d=>{
   dTot+=d.amount; dWgt+=d.weighted;
