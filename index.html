@@ -896,6 +896,8 @@ let stageRows = DATA.pipeline.labels.map((s,i) => ({
   stage:s, count:0, total:DATA.pipeline.total[i], weighted:DATA.pipeline.weighted[i]
 }));
 DATA.openDeals.forEach(d=>{ const r=stageRows.find(s=>s.stage===d.stage); if(r) r.count++; });
+stageRows.find(s=>s.stage==='Won').count = DATA.wonDeals.length;
+stageRows.find(s=>s.stage==='Won').count = DATA.wonDeals.length;
 let totT=0,totW=0,totC=0;
 stageRows.forEach(r=>{ totT+=r.total; totW+=r.weighted; totC+=r.count; });
 const stageBadge = s => s==='Won'?'b-won': s==='Negotiation'?'b-neg': s==='Qualified'?'b-qual':'b-pres';
