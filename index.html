@@ -1001,16 +1001,16 @@ tracker.innerHTML=html;
 // ── CLAIMS FUNNEL CHART ───────────────────────────────────
 // rev = ServiceTypeCost-based value (not invoiced amount)
 const FUNNEL_DATA = [
-  {status:'Open',          count:0,    rev:0.00,          color:'#B62126'},
-  {status:'Unassigned',    count:4,    rev:3350.00,       color:'#C94020'},
-  {status:'Assigned',      count:37,   rev:29100.00,      color:'#F26721'},
-  {status:'Accepted',      count:0,    rev:0.00,          color:'#D4A020'},
-  {status:'Contacted',     count:17,   rev:13600.00,      color:'#BAAB1A'},
-  {status:'Estimate Hold', count:0,    rev:0.00,          color:'#939598'},
-  {status:'Inspected',     count:1,    rev:800.00,        color:'#638AC6'},
-  {status:'Returned',      count:2,    rev:900.00,        color:'#7B5EA7'},
-  {status:'Reviewed',      count:6,    rev:4250.00,       color:'#4A90D9'},
-  {status:'Approved',      count:2502, rev:1653333.40,    color:'#4EB648'},
+  {status:'Open',          count:1,    rev:0.00,          color:'#B62126'},
+  {status:'Unassigned',    count:3,    rev:3350.00,       color:'#C94020'},
+  {status:'Assigned',      count:35,   rev:29100.00,      color:'#F26721'},
+  {status:'Accepted',      count:16,   rev:0.00,          color:'#D4A020'},
+  {status:'Contacted',     count:18,   rev:13600.00,      color:'#BAAB1A'},
+  {status:'Estimate Hold', count:19,   rev:0.00,          color:'#939598'},
+  {status:'Inspected',     count:2,    rev:800.00,        color:'#638AC6'},
+  {status:'Returned',      count:5,    rev:900.00,        color:'#7B5EA7'},
+  {status:'Reviewed',      count:31,   rev:4250.00,       color:'#4A90D9'},
+  {status:'Approved',      count:2480, rev:1653333.40,    color:'#4EB648'},
 ];
 const FUNNEL_TOTAL = FUNNEL_DATA.reduce((s,d)=>s+d.count,0);
 const FUNNEL_MAX   = Math.max(...FUNNEL_DATA.map(d=>d.count));
