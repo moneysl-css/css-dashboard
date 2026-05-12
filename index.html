@@ -601,7 +601,7 @@ tbody tr:hover td { background: #FEF0E6; }
   </div>
 
 
-  <!-- ── APRIL ASSIGNMENTS CALENDAR ──────────────── -->
+  <!-- ── MAY ASSIGNMENTS CALENDAR ──────────────── -->
   <div class="spacer" id="april-cal"></div>
   <div class="section-hdr">
     <div class="dot-accent"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
@@ -1137,11 +1137,11 @@ DATA.clientRevenue.forEach((d,i)=>{
 });
 
 // ── APRIL ASSIGNMENTS CALENDAR ──────────────────────────────────────
-(function buildAprilCalendar() {
+(function buildMayCalendar() {
   const wrap = document.getElementById('aprilCalendar');
   if (!wrap) return;
-  const YEAR = 2026, MONTH = 4, DAYS_IN_MONTH = 30;
-  const FIRST_DOW_ISO = 2; // April 1 = Wednesday (Mon=0-indexed)
+  const YEAR = 2026, MONTH = 5, DAYS_IN_MONTH = 31;
+  const FIRST_DOW_ISO = 4; // May 1 = Wednesday (Mon=0-indexed)
   const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const today = new Date();
   const todayDay = (today.getFullYear()===YEAR && today.getMonth()===MONTH-1) ? today.getDate() : -1;
@@ -1159,7 +1159,7 @@ DATA.clientRevenue.forEach((d,i)=>{
   }
   html += '</div>';
   const total = data.reduce(function(s,v){ return s+v; }, 0);
-  html += '<div class="cal-month-total">April total: <strong>' + total + '</strong> assignments received</div>';
+  html += '<div class="cal-month-total">May total: <strong>' + total + '</strong> assignments received</div>';
   wrap.innerHTML = html;
 })();
 </script>
