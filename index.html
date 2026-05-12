@@ -615,38 +615,31 @@ tbody tr:hover td { background: #FEF0E6; }
     <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
     CLAIMS — STATUS OVERVIEW &nbsp;<span style="color:var(--orange);font-size:10px;">ALL-TIME · 2,610 CLAIMS</span>
   </div>
-  <!-- Value by status bar chart (full width) -->
+  <!-- Claims status: chart + table combined -->
   <div class="chart-card" style="border-radius:0 0 var(--radius) var(--radius);margin-bottom:14px;">
-    <div style="font-size:10px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:12px;">Service Value by Status (ServiceTypeCost Rates)</div>
-    <canvas id="statusValueChart" style="max-height:240px;"></canvas>
+    <div style="font-size:10px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px;">Active Claims by Status — Service Value (Approved excluded from chart)</div>
+    <canvas id="statusValueChart" style="max-height:180px;margin-bottom:14px;"></canvas>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead><tr style="border-bottom:1px solid var(--border);">
+        <th style="text-align:left;padding:5px 8px;color:var(--lgray);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Status</th>
+        <th style="text-align:right;padding:5px 8px;color:var(--lgray);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;"># Claims</th>
+        <th style="text-align:right;padding:5px 8px;color:var(--lgray);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Service Value</th>
+        <th style="padding:5px 8px;color:var(--lgray);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Distribution</th>
+      </tr></thead>
+      <tbody id="statusTbody"></tbody>
+      <tfoot>
+        <tr class="tfoot-row">
+          <td>TOTAL</td>
+          <td class="text-right">2,610</td>
+          <td class="text-right">$1,653,333</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 
-  <div class="charts-row" style="align-items:start;">
-    <!-- Status breakdown table -->
-    <div>
-      <div class="table-card" style="border-radius:0 0 var(--radius) var(--radius);">
-        <div class="table-scroll">
-          <table>
-            <thead><tr>
-              <th>Status</th>
-              <th class="text-right"># Claims</th>
-              <th class="text-right">Service Value</th>
-              <th>Distribution</th>
-            </tr></thead>
-            <tbody id="statusTbody"></tbody>
-            <tfoot>
-              <tr class="tfoot-row">
-                <td>TOTAL</td>
-                <td class="text-right">2,610</td>
-                <td class="text-right">$1,705,333</td>
-                <td></td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-      <!-- Client revenue summary cards -->
-      <div style="margin-top:14px;">
+  <!-- Client revenue summary cards -->
+  <div style="margin-top:14px;">
         <div class="section-hdr" style="border-radius:var(--radius) var(--radius) 0 0;">
           <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
           REVENUE BY CLIENT — ALL-TIME
@@ -673,8 +666,6 @@ tbody tr:hover td { background: #FEF0E6; }
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
   <!-- ── CLAIMS FUNNEL ─────────────────────────────────── -->
   <div class="spacer" id="funnel"></div>
@@ -1078,6 +1069,7 @@ const MAX_PCT = 92;  // maximum bar width %
 const STATUS_ORDER = ['Open','Unassigned','Assigned','Accepted','Contacted',
                       'Estimate Hold','Inspected','Returned','Reviewed','Approved'];
 const claimsOrdered = STATUS_ORDER.map(s => DATA.claimsStatus.find(d=>d.status===s)).filter(Boolean);
+const chartOrdered  = claimsOrdered.filter(d => d.status !== 'Approved');
 const totalClaims   = DATA.claimsStatus.reduce((s,d)=>s+d.count,0);
 const totalValue    = DATA.claimsStatus.reduce((s,d)=>s+d.value,0);
 
@@ -1085,12 +1077,12 @@ const svcValCtx = document.getElementById('statusValueChart').getContext('2d');
 new Chart(svcValCtx, {
   type: 'bar',
   data: {
-    labels: claimsOrdered.map(d=>d.status),
+    labels: chartOrdered.map(d=>d.status),
     datasets:[{
       label: 'Service Value ($)',
-      data:  claimsOrdered.map(d=>d.value),
-      backgroundColor: claimsOrdered.map(d=>d.color+'CC'),
-      borderColor:     claimsOrdered.map(d=>d.color),
+      data:  chartOrdered.map(d=>d.value),
+      backgroundColor: chartOrdered.map(d=>d.color+'CC'),
+      borderColor:     chartOrdered.map(d=>d.color),
       borderWidth: 1.5,
       borderRadius: 4,
     }]
@@ -1101,7 +1093,7 @@ new Chart(svcValCtx, {
       legend:{display:false},
       tooltip:{
         callbacks:{
-          label: ctx => ' ' + fmt$(ctx.parsed.x) + '  (' + claimsOrdered[ctx.dataIndex].count + ' claims)'
+          label: ctx => ' ' + fmt$(ctx.parsed.x) + '  (' + chartOrdered[ctx.dataIndex].count + ' claims)'
         }
       }
     },
