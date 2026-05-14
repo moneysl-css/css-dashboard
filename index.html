@@ -613,7 +613,7 @@ tbody tr:hover td { background: #FEF0E6; }
   <div class="spacer" id="claims"></div>
   <div class="section-hdr">
     <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
-    CLAIMS — STATUS OVERVIEW &nbsp;<span style="color:var(--orange);font-size:10px;">ALL-TIME · 2,610 CLAIMS</span>
+    CLAIMS — STATUS OVERVIEW &nbsp;<span style="color:var(--orange);font-size:10px;">ALL-TIME · 501 CLAIMS</span>
   </div>
   <!-- Claims status: chart + table combined -->
   <div class="chart-card" style="border-radius:0 0 var(--radius) var(--radius);margin-bottom:14px;">
@@ -631,7 +631,7 @@ tbody tr:hover td { background: #FEF0E6; }
         <tr class="tfoot-row">
           <td>TOTAL</td>
           <td class="text-right">2,610</td>
-          <td class="text-right">$371,153</td>
+          <td class="text-right">$355,287</td>
           <td></td>
         </tr>
       </tfoot>
@@ -725,66 +725,66 @@ const DATA = {
   claimsStatus: [
     {status:'Open',          count:0,    value:0.00,        color:'#B62126'},
     {status:'Unassigned',    count:1,    value:600.00,      color:'#C94020'},
-    {status:'Assigned',      count:27,   value:20750.00,    color:'#F26721'},
-    {status:'Accepted',      count:0,    value:0.00,        color:'#D4A020'},
+    {status:'Assigned',      count:16,   value:14150.00,    color:'#F26721'},
+    {status:'Accepted',      count:4,    value:3200.00,     color:'#D4A020'},
     {status:'Contacted',     count:13,   value:10400.00,    color:'#BAAB1A'},
     {status:'Estimate Hold', count:1,    value:1000.00,     color:'#939598'},
-    {status:'Inspected',     count:3,    value:2400.00,     color:'#638AC6'},
-    {status:'Returned',      count:5,    value:3450.00,     color:'#7B5EA7'},
-    {status:'Reviewed',      count:5,    value:4500.00,     color:'#4A90D9'},
-    {status:'Approved',      count:2555, value:328053.12,   color:'#4EB648'}
+    {status:'Inspected',     count:2,    value:1600.00,     color:'#638AC6'},
+    {status:'Returned',      count:4,    value:2400.00,     color:'#7B5EA7'},
+    {status:'Reviewed',      count:0,    value:0.00,        color:'#4A90D9'},
+    {status:'Approved',      count:460,  value:322537.12,   color:'#4EB648'}
   ],
   clientRevenue: [
-    {client:'IEM-All States',                        claims:12492, rev:6359356.38},
-    {client:'IEM PR',                                claims:3324,  rev:4186453.36},
-    {client:'HGA',                                   claims:2662,  rev:1922250.00},
-    {client:'GrantWorks',                            claims:463,   rev:439200.00},
-    {client:'AECOM',                                 claims:791,   rev:427860.00},
-    {client:'Mora Housing Management, Inc.',          claims:437,   rev:408000.00},
-    {client:'CSRS Disaster Recovery Management, LLC',claims:1072,  rev:319504.50},
-    {client:'Ducky Recovery',                        claims:251,   rev:159887.12},
-    {client:'Legacy Construction Group, LLC',        claims:148,   rev:102000.00},
-    {client:'SLSCO Ltd',                             claims:274,   rev:94348.00},
-    {client:'F&R BLDM, LLC',                         claims:72,    rev:27300.00},
-    {client:'DSW',                                   claims:83,    rev:21500.00},
-    {client:'Lemoine',                               claims:43,    rev:17600.00},
-    {client:'Royal Engineers & Consultants',         claims:26,    rev:15000.00},
-    {client:'Servicios Calibrados, LLC',             claims:1,     rev:6510.42},
-    {client:'Timberline Construction Group, LLC',    claims:1,     rev:5100.00},
-    {client:'RM Quality Construction, LLC',          claims:1,     rev:2100.00},
-    {client:'IEM-FL',                                claims:2,     rev:1000.00},
-    {client:'A Bartlett Roofing & Construction',     claims:0,     rev:750.00},
-    {client:'Byrdson Services, LLC',                 claims:0,     rev:700.00},
+    {client:'IEM-All States',                          claims:12868, rev:6359356.38},
+    {client:'IEM PR',                                  claims:3322,  rev:4186453.36},
+    {client:'HGA',                                     claims:2660,  rev:1922250.00},
+    {client:'GrantWorks',                              claims:590,   rev:442400.00},
+    {client:'AECOM',                                   claims:819,   rev:427860.00},
+    {client:'Mora Housing Management, Inc.',           claims:659,   rev:413400.00},
+    {client:'CSRS Disaster Recovery Management, LLC',  claims:935,   rev:319504.50},
+    {client:'Ducky Recovery',                          claims:315,   rev:161887.12},
+    {client:'Legacy Construction Group, LLC',          claims:147,   rev:102000.00},
+    {client:'SLSCO Ltd',                               claims:274,   rev:94348.00},
+    {client:'F&R BLDM, LLC',                           claims:72,    rev:27300.00},
+    {client:'DSW',                                     claims:88,    rev:21500.00},
+    {client:'Lemoine',                                 claims:23,    rev:17600.00},
+    {client:'Royal Engineers & Consultants',           claims:29,    rev:15000.00},
+    {client:'Timberline Construction Group, LLC',      claims:30,    rev:8400.00},
+    {client:'Servicios Calibrados, LLC',               claims:13,    rev:6510.42},
+    {client:'RM Quality Construction, LLC',            claims:3,     rev:2100.00},
+    {client:'IEM-FL',                                  claims:2,     rev:1000.00},
+    {client:'A Bartlett Roofing & Construction',       claims:2,     rev:975.00},
+    {client:'Byrdson Services, LLC',                   claims:2,     rev:700.00},
   ],
   kpi: {
-    totalPipeline:    15296905.17,
-    weightedForecast: 8354767,
+    totalPipeline:    15243865.17,
+    weightedForecast: 8307031,
     openDeals:        11,
     
-    claimsMTD:        4,
+    claimsMTD:        84,
     forecastMTD:      91577,
-    wonTotal:         1170000,
-    revenueMTD:       42425,
-    wipCount:         5,
-    wipRevenue:       4500.0,
-    pctMTD:           46,
+    wonTotal:         1223040,
+    revenueMTD:       56550,
+    wipCount:         0,
+        wipRevenue:       0.0,
+    pctMTD:           62,
   },
   forecast: {
     labels:   ["Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     forecast: [41955, 49587, 91577, 373379, 543921, 942475, 1248697, 1099610, 703149, 316857],
-    pctMTD:           46,
-    actual:   [41125, 67200, 42425, 0, 0, 0, 0, 0, 0, 0],
+    pctMTD:           62,
+    actual:   [49125, 67200, 56550, 0, 0, 0, 0, 0, 0, 0],
     wip:      [15075, 4250, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   pipeline: {
     labels:  ["Qualified", "Negotiation", "Presentation", "Won"],
-    total:   [0, 565040, 14731865.17, 1170000],
-    weighted:[0, 406736, 7948031, 1170000],
+    total:   [0, 512000, 14731865.17, 1223040],
+    weighted:[0, 359000, 7948031, 1223040],
   },
-  wonDeals:   [{"name":"BCA and Engineering Technical Assistance — Ernst & Young","value":200000,"date":"1/26/2026"},{"name":"NC - CDBG-DR Estimate Writing — RM Quality Construction","value":250000,"date":"3/17/2026"},{"name":"FL - FDEM Elevate Florida Elevation Inspections — Ducky Recovery","value":100000,"date":"3/26/2026"},{"name":"FL - Construction Support Services CDBG-DR Allocation — Timberline Construction Group","value":250000,"date":"4/2/2026"},{"name":"NC - RenewNC GC support — Byrdson","value":150000,"date":"4/9/2026"},{"name":"FL - Pasco County CDBG-DR Allocation — A. Bartlett Roofing & Construction Services, LLC","value":100000,"date":"4/23/2026"},{"name":"FL - Elevate Florida Elevation Inspections — Royal Engineering","value":120000,"date":"5/11/2026"}],
-  openDeals:  [{"name":"NM - Hermits Peak/Calf Canyon Fires","company":"IEM","amount":53040,"weighted":47736,"stage":"Negotiation","prob":90,"close":"4/30/2026","owner":"Mike Gaskins"},{"name":"NC - Staff Augmentation CDBG-DR Expert Administrative Support","company":"OST Global","amount":250000,"weighted":162500,"stage":"Negotiation","prob":65,"close":"5/1/2026","owner":"Shane Lucas"},{"name":"LA - OCD RFP","company":"GrantWorks","amount":400000,"weighted":200000,"stage":"Presentation","prob":50,"close":"5/15/2026","owner":"Mike Gaskins"},{"name":"LA - OCD RFP","company":"Dynamic","amount":400000,"weighted":200000,"stage":"Presentation","prob":50,"close":"5/15/2026","owner":"Mike Gaskins"},{"name":"GA - Dept of Community Affairs ARRP","company":"Timberline Construction Group","amount":300000,"weighted":75000,"stage":"Presentation","prob":25,"close":"5/15/2026","owner":"Mike Gaskins"},{"name":"NY - NYC HRO PMO Services for Crisis Response Programs","company":"Neris","amount":1000000,"weighted":200000,"stage":"Presentation","prob":20,"close":"5/29/2026","owner":"Mike Gaskins"},{"name":"FL - City of Miami Beach HQS-NSPIRE RFP 01-2026","company":"Housing Authority of the City of Miami Beach (HACMB)","amount":563475,"weighted":281738,"stage":"Presentation","prob":50,"close":"6/1/2026","owner":"Shane Lucas"},{"name":"NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments","company":"Department of Homeland Security and Emergency Management (DHSEM)","amount":1101500,"weighted":550750,"stage":"Presentation","prob":50,"close":"6/1/2026","owner":"Mike Gaskins"},{"name":"AR - CDBG-DR Allocation","company":"GrantWorks","amount":262000,"weighted":196500,"stage":"Negotiation","prob":75,"close":"8/3/2026","owner":"Mike Gaskins"},{"name":"FED - HUD ARC NSPIRE Backlog Inspection","company":"Akytech Consulting","amount":9570973.17,"weighted":5742584,"stage":"Presentation","prob":60,"close":"10/1/2026","owner":"Shane Lucas"},{"name":"LA - OCD Program Management and Construction Management Services","company":"Ducky Recovery","amount":1395917,"weighted":697959,"stage":"Presentation","prob":50,"close":"8/1/2027","owner":"Shane Lucas"}],
+  wonDeals:   [{"name":"BCA and Engineering Technical Assistance — Ernst & Young","value":200000,"date":"1/26/2026"},{"name":"NC - CDBG-DR Estimate Writing — RM Quality Construction","value":250000,"date":"3/17/2026"},{"name":"FL - FDEM Elevate Florida Elevation Inspections — Ducky Recovery","value":100000,"date":"3/26/2026"},{"name":"FL - Construction Support Services CDBG-DR Allocation — Timberline Construction Group","value":250000,"date":"4/2/2026"},{"name":"NC - RenewNC GC support — Byrdson","value":150000,"date":"4/9/2026"},{"name":"FL - Pasco County CDBG-DR Allocation — A. Bartlett Roofing & Construction Services, LLC","value":100000,"date":"4/23/2026"},{"name":"FL - Elevate Florida Elevation Inspections — Royal Engineering","value":120000,"date":"5/11/2026"},{"name":"NM - Hermits Peak/Calf Canyon Fires — IEM","value":53040,"date":"4/30/2026"}],
+  openDeals:  [{"name":"NC - Staff Augmentation CDBG-DR Expert Administrative Support","company":"OST Global","amount":250000,"weighted":162500,"stage":"Negotiation","prob":65,"close":"8/1/2026","owner":"Shane Lucas"},{"name":"AR - CDBG-DR Allocation","company":"GrantWorks","amount":262000,"weighted":196500,"stage":"Negotiation","prob":75,"close":"8/3/2026","owner":"Mike Gaskins"},{"name":"NC CDBG-DR","company":"Timberline Construction Group","amount":0,"weighted":0,"stage":"Presentation","prob":50,"close":"5/8/2026","owner":"Mike Gaskins"},{"name":"LA - OCD RFP","company":"GrantWorks","amount":400000,"weighted":200000,"stage":"Presentation","prob":50,"close":"6/15/2026","owner":"Mike Gaskins"},{"name":"LA - OCD RFP","company":"Dynamic","amount":400000,"weighted":200000,"stage":"Presentation","prob":50,"close":"6/15/2026","owner":"Mike Gaskins"},{"name":"GA - Dept of Community Affairs ARRP","company":"Timberline Construction Group","amount":300000,"weighted":75000,"stage":"Presentation","prob":25,"close":"6/15/2026","owner":"Mike Gaskins"},{"name":"NY - NYC HRO PMO Services for Crisis Response Programs","company":"Neris","amount":1000000,"weighted":200000,"stage":"Presentation","prob":20,"close":"5/29/2026","owner":"Mike Gaskins"},{"name":"FL - City of Miami Beach HQS-NSPIRE RFP 01-2026","company":"Housing Authority of the City of Miami Beach (HACMB)","amount":563475,"weighted":281738,"stage":"Presentation","prob":50,"close":"6/1/2026","owner":"Shane Lucas"},{"name":"NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments","company":"Department of Homeland Security and Emergency Management (DHSEM)","amount":1101500,"weighted":550750,"stage":"Presentation","prob":50,"close":"6/1/2026","owner":"Mike Gaskins"},{"name":"FED - HUD ARC NSPIRE Backlog Inspection","company":"Akytech Consulting","amount":9570973,"weighted":5742584,"stage":"Presentation","prob":60,"close":"10/1/2026","owner":"Shane Lucas"},{"name":"LA - OCD Program Management and Construction Management Services","company":"Ducky Recovery","amount":1395917,"weighted":697959,"stage":"Presentation","prob":50,"close":"8/1/2027","owner":"Mike Gaskins"}],
   production: [{"client":"Ducky Recovery","claims":0,"revenue":2025.0},{"client":"GrantWorks","claims":0,"revenue":11200.0},{"client":"Mora Housing Management, Inc.","claims":3,"revenue":27500.0},{"client":"RM Quality Construction, LLC","claims":0,"revenue":1400.0},{"client":"Timberline Construction Group, LLC","claims":1,"revenue":300.0}],
-  aprilCalendar: [10,0,0,12,5,22,5,1,0,0,7,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  aprilCalendar: [10,0,0,12,5,22,5,1,0,0,7,6,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 };
 
 
@@ -1005,14 +1005,14 @@ tracker.innerHTML=html;
 const FUNNEL_DATA = [
   {status:'Open',          count:0,    rev:0.00,          color:'#B62126'},
   {status:'Unassigned',    count:1,    rev:600.00,        color:'#C94020'},
-  {status:'Assigned',      count:27,   rev:20750.00,      color:'#F26721'},
-  {status:'Accepted',      count:0,    rev:0.00,          color:'#D4A020'},
+  {status:'Assigned',      count:16,   rev:14150.00,      color:'#F26721'},
+  {status:'Accepted',      count:4,    rev:3200.00,       color:'#D4A020'},
   {status:'Contacted',     count:13,   rev:10400.00,      color:'#BAAB1A'},
   {status:'Estimate Hold', count:1,    rev:1000.00,       color:'#939598'},
-  {status:'Inspected',     count:3,    rev:2400.00,       color:'#638AC6'},
-  {status:'Returned',      count:5,    rev:3450.00,       color:'#7B5EA7'},
-  {status:'Reviewed',      count:5,    rev:4500.00,       color:'#4A90D9'},
-  {status:'Approved',      count:2555, rev:328053.12,     color:'#4EB648'}
+  {status:'Inspected',     count:2,    rev:1600.00,       color:'#638AC6'},
+  {status:'Returned',      count:4,    rev:2400.00,       color:'#7B5EA7'},
+  {status:'Reviewed',      count:0,    rev:0.00,          color:'#4A90D9'},
+  {status:'Approved',      count:460,  rev:322537.12,     color:'#4EB648'}
 ];
 const FUNNEL_TOTAL = FUNNEL_DATA.reduce((s,d)=>s+d.count,0);
 const FUNNEL_MAX   = Math.max(...FUNNEL_DATA.map(d=>d.count));
