@@ -898,8 +898,8 @@ new Chart(fctx, {
          backgroundColor:'rgba(99,138,198,0.85)', borderRadius:4, borderSkipped:false },
       { type:'line', label:'Total Revenue',
          data: DATA.forecast.labels.map(function(_,i){ var a=DATA.forecast.actual[i]||0; var w=DATA.forecast.wip[i]||0; return (a+w)>0?(a+w):null; }),
-         borderColor:'#FFFFFF', backgroundColor:'rgba(255,255,255,0.12)',
-         borderWidth:2.5, pointBackgroundColor:'#FFFFFF', pointBorderColor:'rgba(0,0,0,0.3)',
+         borderColor:'#3D3D3D', backgroundColor:'rgba(61,61,61,0.08)',
+         borderWidth:2.5, pointBackgroundColor:'#3D3D3D', pointBorderColor:'#FFFFFF',
          pointRadius:5, pointHoverRadius:7, tension:0.35, fill:false, order:0, spanGaps:false },
     ]
   },
