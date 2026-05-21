@@ -896,6 +896,11 @@ new Chart(fctx, {
          backgroundColor:'rgba(78,182,72,0.85)',  borderRadius:4, borderSkipped:false },
       { label:'WIP',      data:DATA.forecast.wip,   stack:'act',
          backgroundColor:'rgba(99,138,198,0.85)', borderRadius:4, borderSkipped:false },
+      { type:'line', label:'Total Revenue',
+         data: DATA.forecast.labels.map(function(_,i){ var a=DATA.forecast.actual[i]||0; var w=DATA.forecast.wip[i]||0; return (a+w)>0?(a+w):null; }),
+         borderColor:'#FFFFFF', backgroundColor:'rgba(255,255,255,0.12)',
+         borderWidth:2.5, pointBackgroundColor:'#FFFFFF', pointBorderColor:'rgba(0,0,0,0.3)',
+         pointRadius:5, pointHoverRadius:7, tension:0.35, fill:false, order:0, spanGaps:false },
     ]
   },
   options: {
