@@ -640,8 +640,8 @@ tbody tr:hover td { background: #FEF0E6; }
       <tfoot>
         <tr class="tfoot-row">
           <td>TOTAL</td>
-          <td class="text-right">525</td>
-          <td class="text-right">$367,287</td>
+          <td class="text-right" id="statusTotalCount"></td>
+          <td class="text-right" id="statusTotalValue"></td>
           <td></td>
         </tr>
       </tfoot>
@@ -1191,6 +1191,8 @@ claimsOrdered.forEach(d=>{
     </td>`;
   statusTbody.appendChild(tr);
 });
+document.getElementById('statusTotalCount').textContent = fmtN(claimsOrdered.reduce((s,d)=>s+d.count,0));
+document.getElementById('statusTotalValue').textContent = fmt$(claimsOrdered.reduce((s,d)=>s+d.value,0));
 
 const totalRev = DATA.clientRevenue.reduce((s,d)=>s+d.rev,0);
 const clientRevTbody = document.getElementById('clientRevTbody');
