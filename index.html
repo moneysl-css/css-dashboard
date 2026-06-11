@@ -516,7 +516,7 @@ tbody tr:hover td { background: #FEF0E6; }
     <div style="display:flex;flex-direction:column;">
       <div class="section-hdr">
         <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
-        REVENUE — FORECAST vs ACTUAL &nbsp;(Mar – Dec 2026)
+        REVENUE — FORECAST vs ACTUAL &nbsp;(Jan – Dec 2026)
       </div>
       <div class="chart-card">
         <canvas id="forecastChart"></canvas>
@@ -615,7 +615,7 @@ tbody tr:hover td { background: #FEF0E6; }
   <div class="spacer" id="april-cal"></div>
   <div class="section-hdr">
     <div class="dot-accent"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-    ASSIGNMENTS RECEIVED — <span style="color:var(--orange);">MAY 2026</span>
+    ASSIGNMENTS RECEIVED — <span style="color:var(--orange);">JUNE 2026</span>
   </div>
   <div class="chart-card" style="margin-bottom:14px;padding:20px 24px;">
     <div id="aprilCalendar"></div>
@@ -652,7 +652,7 @@ tbody tr:hover td { background: #FEF0E6; }
   <div style="margin-top:14px;">
         <div class="section-hdr" style="border-radius:var(--radius) var(--radius) 0 0;">
           <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
-          REVENUE BY CLIENT — ALL-TIME
+          REVENUE BY CLIENT — 2026 YTD
         </div>
         <div class="table-card" style="border-radius:0 0 var(--radius) var(--radius);">
           <div class="table-scroll">
@@ -692,15 +692,15 @@ tbody tr:hover td { background: #FEF0E6; }
       </div>
       <div>
         <div style="font-size:10px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px;">Total Service Value</div>
-        <div style="font-size:22px;font-weight:900;color:var(--green);">$1,705,333</div>
+        <div style="font-size:22px;font-weight:900;color:var(--green);" id="funnelTotalValue">—</div>
       </div>
       <div>
         <div style="font-size:10px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px;">Approved Rate</div>
-        <div style="font-size:22px;font-weight:900;color:var(--green);">97.4%</div>
+        <div style="font-size:22px;font-weight:900;color:var(--green);" id="funnelApprovalRate">—</div>
       </div>
       <div>
         <div style="font-size:10px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px;">In-Progress</div>
-        <div style="font-size:22px;font-weight:900;color:var(--orange);">67</div>
+        <div style="font-size:22px;font-weight:900;color:var(--orange);" id="funnelInProgress">—</div>
         <div style="font-size:10px;color:var(--lgray);">Not yet approved</div>
       </div>
     </div>
@@ -733,99 +733,91 @@ const DATA = {
   asOf: new Date().toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}),
   currentMonth: "June",
   claimsStatus: [
-      {status:'Open',          count:0,    value:0.00,        color:'#B62126'},
-      {status:'Unassigned',    count:1,    value:0.00,        color:'#C94020'},
-      {status:'Assigned',      count:14,   value:11850.00,    color:'#F26721'},
-      {status:'Accepted',      count:1,    value:800.00,      color:'#D4A020'},
-      {status:'Contacted',     count:8,    value:5600.00,     color:'#BAAB1A'},
-      {status:'Job Started',   count:1,    value:0.00,        color:'#5DADE2'},
-      {status:'Estimate Hold', count:1,    value:1000.00,     color:'#939598'},
-      {status:'Inspected',     count:2,    value:800.00,      color:'#638AC6'},
-      {status:'Returned',      count:2,    value:800.00,      color:'#7B5EA7'},
-      {status:'Reviewed',      count:4,    value:2700.00,     color:'#4A90D9'},
-      {status:'Approved',      count:164,  value:100850.00,   color:'#4EB648'},
-    ],
+    {status:'Open',          count:0,    value:0.00,        color:'#B62126'},
+    {status:'Unassigned',    count:1,    value:0.00,        color:'#C94020'},
+    {status:'Assigned',      count:22,   value:11850.00,    color:'#F26721'},
+    {status:'Accepted',      count:1,    value:800.00,      color:'#D4A020'},
+    {status:'Contacted',     count:4,    value:1600.00,     color:'#BAAB1A'},
+    {status:'Job Started',   count:1,    value:0.00,        color:'#5DADE2'},
+    {status:'Estimate Hold', count:1,    value:1000.00,     color:'#939598'},
+    {status:'Inspected',     count:1,    value:0.00,        color:'#638AC6'},
+    {status:'Returned',      count:1,    value:0.00,        color:'#7B5EA7'},
+    {status:'Reviewed',      count:0,    value:0.00,        color:'#4A90D9'},
+    {status:'Approved',      count:186,  value:103100.00,   color:'#4EB648'},
+  ],
   clientRevenue: [
-    {client:'IEM-All States',                          claims:12868, rev:6359356.38},
-    {client:'IEM PR',                                  claims:3322,  rev:4186453.36},
-    {client:'HGA',                                     claims:2660,  rev:1922250.00},
-    {client:'GrantWorks',                              claims:598,   rev:448000.00},
-    {client:'AECOM',                                   claims:819,   rev:427860.00},
-    {client:'Mora Housing Management, Inc.',           claims:665,   rev:421050.00},
-    {client:'CSRS Disaster Recovery Management, LLC',  claims:935,   rev:319504.50},
-    {client:'Ducky Recovery',                          claims:317,   rev:161887.12},
-    {client:'Legacy Construction Group, LLC',          claims:147,   rev:102000.00},
-    {client:'SLSCO Ltd',                               claims:274,   rev:94348.00},
-    {client:'F&R BLDM, LLC',                           claims:72,    rev:27300.00},
-    {client:'DSW',                                     claims:88,    rev:21500.00},
-    {client:'Lemoine',                                 claims:23,    rev:17600.00},
-    {client:'Royal Engineers & Consultants',           claims:29,    rev:15000.00},
-    {client:'Timberline Construction Group, LLC',      claims:37,    rev:8400.00},
-    {client:'Servicios Calibrados, LLC',               claims:13,    rev:6510.42},
-    {client:'RM Quality Construction, LLC',            claims:4,     rev:2100.00},
-    {client:'IEM-FL',                                  claims:2,     rev:1000.00},
-    {client:'A Bartlett Roofing & Construction',       claims:2,     rev:975.00},
-    {client:'Byrdson Services, LLC',                   claims:2,     rev:700.00},
+    {client:'Mora Housing Management, Inc.',       claims:220, rev:146300.00},
+    {client:'GrantWorks',                         claims:151, rev:130400.00},
+    {client:'Ducky Recovery',                     claims:75,  rev:33375.00},
+    {client:'Timberline Construction Group, LLC', claims:57,  rev:13500.00},
+    {client:'Royal Engineers & Consultants',      claims:11,  rev:6000.00},
+    {client:'RM Quality Construction, LLC',       claims:12,  rev:5600.00},
+    {client:'DSW',                                claims:16,  rev:4000.00},
+    {client:'A Bartlett Roofing & Construction',  claims:2,   rev:975.00},
+    {client:'Byrdson Services, LLC',              claims:2,   rev:700.00},
   ],
   kpi: {
-    totalPipeline:    14680390.17,
-    weightedForecast: 7825293,
-    openDeals:        9,
-    
-    claimsMTD:        9,
+    totalPipeline:    15680390.17,
+    weightedForecast: 7975293,
+    openDeals:        12,
+    claimsMTD:        30,
     forecastMTD:      373379,
     wonTotal:         1553400,
-    revenueMTD:       5600,
-    wipCount:         2,
-            wipRevenue:       800,
-    pctMTD:           2,
+    wonDealsCount:    10,
+    revenueMTD:       17625,
+    revenueYTD:       340850,
+    wipCount:         0,
+    wipRevenue:       0,
+    pctMTD:           5,
   },
   forecast: {
-    labels:   ["Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    forecast: [41955, 49587, 91577, 373379, 543921, 942475, 1248697, 1099610, 703149, 316857],
-    pctMTD:           2,
-    actual:   [49125, 67200, 91250, 0, 0, 0, 0, 0, 0, 0],
-    wip:      [15075, 4250, 0, 0, 0, 0, 0, 0, 0, 0],
+    labels:   ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+    forecast: [0,0,41955,49587,91577,373379,543921,942475,1248697,1099610,703149,316857],
+    actual:   [58950,57150,49125,67200,90800,17625,0,0,0,0,0,0],
+    wip:      [0,0,15075,4250,0,0,0,0,0,0,0,0],
   },
   pipeline: {
-    labels:  ["Qualified", "Negotiation", "Presentation"],
-    total:   [0, 512000, 14168390.17],
-    weighted:[0, 359000, 7466293],
+    labels:  ["Qualified","Negotiation","Presentation"],
+    total:   [1000000,512000,14168390.17],
+    weighted:[250000,359000,7366293],
   },
-  wonDeals:   [
-      {"name":"BCA and Engineering Technical Assistance — Ernst & Young","value":200000,"date":"1/26/2026"},
-      {"name":"NC - CDBG-DR Estimate Writing — RM Quality Construction","value":250000,"date":"3/17/2026"},
-      {"name":"FL - FDEM Elevate Florida Elevation Inspections — Ducky Recovery","value":100000,"date":"3/26/2026"},
-      {"name":"FL - Construction Support Services CDBG-DR Allocation — Timberline Construction Group","value":125000,"date":"4/2/2026"},
-      {"name":"NC - RenewNC GC support — Byrdson","value":150000,"date":"4/9/2026"},
-      {"name":"FL - Pasco County CDBG-DR Allocation — A. Bartlett Roofing & Construction Services, LLC","value":100000,"date":"4/23/2026"},
-      {"name":"FL - Elevate Florida Elevation Inspections — Royal Engineering","value":120000,"date":"5/11/2026"},
-      {"name":"NC CDBG-DR — Ducky Recovery","value":125000,"date":"5/15/2026"},
-      {"name":"NC CDBG-DR — Timberline Construction Group","value":125000,"date":"5/15/2026"},
-      {"name":"NM - Hermits Peak/Calf Canyon Fires — IEM","value":258400,"date":"5/21/2026"}
-    ],
+  wonDeals: [
+    {"name":"BCA and Engineering Technical Assistance — Ernst and Young","value":200000,"date":"1/26/2026"},
+    {"name":"NC - CDBG-DR Estimate Writing — RM Quality Construction","value":250000,"date":"3/17/2026"},
+    {"name":"FL - FDEM Elevate Florida Elevation Inspections — Ducky Recovery","value":100000,"date":"3/26/2026"},
+    {"name":"FL - Construction Support Services CDBG-DR — Timberline Construction Group","value":125000,"date":"4/2/2026"},
+    {"name":"NC - RenewNC GC support — Byrdson","value":150000,"date":"4/9/2026"},
+    {"name":"FL - Pasco County CDBG-DR — A. Bartlett Roofing and Construction Services","value":100000,"date":"4/23/2026"},
+    {"name":"FL - Elevate Florida Elevation Inspections — Royal Engineering","value":120000,"date":"5/11/2026"},
+    {"name":"NC CDBG-DR — Ducky Recovery","value":125000,"date":"5/15/2026"},
+    {"name":"NC CDBG-DR — Timberline Construction Group","value":125000,"date":"5/15/2026"},
+    {"name":"NM - Hermits Peak/Calf Canyon Fires — IEM","value":258400,"date":"5/21/2026"}
+  ],
   lostDeals: [
     {"name":"FL - City of Miami Beach HQS-NSPIRE RFP 01-2026","company":"Housing Authority of the City of Miami Beach (HACMB)","amount":563475,"date":"5/21/2026","reason":"Price","notes":"Scoring sheet indicates winning bidder awarded at lower rate per unit."},
   ],
-  openDeals:  [
-      {"name":"NC - Staff Augmentation CDBG-DR Expert Administrative Support","company":"OST Global","amount":250000,"weighted":162500,"stage":"Negotiation","prob":65,"close":"5/1/2026","owner":"Shane Lucas"},
-      {"name":"AR - CDBG-DR Allocation","company":"GrantWorks","amount":262000,"weighted":196500,"stage":"Negotiation","prob":75,"close":"9/1/2026","owner":"Mike Gaskins"},
-      {"name":"GA - Dept of Community Affairs ARRP","company":"Timberline Construction Group","amount":300000,"weighted":75000,"stage":"Presentation","prob":25,"close":"6/30/2026","owner":"Mike Gaskins"},
-      {"name":"NY - NYC HRO PMO Services for Crisis Response Programs","company":"Neris","amount":1000000,"weighted":200000,"stage":"Presentation","prob":20,"close":"6/30/2026","owner":"Mike Gaskins"},
-      {"name":"LA - OCD RFP","company":"GrantWorks","amount":400000,"weighted":100000,"stage":"Presentation","prob":25,"close":"6/30/2026","owner":"Mike Gaskins"},
-      {"name":"LA - OCD RFP","company":"Dynamic","amount":400000,"weighted":100000,"stage":"Presentation","prob":25,"close":"6/30/2026","owner":"Mike Gaskins"},
-      {"name":"NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments","company":"Department of Homeland Security and Emergency Management (DHSEM)","amount":1101500,"weighted":550750,"stage":"Presentation","prob":50,"close":"7/1/2026","owner":"Mike Gaskins"},
-      {"name":"FED - HUD ARC NSPIRE Backlog Inspection","company":"Akytech Consulting","amount":9570973,"weighted":5742584,"stage":"Presentation","prob":60,"close":"10/1/2026","owner":"Shane Lucas"},
-      {"name":"LA - OCD Program Management and Construction Management Services","company":"Ducky Recovery","amount":1395917,"weighted":697959,"stage":"Presentation","prob":50,"close":"8/1/2027","owner":"Mike Gaskins"}
-    ],
+  openDeals: [
+    {"name":"PR - PRDOH Cost Estimating Services — CDBG-DR / CDBG-MIT","company":"OST Global","amount":200000,"weighted":50000,"stage":"Qualified","prob":25,"close":"11/2/2026","owner":"Shane Lucas"},
+    {"name":"FL - Hillsboro County CDBG-DR","company":"Ducky Recovery","amount":300000,"weighted":75000,"stage":"Qualified","prob":25,"close":"8/3/2026","owner":"Shane Lucas"},
+    {"name":"PR - PRDOH CDBG-DRMIT-RFQ-2026-01","company":"Sullivan Land Services (SLSCO)","amount":500000,"weighted":125000,"stage":"Qualified","prob":25,"close":"11/2/2026","owner":"Shane Lucas"},
+    {"name":"NC - Staff Augmentation CDBG-DR Expert Administrative Support","company":"OST Global","amount":250000,"weighted":162500,"stage":"Negotiation","prob":65,"close":"5/1/2026","owner":"Shane Lucas"},
+    {"name":"AR - CDBG-DR Allocation","company":"GrantWorks","amount":262000,"weighted":196500,"stage":"Negotiation","prob":75,"close":"9/1/2026","owner":"Mike Gaskins"},
+    {"name":"GA - Dept of Community Affairs ARRP","company":"Timberline Construction Group","amount":300000,"weighted":75000,"stage":"Presentation","prob":25,"close":"7/31/2026","owner":"Mike Gaskins"},
+    {"name":"NY - NYC HRO PMO Services for Crisis Response Programs","company":"Neris","amount":1000000,"weighted":100000,"stage":"Presentation","prob":10,"close":"8/31/2026","owner":"Mike Gaskins"},
+    {"name":"LA - OCD RFP","company":"GrantWorks","amount":400000,"weighted":100000,"stage":"Presentation","prob":25,"close":"6/30/2026","owner":"Mike Gaskins"},
+    {"name":"LA - OCD RFP","company":"Dynamic","amount":400000,"weighted":100000,"stage":"Presentation","prob":25,"close":"6/30/2026","owner":"Mike Gaskins"},
+    {"name":"NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments","company":"Dept of Homeland Security and Emergency Management","amount":1101500,"weighted":550750,"stage":"Presentation","prob":50,"close":"7/1/2026","owner":"Mike Gaskins"},
+    {"name":"FED - HUD ARC NSPIRE Backlog Inspection","company":"Akytech Consulting","amount":9570973,"weighted":5742584,"stage":"Presentation","prob":60,"close":"10/1/2026","owner":"Shane Lucas"},
+    {"name":"LA - OCD Program Management and Construction Management Services","company":"Ducky Recovery","amount":1395917,"weighted":697959,"stage":"Presentation","prob":50,"close":"8/1/2027","owner":"Shane Lucas"}
+  ],
   production: [
-      {"client":"Ducky Recovery","claims":3,"revenue":0},
-      {"client":"GrantWorks","claims":0,"revenue":1600},
-      {"client":"Mora Housing Management, Inc.","claims":4,"revenue":900},
-      {"client":"RM Quality Construction, LLC","claims":0,"revenue":2800},
-      {"client":"Timberline Construction Group, LLC","claims":2,"revenue":300}
-    ],
-  aprilCalendar: [4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    {"client":"Ducky Recovery","claims":4,"revenue":575},
+    {"client":"GrantWorks","claims":0,"revenue":7200},
+    {"client":"Mora Housing Management, Inc.","claims":13,"revenue":6450},
+    {"client":"RM Quality Construction, LLC","claims":1,"revenue":2800},
+    {"client":"Timberline Construction Group, LLC","claims":12,"revenue":600}
+  ],
+  juneCalendar: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 };
 
 
@@ -840,7 +832,14 @@ document.getElementById('asOfBadge').textContent  = 'As of ' + DATA.asOf;
 document.getElementById('monthLabel').textContent = DATA.currentMonth + ' MTD';
 
 // ── KPI Cards ────────────────────────────────────────────
+// Compute dynamic claims stats
+const _totalActiveClaims = DATA.claimsStatus.reduce((s,d)=>s+d.count,0);
+const _approvedClaims    = (DATA.claimsStatus.find(d=>d.status==='Approved')||{count:0}).count;
+const _totalSvcValue     = DATA.claimsStatus.reduce((s,d)=>s+d.value,0);
+const _approvalRate      = _totalActiveClaims>0 ? (_approvedClaims/_totalActiveClaims*100).toFixed(1) : '0.0';
+
 const kpiDefs = [
+  {lbl:'Revenue YTD 2026',  val:fmt$(DATA.kpi.revenueYTD),       sub:'Jan – Jun actual',       cls:'won'},
   {lbl:'Total Pipeline',    val:fmt$(DATA.kpi.totalPipeline),    sub:'Open opportunity value', cls:''},
   {lbl:'Weighted Forecast', val:fmt$(DATA.kpi.weightedForecast), sub:'Probability-adjusted',   cls:''},
   {lbl:'Open Deals',        val:fmtN(DATA.kpi.openDeals),        sub:'Active in pipeline',     cls:''},
@@ -849,13 +848,14 @@ const kpiDefs = [
   {lbl:'MTD vs Forecast',   val:DATA.kpi.pctMTD+'%',
     sub:'of '+fmt$(DATA.kpi.forecastMTD)+' target',
     cls: DATA.kpi.pctMTD>=80?'ops': DATA.kpi.pctMTD>=50?'':'warn'},
-  {lbl:'WIP Count',         val:fmtN(DATA.kpi.wipCount),         sub:'Status: Reviewed',       cls:'ops'},
-  {lbl:'WIP Revenue',       val:fmt$(DATA.kpi.wipRevenue),       sub:'Pending approval',       cls:'ops'},
-  {lbl:'Total Claims',      val:'525',                          sub:'All-time records',       cls:''},
-  {lbl:'Total Svc Value',   val:'$1.71M',                         sub:'All-time svc value',     cls:'ops'},
-  {lbl:'Approval Rate',     val:'90.7%',                          sub:'476 of 525 approved',cls:'ops'},
-  {lbl:'Won YTD',           val:fmt$(DATA.kpi.wonTotal),         sub:DATA.wonDeals.length + ' deal' + (DATA.wonDeals.length !== 1 ? 's' : '') + ' closed',         cls:'won'},
+  {lbl:'WIP Count',         val:fmtN(DATA.kpi.wipCount),         sub:'Status: Reviewed',       cls:(DATA.kpi.wipCount>0?'ops':'')},
+  {lbl:'WIP Revenue',       val:fmt$(DATA.kpi.wipRevenue),       sub:'Pending approval',       cls:(DATA.kpi.wipRevenue>0?'ops':'')},
+  {lbl:'Total Claims',      val:fmtN(_totalActiveClaims),        sub:'Active claim records',   cls:''},
+  {lbl:'Total Svc Value',   val:fmtK(_totalSvcValue),            sub:'Active svc value',       cls:'ops'},
+  {lbl:'Approval Rate',     val:_approvalRate+'%',               sub:_approvedClaims+' of '+_totalActiveClaims+' approved',cls:'ops'},
+  {lbl:'Won YTD',           val:fmt$(DATA.kpi.wonTotal),         sub:DATA.kpi.wonDealsCount+' deals closed', cls:'won'},
 ];
+
 
 const kpiGrid = document.getElementById('kpiGrid');
 kpiDefs.forEach(k => {
@@ -902,6 +902,23 @@ DATA.wonDeals.forEach(d => {
       </div>`;
     }).join('');
   })();
+
+// ── Lost Deals ───────────────────────────────────────────────
+const lostGrid = document.getElementById('lostGrid');
+if (lostGrid && DATA.lostDeals) {
+  DATA.lostDeals.forEach(d => {
+    const el = document.createElement('div');
+    el.style.cssText = 'border-left:4px solid var(--red);background:#FFF5F5;border-radius:0 var(--radius) var(--radius) 0;padding:12px 14px;';
+    const reasonBadge = d.reason ? ' · Reason: ' + d.reason : '';
+    el.innerHTML = '<div style="font-size:9px;font-weight:700;background:var(--red);color:white;display:inline-block;padding:2px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">✗ Lost</div>'
+      + '<div style="font-size:11px;font-weight:700;color:var(--near-black);margin-bottom:4px;line-height:1.3;">' + d.name + '</div>'
+      + '<div style="font-size:11px;color:var(--lgray);margin-bottom:2px;">' + (d.company||'') + '</div>'
+      + '<div style="font-size:18px;font-weight:900;color:var(--red);">' + fmt$(d.amount) + '</div>'
+      + '<div style="font-size:10px;color:var(--lgray);margin-top:3px;">Lost: ' + d.date + (reasonBadge) + '</div>'
+      + (d.notes ? '<div style="font-size:10px;color:var(--lgray);margin-top:3px;font-style:italic;">' + d.notes + '</div>' : '');
+    lostGrid.appendChild(el);
+  });
+}
 
 // ── Forecast vs Actual Bar Chart ─────────────────────────
 const fctx = document.getElementById('forecastChart').getContext('2d');
@@ -1068,21 +1085,21 @@ fcMonths.forEach((m,i)=>{
 });
 tracker.innerHTML=html;
 
-// ── CLAIMS FUNNEL CHART ───────────────────────────────────
+// ── CLAIMS FUNNEL CHART ───────────────────────────────────--------------------------------------------------------
 // rev = ServiceTypeCost-based value (not invoiced amount)
 const FUNNEL_DATA = [
-      {status:'Open',          count:0,    rev:0.00,          color:'#B62126'},
-      {status:'Unassigned',    count:1,    rev:0.00,          color:'#C94020'},
-      {status:'Assigned',      count:14,   rev:11850.00,      color:'#F26721'},
-      {status:'Accepted',      count:1,    rev:800.00,        color:'#D4A020'},
-      {status:'Contacted',     count:8,    rev:5600.00,       color:'#BAAB1A'},
-      {status:'Job Started',   count:1,    rev:0.00,          color:'#5DADE2'},
-      {status:'Estimate Hold', count:1,    rev:1000.00,       color:'#939598'},
-      {status:'Inspected',     count:2,    rev:800.00,        color:'#638AC6'},
-      {status:'Returned',      count:2,    rev:800.00,        color:'#7B5EA7'},
-      {status:'Reviewed',      count:4,    rev:2700.00,       color:'#4A90D9'},
-      {status:'Approved',      count:164,  rev:100850.00,     color:'#4EB648'},
-    ];
+  {status:'Open',          count:0,    rev:0.00,          color:'#B62126'},
+  {status:'Unassigned',    count:1,    rev:0.00,          color:'#C94020'},
+  {status:'Assigned',      count:22,   rev:11850.00,      color:'#F26721'},
+  {status:'Accepted',      count:1,    rev:800.00,        color:'#D4A020'},
+  {status:'Contacted',     count:4,    rev:1600.00,       color:'#BAAB1A'},
+  {status:'Job Started',   count:1,    rev:0.00,          color:'#5DADE2'},
+  {status:'Estimate Hold', count:1,    rev:1000.00,       color:'#939598'},
+  {status:'Inspected',     count:1,    rev:0.00,          color:'#638AC6'},
+  {status:'Returned',      count:1,    rev:0.00,          color:'#7B5EA7'},
+  {status:'Reviewed',      count:0,    rev:0.00,          color:'#4A90D9'},
+  {status:'Approved',      count:186,  rev:103100.00,     color:'#4EB648'},
+];
 const FUNNEL_TOTAL = FUNNEL_DATA.reduce((s,d)=>s+d.count,0);
 const FUNNEL_MAX   = Math.max(...FUNNEL_DATA.map(d=>d.count));
 const MIN_PCT = 8;   // minimum bar width %
@@ -1131,6 +1148,22 @@ const MAX_PCT = 92;  // maximum bar width %
         </div>
       </div>`);
   });
+})();
+
+// Populate dynamic funnel summary stats
+(function(){
+  const tot = FUNNEL_DATA.reduce((s,d)=>s+d.count,0);
+  const app = (FUNNEL_DATA.find(d=>d.status==='Approved')||{count:0}).count;
+  const val = FUNNEL_DATA.reduce((s,d)=>s+d.rev,0);
+  const inp = tot - app;
+  const el1 = document.getElementById('funnelTotalClaims');
+  const el2 = document.getElementById('funnelTotalValue');
+  const el3 = document.getElementById('funnelApprovalRate');
+  const el4 = document.getElementById('funnelInProgress');
+  if(el1) el1.textContent = fmtN(tot);
+  if(el2) el2.textContent = fmt$(val);
+  if(el3) el3.textContent = tot>0?(app/tot*100).toFixed(1)+'%':'0%';
+  if(el4) el4.textContent = fmtN(inp);
 })();
 
 // ── CLAIMS STATUS VALUE BAR CHART ─────────────────────────
@@ -1209,13 +1242,19 @@ DATA.clientRevenue.forEach((d,i)=>{
     </td>`;
   clientRevTbody.appendChild(tr);
 });
+const totalClaimsRevDyn = DATA.clientRevenue.reduce((s,d)=>s+d.claims,0);
+const totalRevDyn = DATA.clientRevenue.reduce((s,d)=>s+d.rev,0);
+const crTC = document.getElementById('clientRevTotalClaims');
+const crTR = document.getElementById('clientRevTotalRev');
+if(crTC) crTC.textContent = fmtN(totalClaimsRevDyn);
+if(crTR) crTR.textContent = fmt$(totalRevDyn);
 
 // ── APRIL ASSIGNMENTS CALENDAR ──────────────────────────────────────
 (function buildMayCalendar() {
   const wrap = document.getElementById('aprilCalendar');
   if (!wrap) return;
-  const YEAR = 2026, MONTH = 5, DAYS_IN_MONTH = 31;
-  const FIRST_DOW_ISO = 4; // May 1 = Wednesday (Mon=0-indexed)
+  const YEAR = 2026, MONTH = 6, DAYS_IN_MONTH = 30;
+  const FIRST_DOW_ISO = 0; // May 1 = Wednesday (Mon=0-indexed)
   const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const today = new Date();
   const todayDay = (today.getFullYear()===YEAR && today.getMonth()===MONTH-1) ? today.getDate() : -1;
