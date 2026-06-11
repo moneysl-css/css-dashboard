@@ -1258,7 +1258,7 @@ if(crTR) crTR.textContent = fmt$(totalRevDyn);
   const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const today = new Date();
   const todayDay = (today.getFullYear()===YEAR && today.getMonth()===MONTH-1) ? today.getDate() : -1;
-  const data = DATA.aprilCalendar || [];
+  const data = DATA.juneCalendar || [];
   let html = '<div class="cal-grid">';
   DAY_NAMES.forEach(function(d){ html += '<div class="cal-dow-header">' + d + '</div>'; });
   for (let e = 0; e < FIRST_DOW_ISO; e++) { html += '<div class="cal-cell empty"></div>'; }
