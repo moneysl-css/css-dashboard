@@ -229,6 +229,25 @@ body {
   text-transform: uppercase; letter-spacing: 0.5px;
   margin-bottom: 6px;
 }
+.won-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 10px;
+  padding: 14px;
+  background: var(--white);
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow);
+}
+.won-card {
+  border-left: 4px solid var(--green);
+  background: #F0FAF0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 12px 14px;
+}
+.won-co   { font-size: 11px; color: var(--lgray); margin-bottom: 2px; }
+.won-name { font-size: 12px; font-weight: 700; color: var(--near-black); margin-bottom: 5px; line-height: 1.3; }
+.won-val  { font-size: 20px; font-weight: 900; color: var(--green); }
+.won-date { font-size: 10px; color: var(--lgray); margin-top: 3px; }
 
 /* ── CHARTS ──────────────────────────────────────────────── */
 .charts-row {
