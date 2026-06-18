@@ -167,13 +167,29 @@ body {
   padding: 0 4px 8px;
 }
 .kpi-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.kpi-row-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--near-black);
+  margin-bottom: 7px;
+  padding-left: 2px;
+  border-left: 4px solid var(--orange);
+  padding-left: 8px;
+}
+.kpi-row-cards {
   display: grid;
   grid-template-columns: repeat(2,1fr);
   gap: 10px;
 }
-@media(min-width:560px)  { .kpi-grid { grid-template-columns: repeat(3,1fr); } }
-@media(min-width:800px)  { .kpi-grid { grid-template-columns: repeat(4,1fr); } }
-@media(min-width:1100px) { .kpi-grid { grid-template-columns: repeat(9,1fr); } }
+@media(min-width:560px)  { .kpi-row-cards { grid-template-columns: repeat(3,1fr); } }
+@media(min-width:800px)  { .kpi-row-cards { grid-template-columns: repeat(4,1fr); } }
+@media(min-width:1100px) { .kpi-row-cards { grid-template-columns: repeat(6,1fr); } }
 
 .kpi-card {
   background: var(--white);
@@ -205,27 +221,6 @@ body {
 .kpi-card.won  .kpi-val { color: var(--green); }
 .kpi-card.warn .kpi-val { color: var(--red); }
 .kpi-sub  { font-size: 10px; color: var(--lgray); margin-top: 1px; }
-
-/* ── WON DEALS ───────────────────────────────────────────── */
-.won-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-  gap: 10px;
-  padding: 14px;
-  background: var(--white);
-  border-radius: 0 0 var(--radius) var(--radius);
-  box-shadow: var(--shadow);
-}
-.won-card {
-  border-left: 4px solid var(--green);
-  background: #F0FAF0;
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 12px 14px;
-}
-.won-co   { font-size: 11px; color: var(--lgray); margin-bottom: 2px; }
-.won-name { font-size: 12px; font-weight: 700; color: var(--near-black); margin-bottom: 5px; line-height: 1.3; }
-.won-val  { font-size: 20px; font-weight: 900; color: var(--green); }
-.won-date { font-size: 10px; color: var(--lgray); margin-top: 3px; }
 .won-badge {
   display: inline-block;
   background: var(--green); color: var(--white);
@@ -842,33 +837,52 @@ const _approvalRate      = _totalActiveClaims>0 ? (_approvedClaims/_totalActiveC
 const _wipCount          = _totalActiveClaims - _approvedClaims;
 
 const kpiDefs = [
-  {lbl:'Revenue YTD 2026',  val:fmt$(DATA.kpi.revenueYTD),       sub:'Jan – Jun incl. T&E'   ,       cls:'won'},
-  {lbl:'T&E Revenue',       val:fmt$(DATA.kpi.iemTERevenue),     sub:'May T&E actual',          cls:'won'},
-  {lbl:'Total Pipeline',    val:fmt$(DATA.kpi.totalPipeline),    sub:'Open opportunity value', cls:''},
-  {lbl:'Weighted Forecast', val:fmt$(DATA.kpi.weightedForecast), sub:'Probability-adjusted',   cls:''},
-  {lbl:'Open Deals',        val:fmtN(DATA.kpi.openDeals),        sub:'Active in pipeline',     cls:''},
-  {lbl:'Claims Closed MTD', val:fmtN(DATA.kpi.claimsMTD),        sub:DATA.currentMonth+' MTD', cls:'ops'},
-  {lbl:'Revenue MTD',       val:fmt$(DATA.kpi.revenueMTD),       sub:DATA.currentMonth+' actual', cls:'ops'},
-  {lbl:'MTD vs Forecast',   val:DATA.kpi.pctMTD+'%',
+  // ── Row 1: Business Development ──
+  {grp:'Business Development', lbl:'Total Pipeline',    val:fmt$(DATA.kpi.totalPipeline),    sub:'Open opportunity value', cls:''},
+  {grp:'Business Development', lbl:'Weighted Forecast', val:fmt$(DATA.kpi.weightedForecast), sub:'Probability-adjusted',   cls:''},
+  {grp:'Business Development', lbl:'Open Deals',        val:fmtN(DATA.kpi.openDeals),        sub:'Active in pipeline',     cls:''},
+  {grp:'Business Development', lbl:'Won YTD',           val:fmt$(DATA.kpi.wonTotal),         sub:DATA.kpi.wonDealsCount+' deals closed', cls:'won'},
+
+  // ── Row 2: Operations ──
+  {grp:'Operations', lbl:'Claims Closed MTD', val:fmtN(DATA.kpi.claimsMTD),  sub:DATA.currentMonth+' MTD', cls:'ops'},
+  {grp:'Operations', lbl:'WIP Count',         val:fmtN(_wipCount),           sub:'Active non-Approved',    cls:(_wipCount>0?'ops':'')},
+  {grp:'Operations', lbl:'WIP Revenue',       val:fmt$(DATA.kpi.wipRevenue), sub:'Pending approval',       cls:(DATA.kpi.wipRevenue>0?'ops':'')},
+  {grp:'Operations', lbl:'Total Claims',      val:fmtN(_totalActiveClaims),  sub:'Active claim records',   cls:''},
+  {grp:'Operations', lbl:'Total Svc Value',   val:fmtK(_totalSvcValue),      sub:'Active svc value',       cls:'ops'},
+  {grp:'Operations', lbl:'Approval Rate',     val:_approvalRate+'%',         sub:_approvedClaims+' of '+_totalActiveClaims+' approved', cls:'ops'},
+
+  // ── Row 3: Revenue ──
+  {grp:'Revenue', lbl:'Revenue YTD 2026',  val:fmt$(DATA.kpi.revenueYTD),   sub:'Jan – Jun incl. T&E',     cls:'won'},
+  {grp:'Revenue', lbl:'T&E Revenue',       val:fmt$(DATA.kpi.iemTERevenue), sub:'May T&E actual',          cls:'won'},
+  {grp:'Revenue', lbl:'Revenue MTD',       val:fmt$(DATA.kpi.revenueMTD),   sub:DATA.currentMonth+' actual', cls:'ops'},
+  {grp:'Revenue', lbl:'MTD vs Forecast',   val:DATA.kpi.pctMTD+'%',
     sub:'of '+fmt$(DATA.kpi.forecastMTD)+' target',
     cls: DATA.kpi.pctMTD>=80?'ops': DATA.kpi.pctMTD>=50?'':'warn'},
-  {lbl:'WIP Count',         val:fmtN(_wipCount),                 sub:'Active non-Approved',    cls:(_wipCount>0?'ops':'')},
-  {lbl:'WIP Revenue',       val:fmt$(DATA.kpi.wipRevenue),       sub:'Pending approval',       cls:(DATA.kpi.wipRevenue>0?'ops':'')},
-  {lbl:'Total Claims',      val:fmtN(_totalActiveClaims),        sub:'Active claim records',   cls:''},
-  {lbl:'Total Svc Value',   val:fmtK(_totalSvcValue),            sub:'Active svc value',       cls:'ops'},
-  {lbl:'Approval Rate',     val:_approvalRate+'%',               sub:_approvedClaims+' of '+_totalActiveClaims+' approved',cls:'ops'},
-  {lbl:'Won YTD',           val:fmt$(DATA.kpi.wonTotal),         sub:DATA.kpi.wonDealsCount+' deals closed', cls:'won'},
 ];
 
-
 const kpiGrid = document.getElementById('kpiGrid');
-kpiDefs.forEach(k => {
-  const d = document.createElement('div');
-  d.className = 'kpi-card ' + k.cls;
-  d.innerHTML = `<div class="kpi-lbl">${k.lbl}</div>
-                 <div class="kpi-val">${k.val}</div>
-                 <div class="kpi-sub">${k.sub}</div>`;
-  kpiGrid.appendChild(d);
+const _grpOrder = ['Business Development','Operations','Revenue'];
+_grpOrder.forEach(grp => {
+  const row = document.createElement('div');
+  row.className = 'kpi-row';
+
+  const label = document.createElement('div');
+  label.className = 'kpi-row-label';
+  label.textContent = grp;
+  row.appendChild(label);
+
+  const cards = document.createElement('div');
+  cards.className = 'kpi-row-cards';
+  kpiDefs.filter(k => k.grp === grp).forEach(k => {
+    const d = document.createElement('div');
+    d.className = 'kpi-card ' + k.cls;
+    d.innerHTML = `<div class="kpi-lbl">${k.lbl}</div>
+                   <div class="kpi-val">${k.val}</div>
+                   <div class="kpi-sub">${k.sub}</div>`;
+    cards.appendChild(d);
+  });
+  row.appendChild(cards);
+  kpiGrid.appendChild(row);
 });
 
 // ── Won Deals ────────────────────────────────────────────
