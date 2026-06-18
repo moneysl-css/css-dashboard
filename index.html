@@ -1091,19 +1091,12 @@ tracker.innerHTML=html;
 
 // ── CLAIMS FUNNEL CHART ───────────────────────────────────--------------------------------------------------------
 // rev = ServiceTypeCost-based value (not invoiced amount)
-const FUNNEL_DATA = [
-  {status:'Open',          count:0,    rev:0.00,          color:'#B62126'},
-  {status:'Unassigned',    count:1,    rev:0.00,          color:'#C94020'},
-  {status:'Assigned',      count:22,   rev:11850.00,      color:'#F26721'},
-  {status:'Accepted',      count:1,    rev:800.00,        color:'#D4A020'},
-  {status:'Contacted',     count:4,    rev:1600.00,       color:'#BAAB1A'},
-  {status:'Job Started',   count:1,    rev:0.00,          color:'#5DADE2'},
-  {status:'Estimate Hold', count:1,    rev:1000.00,       color:'#939598'},
-  {status:'Inspected',     count:1,    rev:0.00,          color:'#638AC6'},
-  {status:'Returned',      count:1,    rev:0.00,          color:'#7B5EA7'},
-  {status:'Reviewed',      count:0,    rev:0.00,          color:'#4A90D9'},
-  {status:'Approved',      count:186,  rev:103100.00,     color:'#4EB648'},
-];
+const FUNNEL_DATA = DATA.claimsStatus.map(d => ({
+  status: d.status,
+  count:  d.count,
+  rev:    d.value,
+  color:  d.color
+}))
 const FUNNEL_TOTAL = FUNNEL_DATA.reduce((s,d)=>s+d.count,0);
 const FUNNEL_MAX   = Math.max(...FUNNEL_DATA.map(d=>d.count));
 const MIN_PCT = 8;   // minimum bar width %
