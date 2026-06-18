@@ -764,17 +764,17 @@ const DATA = {
     forecastMTD:      373379,
     wonTotal:         1553400,
     wonDealsCount:    10,
-    revenueMTD:       27800,
+    revenueMTD:       50297,
     revenueYTD:       373522,
     iemTERevenue:     22497,
     wipCount:         0,
     wipRevenue:       0,
-    pctMTD:           7,
+    pctMTD:           13,
   },
   forecast: {
     labels:   ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
     forecast: [0,0,41955,49587,91577,373379,543921,942475,1248697,1099610,703149,316857],
-    actual:   [58950,57150,49125,67200,113297,27800,0,0,0,0,0,0],
+    actual:   [58950,57150,49125,67200,90800,50297,0,0,0,0,0,0],
     wip:      [0,0,15075,4250,0,0,0,0,0,0,0,0],
   },
   pipeline: {
@@ -839,10 +839,11 @@ const _totalActiveClaims = DATA.claimsStatus.reduce((s,d)=>s+d.count,0);
 const _approvedClaims    = (DATA.claimsStatus.find(d=>d.status==='Approved')||{count:0}).count;
 const _totalSvcValue     = DATA.claimsStatus.reduce((s,d)=>s+d.value,0);
 const _approvalRate      = _totalActiveClaims>0 ? (_approvedClaims/_totalActiveClaims*100).toFixed(1) : '0.0';
+const _wipCount          = _totalActiveClaims - _approvedClaims;
 
 const kpiDefs = [
-  {lbl:'Revenue YTD 2026',  val:fmt$(DATA.kpi.revenueYTD),       sub:'Jan – Jun incl. IEM T&E',       cls:'won'},
-  {lbl:'IEM T&E Revenue',   val:fmt$(DATA.kpi.iemTERevenue),     sub:'May T&E actual',         cls:'won'},
+  {lbl:'Revenue YTD 2026',  val:fmt$(DATA.kpi.revenueYTD),       sub:'Jan – Jun incl. T&E'   ,       cls:'won'},
+  {lbl:'T&E Revenue',       val:fmt$(DATA.kpi.iemTERevenue),     sub:'May T&E actual',          cls:'won'},
   {lbl:'Total Pipeline',    val:fmt$(DATA.kpi.totalPipeline),    sub:'Open opportunity value', cls:''},
   {lbl:'Weighted Forecast', val:fmt$(DATA.kpi.weightedForecast), sub:'Probability-adjusted',   cls:''},
   {lbl:'Open Deals',        val:fmtN(DATA.kpi.openDeals),        sub:'Active in pipeline',     cls:''},
@@ -851,7 +852,7 @@ const kpiDefs = [
   {lbl:'MTD vs Forecast',   val:DATA.kpi.pctMTD+'%',
     sub:'of '+fmt$(DATA.kpi.forecastMTD)+' target',
     cls: DATA.kpi.pctMTD>=80?'ops': DATA.kpi.pctMTD>=50?'':'warn'},
-  {lbl:'WIP Count',         val:fmtN(DATA.kpi.wipCount),         sub:'Status: Reviewed',       cls:(DATA.kpi.wipCount>0?'ops':'')},
+  {lbl:'WIP Count',         val:fmtN(_wipCount),                 sub:'Active non-Approved',    cls:(_wipCount>0?'ops':'')},
   {lbl:'WIP Revenue',       val:fmt$(DATA.kpi.wipRevenue),       sub:'Pending approval',       cls:(DATA.kpi.wipRevenue>0?'ops':'')},
   {lbl:'Total Claims',      val:fmtN(_totalActiveClaims),        sub:'Active claim records',   cls:''},
   {lbl:'Total Svc Value',   val:fmtK(_totalSvcValue),            sub:'Active svc value',       cls:'ops'},
