@@ -607,7 +607,7 @@ tbody tr:hover td { background: #FEF0E6; }
       <div class="chart-card">
         <canvas id="forecastChart"></canvas>
         <div style="font-size:10px;color:#939598;margin-top:8px;line-height:1.4">
-          Bell-curve pipeline replaced with recognition-based model (won contracts &amp; weighted pipeline spread over 12 months).
+          Jan&ndash;Jun retain the original forecast (measured against actuals); Jul&ndash;Dec use the recognition-based model (won contracts &amp; weighted pipeline spread over 12 months).
           Dashed red line = core business excluding the $9.57M Akytech/HUD deal, which alone drives the Q4 ramp.
         </div>
       </div>
@@ -861,7 +861,7 @@ const DATA = {
     weightedForecast: 8446093,
     openDeals:        13,
     claimsMTD:        50,
-    forecastMTD:      189750,
+    forecastMTD:      373379,
     wonTotal:         1553400,
     wonDealsCount:    10,
     revenueMTD:       50297,
@@ -869,12 +869,12 @@ const DATA = {
     iemTERevenue:     22497,
     wipCount:         0,
     wipRevenue:       17600,
-    pctMTD:           27,
+    pctMTD:           13,
   },
   forecast: {
     labels:   ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-    forecast: [0,0,87788,126671,196076,189750,233831,297995,380520,831366,828056,801963],
-    core:     [0,0,87788,126671,196076,189750,233831,297995,380520,352817,349507,323414],
+    forecast: [0,0,41955,49587,91577,373379,233831,297995,380520,831366,828056,801963],
+    core:     [0,0,41955,49587,91577,373379,233831,297995,380520,352817,349507,323414],
     actual:   [58950,57150,49125,67200,90800,50297,0,0,0,0,0,0],
     wip:      [0,0,15075,4250,0,0,0,0,0,0,0,0],
   },
@@ -1163,16 +1163,23 @@ const wipVals=DATA.forecast.wip||[];
 let html='';
 fcMonths.forEach((m,i)=>{
   const fc=fcVals[i], ac=acVals[i], wip=wipVals[i]||0;
-  const pctAc  = fc>0 ? clamp(Math.round(ac/fc*100),0,100) : 0;
-  const pctWip = fc>0 ? clamp(Math.round(wip/fc*100),0,100-pctAc) : 0;
-  const pctTotal = pctAc + pctWip;
   const hasData  = ac>0 || wip>0;
-  const labelColor = pctTotal>=80?'#4EB648':pctTotal>=50?'#F26721':'#B62126';
+  const tot = ac + wip;
+  const exceeded = hasData && (fc<=0 || tot>=fc);
+  const pctRaw = fc>0 ? Math.round(tot/fc*100) : null;
+  let pctAc, pctWip;
+  if(exceeded){ pctAc=100; pctWip=0; }
+  else { pctAc = fc>0 ? clamp(Math.round(ac/fc*100),0,100) : 0;
+         pctWip = fc>0 ? clamp(Math.round(wip/fc*100),0,100-pctAc) : 0; }
+  const pctTotal = pctAc + pctWip;
+  const labelColor = exceeded ? '#4EB648' : (pctTotal>=80?'#4EB648':pctTotal>=50?'#F26721':'#B62126');
   const acRadius  = pctWip>0 ? '4px 0 0 4px' : '4px';
   const wipRadius = pctAc>0  ? '0 4px 4px 0' : '4px';
-  const projLabel = hasData
-    ? (wip>0 ? pctTotal+'% projected ('+pctAc+'% approved + '+pctWip+'% WIP)' : pctAc+'% achieved')
-    : 'Forecast: '+fmtK(fc);
+  const projLabel = !hasData
+    ? 'Forecast: '+fmtK(fc)
+    : (exceeded
+        ? (fc>0 ? 'Exceeded \u2014 '+pctRaw+'% of forecast' : 'Exceeded \u2014 no forecast set')
+        : (wip>0 ? pctTotal+'% projected ('+pctAc+'% approved + '+pctWip+'% WIP)' : pctAc+'% achieved'));
   html+=`<div style="margin-bottom:12px">
     <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px">
       <span style="font-size:11px;font-weight:700;color:#2F2F2F">${m}</span>
