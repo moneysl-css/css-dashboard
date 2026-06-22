@@ -221,14 +221,8 @@ body {
 .kpi-card.won  .kpi-val { color: var(--green); }
 .kpi-card.warn .kpi-val { color: var(--red); }
 .kpi-sub  { font-size: 10px; color: var(--lgray); margin-top: 1px; }
-.won-badge {
-  display: inline-block;
-  background: var(--green); color: var(--white);
-  font-size: 9px; font-weight: 700;
-  padding: 2px 7px; border-radius: 10px;
-  text-transform: uppercase; letter-spacing: 0.5px;
-  margin-bottom: 6px;
-}
+
+/* ── WON DEALS ───────────────────────────────────────────── */
 .won-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
@@ -248,6 +242,14 @@ body {
 .won-name { font-size: 12px; font-weight: 700; color: var(--near-black); margin-bottom: 5px; line-height: 1.3; }
 .won-val  { font-size: 20px; font-weight: 900; color: var(--green); }
 .won-date { font-size: 10px; color: var(--lgray); margin-top: 3px; }
+.won-badge {
+  display: inline-block;
+  background: var(--green); color: var(--white);
+  font-size: 9px; font-weight: 700;
+  padding: 2px 7px; border-radius: 10px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
 
 /* ── CHARTS ──────────────────────────────────────────────── */
 .charts-row {
@@ -312,6 +314,90 @@ tbody tr:hover td { background: #FEF0E6; }
 .prog-bar-wrap { background: #EFEFEF; border-radius: 4px; height: 5px; min-width: 60px; }
 .prog-bar { height: 5px; border-radius: 4px; background: var(--orange); }
 
+/* ── APRIL CALENDAR ─────────────────────────────────────── */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.cal-dow-header {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--lgray);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 4px 0;
+}
+.cal-cell {
+  position: relative;
+  border-radius: 6px;
+  min-height: 72px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #EBEBEB;
+  background: #FAFAFA;
+  transition: box-shadow 0.15s;
+}
+.cal-cell.has-data {
+  background: #FFF8F3;
+  border-color: var(--orange);
+}
+.cal-cell.today {
+  background: #F0F7FF;
+  border-color: var(--blue);
+}
+.cal-cell.has-data.today {
+  background: #FFF0E6;
+  border-color: var(--orange);
+}
+.cal-cell-day {
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #939598;
+  line-height: 1;
+}
+.cal-cell.has-data .cal-cell-day { color: var(--orange); }
+.cal-cell.today .cal-cell-day    { color: var(--blue); }
+.cal-cell-dow {
+  position: absolute;
+  top: 5px;
+  right: 7px;
+  font-size: 9px;
+  font-weight: 600;
+  color: #BBBBBB;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  line-height: 1;
+}
+.cal-cell.has-data .cal-cell-dow { color: var(--orange); opacity: 0.7; }
+.cal-cell.today .cal-cell-dow    { color: var(--blue); opacity: 0.7; }
+.cal-cell-count {
+  font-size: 26px;
+  font-weight: 800;
+  color: #DDDDDD;
+  line-height: 1;
+  margin-top: 8px;
+}
+.cal-cell.has-data .cal-cell-count { color: var(--orange); }
+.cal-cell.today:not(.has-data) .cal-cell-count { color: #90B8E0; }
+.cal-cell.empty { background: transparent; border-color: transparent; }
+.cal-month-total {
+  margin-top: 12px;
+  text-align: right;
+  font-size: 11px;
+  color: var(--lgray);
+  font-weight: 600;
+}
+.cal-month-total span { color: var(--orange); font-size: 14px; font-weight: 800; }
+
+/* ── FUNNEL CHART ────────────────────────────────────────── */
 .funnel-wrap {
   background: var(--white);
   border-radius: 0 0 var(--radius) var(--radius);
@@ -426,19 +512,6 @@ tbody tr:hover td { background: #FEF0E6; }
 .text-right  { text-align: right; }
 .text-center { text-align: center; }
 .font-mono   { font-family: "Courier New", monospace; }
-/* ── APRIL CALENDAR ─────────────────────────────────────────────────────── */
-.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
-.cal-dow-header { text-align:center; font-size:10px; font-weight:700; color:var(--lgray); text-transform:uppercase; letter-spacing:.5px; padding-bottom:4px; }
-.cal-cell { position:relative; border-radius:6px; min-height:72px; border:1px solid #E8E8E8; background:#FAFAFA; display:flex; align-items:center; justify-content:center; }
-.cal-cell.has-data { background:#FFF8F3; border-color:var(--orange); }
-.cal-cell.today { background:#F0F7FF; border-color:var(--blue); }
-.cal-cell-day { position:absolute; top:5px; left:7px; font-size:11px; font-weight:700; color:#888; }
-.cal-cell-dow { position:absolute; top:5px; right:7px; font-size:9px; font-weight:600; color:#AAA; text-transform:uppercase; }
-.cal-cell-count { font-size:26px; font-weight:800; color:#DDDDDD; }
-.cal-cell.has-data .cal-cell-count { color:var(--orange); }
-.cal-cell.today .cal-cell-count { color:var(--blue); }
-.cal-cell.empty { background:transparent; border-color:transparent; }
-.cal-month-total { margin-top:12px; text-align:right; font-size:11px; color:var(--lgray); font-style:italic; }
 </style>
 </head>
 <body>
@@ -512,15 +585,13 @@ tbody tr:hover td { background: #FEF0E6; }
   </div>
   <div class="won-grid" id="wonGrid"></div>
 
-  <!-- ── DEALS LOST ────────────────────────────── -->
-  <div class="section-card" id="lostSection" style="display:none;">
-    <div class="section-header" style="background:#8B1A1A;">
-      <span class="section-icon">✕</span>
-      <span>DEALS LOST — YTD</span>
-      <span class="section-badge" id="lostBadge" style="background:rgba(255,255,255,0.15);"></span>
-    </div>
-    <div class="won-grid" id="lostCards" style="--card-accent:#8B1A1A;"></div>
+  <!-- ── DEALS LOST ───────────────────────────── -->
+  <div class="spacer"></div>
+  <div class="section-hdr" style="background:#6B1A1A;">
+    <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
+    DEALS LOST — YTD
   </div>
+  <div id="lostGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;padding:14px;background:var(--white);border-radius:0 0 var(--radius) var(--radius);box-shadow:var(--shadow);"></div>
 
   <!-- ── CHARTS ROW ─────────────────────────────── -->
   <div class="spacer" id="forecast"></div>
@@ -531,9 +602,14 @@ tbody tr:hover td { background: #FEF0E6; }
       <div class="section-hdr">
         <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
         REVENUE — FORECAST vs ACTUAL &nbsp;(Jan – Dec 2026)
+        <span style="color:var(--orange);font-size:10px;">REVISED MODEL · JUN 22</span>
       </div>
       <div class="chart-card">
         <canvas id="forecastChart"></canvas>
+        <div style="font-size:10px;color:#939598;margin-top:8px;line-height:1.4">
+          Bell-curve pipeline replaced with recognition-based model (won contracts &amp; weighted pipeline spread over 12 months).
+          Dashed red line = core business excluding the $9.57M Akytech/HUD deal, which alone drives the Q4 ramp.
+        </div>
       </div>
     </div>
   </div>
@@ -624,46 +700,54 @@ tbody tr:hover td { background: #FEF0E6; }
     </div>
   </div>
 
-
-  <!-- ── MAY ASSIGNMENTS CALENDAR ──────────────── -->
+  <!-- ── APRIL ASSIGNMENTS CALENDAR ────────────── -->
   <div class="spacer" id="april-cal"></div>
   <div class="section-hdr">
-    <div class="dot-accent"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
     ASSIGNMENTS RECEIVED — <span style="color:var(--orange);">JUNE 2026</span>
   </div>
   <div class="chart-card" style="margin-bottom:14px;padding:20px 24px;">
     <div id="aprilCalendar"></div>
   </div>
+
+  <!-- ── CLAIMS STATUS SECTION ─────────────────── -->
   <div class="spacer" id="claims"></div>
   <div class="section-hdr">
     <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
-    CLAIMS — STATUS OVERVIEW &nbsp;<span style="color:var(--orange);font-size:10px;">ALL-TIME · 501 CLAIMS</span>
+    CLAIMS — STATUS OVERVIEW &nbsp;<span style="color:var(--orange);font-size:10px;" id="claimsStatusSubtitle">ACTIVE CLAIMS</span>
   </div>
-  <!-- Claims status: chart + table combined -->
+  <!-- Value by status bar chart (full width) -->
   <div class="chart-card" style="border-radius:0 0 var(--radius) var(--radius);margin-bottom:14px;">
-    <div style="font-size:10px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px;">Active Claims by Status — Service Value (Approved excluded from chart)</div>
-    <canvas id="statusValueChart" style="max-height:180px;margin-bottom:14px;"></canvas>
-    <table style="width:100%;border-collapse:collapse;font-size:12px;">
-      <thead><tr style="border-bottom:1px solid var(--border);">
-        <th style="text-align:left;padding:5px 8px;color:var(--lgray);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Status</th>
-        <th style="text-align:right;padding:5px 8px;color:var(--lgray);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;"># Claims</th>
-        <th style="text-align:right;padding:5px 8px;color:var(--lgray);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Service Value</th>
-        <th style="padding:5px 8px;color:var(--lgray);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Distribution</th>
-      </tr></thead>
-      <tbody id="statusTbody"></tbody>
-      <tfoot>
-        <tr class="tfoot-row">
-          <td>TOTAL</td>
-          <td class="text-right" id="statusTotalCount"></td>
-          <td class="text-right" id="statusTotalValue"></td>
-          <td></td>
-        </tr>
-      </tfoot>
-    </table>
+    <div style="font-size:10px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:12px;">Service Value by Status (ServiceTypeCost Rates)</div>
+    <canvas id="statusValueChart" style="max-height:240px;"></canvas>
   </div>
 
-  <!-- Client revenue summary cards -->
-  <div style="margin-top:14px;">
+  <div class="charts-row" style="align-items:start;">
+    <!-- Status breakdown table -->
+    <div>
+      <div class="table-card" style="border-radius:0 0 var(--radius) var(--radius);">
+        <div class="table-scroll">
+          <table>
+            <thead><tr>
+              <th>Status</th>
+              <th class="text-right"># Claims</th>
+              <th class="text-right">Service Value</th>
+              <th>Distribution</th>
+            </tr></thead>
+            <tbody id="statusTbody"></tbody>
+            <tfoot>
+              <tr class="tfoot-row">
+                <td>TOTAL</td>
+                <td class="text-right" id="statusTotalCount"></td>
+                <td class="text-right" id="statusTotalValue"></td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      <!-- Client revenue summary cards -->
+      <div style="margin-top:14px;">
         <div class="section-hdr" style="border-radius:var(--radius) var(--radius) 0 0;">
           <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
           REVENUE BY CLIENT — 2026 YTD
@@ -690,12 +774,14 @@ tbody tr:hover td { background: #FEF0E6; }
           </div>
         </div>
       </div>
+    </div>
+  </div>
 
   <!-- ── CLAIMS FUNNEL ─────────────────────────────────── -->
   <div class="spacer" id="funnel"></div>
   <div class="section-hdr">
     <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
-    CLAIMS PIPELINE FUNNEL &nbsp;<span style="color:var(--orange);font-size:10px;">LIFECYCLE STAGE · ALL-TIME</span>
+    CLAIMS PIPELINE FUNNEL &nbsp;<span style="color:var(--orange);font-size:10px;">LIFECYCLE STAGE · ACTIVE CLAIMS</span>
   </div>
   <div class="funnel-wrap">
     <div id="funnelViz"></div>
@@ -775,7 +861,7 @@ const DATA = {
     weightedForecast: 8446093,
     openDeals:        13,
     claimsMTD:        50,
-    forecastMTD:      373379,
+    forecastMTD:      189750,
     wonTotal:         1553400,
     wonDealsCount:    10,
     revenueMTD:       50297,
@@ -783,11 +869,12 @@ const DATA = {
     iemTERevenue:     22497,
     wipCount:         0,
     wipRevenue:       17600,
-    pctMTD:           13,
+    pctMTD:           27,
   },
   forecast: {
     labels:   ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-    forecast: [0,0,41955,49587,91577,373379,543921,942475,1248697,1099610,703149,316857],
+    forecast: [0,0,87788,126671,196076,189750,233831,297995,380520,831366,828056,801963],
+    core:     [0,0,87788,126671,196076,189750,233831,297995,380520,352817,349507,323414],
     actual:   [58950,57150,49125,67200,90800,50297,0,0,0,0,0,0],
     wip:      [0,0,15075,4250,0,0,0,0,0,0,0,0],
   },
@@ -834,7 +921,10 @@ const DATA = {
     {"client":"Timberline Construction Group, LLC","claims":24,"revenue":5700}
   ],
   juneCalendar: [4,5,5,3,6,0,0,1,2,2,2,0,0,1,9,2,3,4,0,0,0,0,0,0,0,0,0,0,0,0],
-}
+};
+
+
+// ── Helpers ──────────────────────────────────────────────
 
 
 // ── Helpers ──────────────────────────────────────────────
@@ -916,43 +1006,18 @@ DATA.wonDeals.forEach(d => {
   wonGrid.appendChild(el);
 });
 
-  // ── Deals Lost Cards ─────────────────────────────────────────────────────
-  (function buildLostDeals() {
-    const section = document.getElementById('lostSection');
-    const grid    = document.getElementById('lostCards');
-    const badge   = document.getElementById('lostBadge');
-    if (!DATA.lostDeals || DATA.lostDeals.length === 0) return;
-    section.style.display = '';
-    badge.textContent = DATA.lostDeals.length + ' deal' + (DATA.lostDeals.length > 1 ? 's' : '');
-    const reasonColor = { Price:'#C94020', Competitor:'#638AC6', 'No Budget':'#939598', Other:'#7B5EA7' };
-    grid.innerHTML = DATA.lostDeals.map(d => {
-      const rc = reasonColor[d.reason] || '#555';
-      return `<div class="won-card" style="border-left:4px solid #8B1A1A;opacity:0.92;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <span style="background:#8B1A1A;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">✕</span>
-          <span style="font-size:11px;font-weight:600;color:#8B1A1A;letter-spacing:.03em;">LOST</span>
-          <span style="margin-left:auto;background:${rc};color:#fff;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;">${d.reason}</span>
-        </div>
-        <div class="won-name">${d.name} — ${d.company}</div>
-        <div class="won-amount" style="color:#8B1A1A;">${fmt$(d.amount)}</div>
-        <div class="won-date">Lost: ${d.date}${d.notes ? '<br><span style="font-style:italic;color:#777;">' + d.notes + '</span>' : ''}</div>
-      </div>`;
-    }).join('');
-  })();
-
-// ── Lost Deals ───────────────────────────────────────────────
+// ── Lost Deals ──────────────────────────────────────────
 const lostGrid = document.getElementById('lostGrid');
 if (lostGrid && DATA.lostDeals) {
   DATA.lostDeals.forEach(d => {
     const el = document.createElement('div');
     el.style.cssText = 'border-left:4px solid var(--red);background:#FFF5F5;border-radius:0 var(--radius) var(--radius) 0;padding:12px 14px;';
-    const reasonBadge = d.reason ? ' · Reason: ' + d.reason : '';
-    el.innerHTML = '<div style="font-size:9px;font-weight:700;background:var(--red);color:white;display:inline-block;padding:2px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">✗ Lost</div>'
-      + '<div style="font-size:11px;font-weight:700;color:var(--near-black);margin-bottom:4px;line-height:1.3;">' + d.name + '</div>'
-      + '<div style="font-size:11px;color:var(--lgray);margin-bottom:2px;">' + (d.company||'') + '</div>'
-      + '<div style="font-size:18px;font-weight:900;color:var(--red);">' + fmt$(d.amount) + '</div>'
-      + '<div style="font-size:10px;color:var(--lgray);margin-top:3px;">Lost: ' + d.date + (reasonBadge) + '</div>'
-      + (d.notes ? '<div style="font-size:10px;color:var(--lgray);margin-top:3px;font-style:italic;">' + d.notes + '</div>' : '');
+    el.innerHTML = `<div style="font-size:9px;font-weight:700;background:var(--red);color:white;display:inline-block;padding:2px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">&#10007; Lost</div>
+                    <div style="font-size:11px;font-weight:700;color:var(--near-black);margin-bottom:4px;line-height:1.3;">${d.name}</div>
+                    <div style="font-size:11px;color:var(--lgray);margin-bottom:2px;">${d.company||''}</div>
+                    <div style="font-size:18px;font-weight:900;color:var(--red);">${fmt$(d.amount)}</div>
+                    <div style="font-size:10px;color:var(--lgray);margin-top:3px;">Lost: ${d.date} &nbsp;·&nbsp; Reason: ${d.reason||'—'}</div>
+                    ${d.notes?`<div style="font-size:10px;color:var(--lgray);margin-top:3px;font-style:italic;">${d.notes}</div>`:''}`;
     lostGrid.appendChild(el);
   });
 }
@@ -964,8 +1029,12 @@ new Chart(fctx, {
   data: {
     labels: DATA.forecast.labels,
     datasets: [
-      { label:'Forecast', data:DATA.forecast.forecast, stack:'fc',
+      { label:'Forecast (revised)', data:DATA.forecast.forecast, stack:'fc',
          backgroundColor:'rgba(242,103,33,0.85)', borderRadius:4, borderSkipped:false },
+      { type:'line', label:'Core (ex-Akytech)', data:DATA.forecast.core,
+         borderColor:'#B62126', borderDash:[6,4], borderWidth:2,
+         pointBackgroundColor:'#B62126', pointBorderColor:'#FFFFFF',
+         pointRadius:3, pointHoverRadius:6, tension:0.35, fill:false, order:0, spanGaps:true },
       { label:'Approved', data:DATA.forecast.actual, stack:'act',
          backgroundColor:'rgba(78,182,72,0.85)',  borderRadius:4, borderSkipped:false },
       { label:'WIP',      data:DATA.forecast.wip,   stack:'act',
@@ -1040,8 +1109,6 @@ stageTbody.appendChild(totTr);
 
 // ── Deal Detail Table ────────────────────────────────────
 const dealsTbody = document.getElementById('dealsTbody');
-DATA.openDeals.sort((a,b)=>new Date(a.close)-new Date(b.close));
-DATA.wonDeals.sort((a,b)=>new Date(a.date)-new Date(b.date));
 let dTot=0, dWgt=0;
 DATA.openDeals.forEach(d=>{
   dTot+=d.amount; dWgt+=d.weighted;
@@ -1122,14 +1189,14 @@ fcMonths.forEach((m,i)=>{
 });
 tracker.innerHTML=html;
 
-// ── CLAIMS FUNNEL CHART ───────────────────────────────────--------------------------------------------------------
-// rev = ServiceTypeCost-based value (not invoiced amount)
+// ── CLAIMS FUNNEL CHART ───────────────────────────────────
+// Derived dynamically from DATA.claimsStatus — no separate hardcoded array
 const FUNNEL_DATA = DATA.claimsStatus.map(d => ({
   status: d.status,
   count:  d.count,
   rev:    d.value,
   color:  d.color
-}))
+}));
 const FUNNEL_TOTAL = FUNNEL_DATA.reduce((s,d)=>s+d.count,0);
 const FUNNEL_MAX   = Math.max(...FUNNEL_DATA.map(d=>d.count));
 const MIN_PCT = 8;   // minimum bar width %
@@ -1198,10 +1265,9 @@ const MAX_PCT = 92;  // maximum bar width %
 
 // ── CLAIMS STATUS VALUE BAR CHART ─────────────────────────
 // Ordered Open → Approved (funnel lifecycle order)
-const STATUS_ORDER = ['Open','Unassigned','Assigned','Accepted','Contacted',
+const STATUS_ORDER = ['Open','Unassigned','Assigned','Accepted','Contacted','Job Started',
                       'Estimate Hold','Inspected','Returned','Reviewed','Approved'];
 const claimsOrdered = STATUS_ORDER.map(s => DATA.claimsStatus.find(d=>d.status===s)).filter(Boolean);
-const chartOrdered  = claimsOrdered.filter(d => d.status !== 'Approved');
 const totalClaims   = DATA.claimsStatus.reduce((s,d)=>s+d.count,0);
 const totalValue    = DATA.claimsStatus.reduce((s,d)=>s+d.value,0);
 
@@ -1209,12 +1275,12 @@ const svcValCtx = document.getElementById('statusValueChart').getContext('2d');
 new Chart(svcValCtx, {
   type: 'bar',
   data: {
-    labels: chartOrdered.map(d=>d.status),
+    labels: claimsOrdered.map(d=>d.status),
     datasets:[{
       label: 'Service Value ($)',
-      data:  chartOrdered.map(d=>d.value),
-      backgroundColor: chartOrdered.map(d=>d.color+'CC'),
-      borderColor:     chartOrdered.map(d=>d.color),
+      data:  claimsOrdered.map(d=>d.value),
+      backgroundColor: claimsOrdered.map(d=>d.color+'CC'),
+      borderColor:     claimsOrdered.map(d=>d.color),
       borderWidth: 1.5,
       borderRadius: 4,
     }]
@@ -1225,7 +1291,7 @@ new Chart(svcValCtx, {
       legend:{display:false},
       tooltip:{
         callbacks:{
-          label: ctx => ' ' + fmt$(ctx.parsed.x) + '  (' + chartOrdered[ctx.dataIndex].count + ' claims)'
+          label: ctx => ' ' + fmt$(ctx.parsed.x) + '  (' + claimsOrdered[ctx.dataIndex].count + ' claims)'
         }
       }
     },
@@ -1254,10 +1320,80 @@ claimsOrdered.forEach(d=>{
     </td>`;
   statusTbody.appendChild(tr);
 });
-document.getElementById('statusTotalCount').textContent = fmtN(claimsOrdered.reduce((s,d)=>s+d.count,0));
-document.getElementById('statusTotalValue').textContent = fmt$(claimsOrdered.reduce((s,d)=>s+d.value,0));
 
+// Inject dynamic totals into Claims Status tfoot
+(function(){
+  const tc = document.getElementById('statusTotalCount');
+  const tv = document.getElementById('statusTotalValue');
+  if(tc) tc.textContent = fmtN(claimsOrdered.reduce((s,d)=>s+d.count,0));
+  if(tv) tv.textContent = fmt$(claimsOrdered.reduce((s,d)=>s+d.value,0));
+  const stSub = document.getElementById('claimsStatusSubtitle');
+  if(stSub) stSub.textContent = fmtN(claimsOrdered.reduce((s,d)=>s+d.count,0)) + ' ACTIVE CLAIMS';
+})();
+
+// ── JUNE ASSIGNMENTS CALENDAR ────────────────────────────
+(function buildAprilCalendar() {
+  const wrap = document.getElementById('aprilCalendar');
+  if (!wrap) return;
+
+  const YEAR = 2026, MONTH = 4;
+  const DAYS_IN_MONTH = 30;
+  // April 1 2026 is a Wednesday; Mon=0 … Sun=6 (ISO week)
+  const FIRST_DOW_ISO = 2; // Wednesday = index 2 (Mon-based)
+  const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const today = new Date();
+  const todayDay = (today.getFullYear()===YEAR && today.getMonth()===MONTH-1) ? today.getDate() : -1;
+
+  let html = '';
+
+  // Day-of-week header row
+  html += '<div class="cal-grid" style="margin-bottom:4px;">';
+  DAY_NAMES.forEach(d => {
+    html += `<div class="cal-dow-header">${d}</div>`;
+  });
+  html += '</div>';
+
+  // Calendar day cells
+  html += '<div class="cal-grid">';
+
+  // Leading empty cells for days before April 1
+  for (let e = 0; e < FIRST_DOW_ISO; e++) {
+    html += '<div class="cal-cell empty"></div>';
+  }
+
+  let totalAssigned = 0;
+  for (let day = 1; day <= DAYS_IN_MONTH; day++) {
+    const count = DATA.juneCalendar[day - 1] || 0;
+    totalAssigned += count;
+    const hasData = count > 0;
+    const isToday = day === todayDay;
+    // Day of week name for this cell
+    const dowIdx = (FIRST_DOW_ISO + day - 1) % 7;
+    const dowName = DAY_NAMES[dowIdx];
+    const cls = 'cal-cell' + (hasData ? ' has-data' : '') + (isToday ? ' today' : '');
+    html += `<div class="${cls}">
+      <span class="cal-cell-day">${day}</span>
+      <span class="cal-cell-dow">${dowName}</span>
+      <span class="cal-cell-count">${count}</span>
+    </div>`;
+  }
+
+  // Trailing empty cells to complete the last row (7 cols)
+  const totalCells = FIRST_DOW_ISO + DAYS_IN_MONTH;
+  const trailing = (7 - (totalCells % 7)) % 7;
+  for (let t = 0; t < trailing; t++) {
+    html += '<div class="cal-cell empty"></div>';
+  }
+
+  html += '</div>';
+  html += `<div class="cal-month-total">June Total: <span>${totalAssigned}</span> assignment${totalAssigned!==1?'s':''} received</div>`;
+
+  wrap.innerHTML = html;
+})();
+
+// Client revenue table
 const totalRev = DATA.clientRevenue.reduce((s,d)=>s+d.rev,0);
+const totalClaimsRev = DATA.clientRevenue.reduce((s,d)=>s+d.claims,0);
 const clientRevTbody = document.getElementById('clientRevTbody');
 DATA.clientRevenue.forEach((d,i)=>{
   const share = totalRev>0 ? Math.round(d.rev/totalRev*100) : 0;
@@ -1272,39 +1408,7 @@ DATA.clientRevenue.forEach((d,i)=>{
     </td>`;
   clientRevTbody.appendChild(tr);
 });
-const totalClaimsRevDyn = DATA.clientRevenue.reduce((s,d)=>s+d.claims,0);
-const totalRevDyn = DATA.clientRevenue.reduce((s,d)=>s+d.rev,0);
-const crTC = document.getElementById('clientRevTotalClaims');
-const crTR = document.getElementById('clientRevTotalRev');
-if(crTC) crTC.textContent = fmtN(totalClaimsRevDyn);
-if(crTR) crTR.textContent = fmt$(totalRevDyn);
 
-// ── APRIL ASSIGNMENTS CALENDAR ──────────────────────────────────────
-(function buildMayCalendar() {
-  const wrap = document.getElementById('aprilCalendar');
-  if (!wrap) return;
-  const YEAR = 2026, MONTH = 6, DAYS_IN_MONTH = 30;
-  const FIRST_DOW_ISO = 0; // May 1 = Wednesday (Mon=0-indexed)
-  const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const today = new Date();
-  const todayDay = (today.getFullYear()===YEAR && today.getMonth()===MONTH-1) ? today.getDate() : -1;
-  const data = DATA.juneCalendar || [];
-  let html = '<div class="cal-grid">';
-  DAY_NAMES.forEach(function(d){ html += '<div class="cal-dow-header">' + d + '</div>'; });
-  for (let e = 0; e < FIRST_DOW_ISO; e++) { html += '<div class="cal-cell empty"></div>'; }
-  for (let day = 1; day <= DAYS_IN_MONTH; day++) {
-    const count = data[day-1] || 0;
-    const dow = DAY_NAMES[(FIRST_DOW_ISO + day - 1) % 7];
-    let cls = 'cal-cell';
-    if (count > 0) cls += ' has-data';
-    if (day === todayDay) cls += ' today';
-    html += '<div class="' + cls + '"><span class="cal-cell-day">' + day + '</span><span class="cal-cell-dow">' + dow + '</span><div class="cal-cell-count">' + (count > 0 ? count : '') + '</div></div>';
-  }
-  html += '</div>';
-  const total = data.reduce(function(s,v){ return s+v; }, 0);
-  html += '<div class="cal-month-total">June total: <strong>' + total + '</strong> assignments received</div>';
-  wrap.innerHTML = html;
-})();
 </script>
 </body>
 </html>
