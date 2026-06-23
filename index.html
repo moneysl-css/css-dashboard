@@ -1031,7 +1031,7 @@ new Chart(fctx, {
     datasets: [
       { label:'Forecast (revised)', data:DATA.forecast.forecast, stack:'fc',
          backgroundColor:'rgba(242,103,33,0.85)', borderRadius:4, borderSkipped:false },
-      { type:'line', label:'Core (ex-Akytech)', data:DATA.forecast.core,
+      { type:'line', label:'Core (ex-Akytech)', data:DATA.forecast.core, stack:'l_core',
          borderColor:'#B62126', borderDash:[6,4], borderWidth:2,
          pointBackgroundColor:'#B62126', pointBorderColor:'#FFFFFF',
          pointRadius:3, pointHoverRadius:6, tension:0.35, fill:false, order:0, spanGaps:true },
@@ -1039,7 +1039,7 @@ new Chart(fctx, {
          backgroundColor:'rgba(78,182,72,0.85)',  borderRadius:4, borderSkipped:false },
       { label:'WIP',      data:DATA.forecast.wip,   stack:'act',
          backgroundColor:'rgba(99,138,198,0.85)', borderRadius:4, borderSkipped:false },
-      { type:'line', label:'Total Revenue',
+      { type:'line', label:'Total Revenue', stack:'l_total',
          data: DATA.forecast.labels.map(function(_,i){ var a=DATA.forecast.actual[i]||0; var w=DATA.forecast.wip[i]||0; return (a+w)>0?(a+w):null; }),
          borderColor:'#3D3D3D', backgroundColor:'rgba(61,61,61,0.08)',
          borderWidth:2.5, pointBackgroundColor:'#3D3D3D', pointBorderColor:'#FFFFFF',
