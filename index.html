@@ -1415,6 +1415,8 @@ DATA.clientRevenue.forEach((d,i)=>{
     </td>`;
   clientRevTbody.appendChild(tr);
 });
+document.getElementById('clientRevTotalClaims').textContent = fmtN(totalClaimsRev);
+document.getElementById('clientRevTotalRev').textContent = fmt$(totalRev);
 
 </script>
 </body>
