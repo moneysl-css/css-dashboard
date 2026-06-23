@@ -944,7 +944,7 @@ const _approvedClaims    = (DATA.claimsStatus.find(d=>d.status==='Approved')||{c
 const _totalSvcValue     = DATA.claimsStatus.reduce((s,d)=>s+d.value,0);
 const _approvalRate      = _totalActiveClaims>0 ? (_approvedClaims/_totalActiveClaims*100).toFixed(1) : '0.0';
 const _wipCount          = _totalActiveClaims - _approvedClaims;
-const _curMonthIdx       = DATA.forecast.labels.indexOf(DATA.currentMonth);
+const _curMonthIdx       = DATA.forecast.labels.findIndex(l => l.slice(0,3).toLowerCase() === DATA.currentMonth.slice(0,3).toLowerCase());
 const _fcYTD             = DATA.forecast.forecast.slice(0, _curMonthIdx+1).reduce((s,v)=>s+(v||0),0);
 const _pctYTD            = _fcYTD>0 ? Math.round(DATA.kpi.revenueYTD/_fcYTD*100) : 0;
 
