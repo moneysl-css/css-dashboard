@@ -11,7 +11,7 @@
   --near-black: #231F20;
   --charcoal:   #2F2F2F;
   --orange:     #F26721;
-  --green:      #4EB648;
+  --green:      #2E5496;
   --blue:       #638AC6;
   --red:        #B62126;
   --lgray:      #939598;
@@ -211,7 +211,7 @@ body {
 }
 .kpi-card.ops   { border-top-color: var(--green); }
 .kpi-card.ops::after { background: linear-gradient(90deg, var(--green) 0%, transparent 100%); }
-.kpi-card.won   { border-top-color: var(--green); background: #F0FAF0; }
+.kpi-card.won   { border-top-color: var(--green); background: #EEF3FB; }
 .kpi-card.warn  { border-top-color: var(--red); }
 .kpi-card.warn::after { background: linear-gradient(90deg, var(--red) 0%, transparent 100%); }
 
@@ -234,7 +234,7 @@ body {
 }
 .won-card {
   border-left: 4px solid var(--green);
-  background: #F0FAF0;
+  background: #EEF3FB;
   border-radius: 0 var(--radius) var(--radius) 0;
   padding: 12px 14px;
 }
@@ -525,7 +525,7 @@ tbody tr:hover td { background: #FEF0E6; }
   <rect width="44" height="44" rx="4" fill="#231F20"/>
   <!-- Four quadrant arcs of the C -->
   <path d="M22,6 A16,16 0 0,1 38,22 L30,22 A8,8 0 0,0 22,14 Z" fill="#638AC6"/>
-  <path d="M38,22 A16,16 0 0,1 22,38 L22,30 A8,8 0 0,0 30,22 Z" fill="#4EB648"/>
+  <path d="M38,22 A16,16 0 0,1 22,38 L22,30 A8,8 0 0,0 30,22 Z" fill="#2E5496"/>
   <path d="M22,38 A16,16 0 0,1 6,22 L14,22 A8,8 0 0,0 22,30 Z" fill="#B62126"/>
   <path d="M6,22 A16,16 0 0,1 22,6 L22,14 A8,8 0 0,0 14,22 Z" fill="#F26721"/>
   <!-- Center cutout -->
@@ -843,7 +843,7 @@ const DATA = {
     {status:'Inspected',     count:0,    value:0.00,        color:'#638AC6'},
     {status:'Returned',      count:1,    value:0.00,        color:'#7B5EA7'},
     {status:'Reviewed',      count:10,   value:4350.00,     color:'#4A90D9'},
-    {status:'Approved',      count:211,  value:123400.00,   color:'#4EB648'},
+    {status:'Approved',      count:211,  value:123400.00,   color:'#2E5496'},
   ],
   clientRevenue: [
     {client:'Mora Housing Management, Inc.',       claims:225, rev:146300.00},
@@ -1044,7 +1044,7 @@ new Chart(fctx, {
          pointBackgroundColor:'#B62126', pointBorderColor:'#FFFFFF',
          pointRadius:3, pointHoverRadius:6, tension:0.35, fill:false, order:0, spanGaps:true },
       { label:'Approved', data:DATA.forecast.actual, stack:'act',
-         backgroundColor:'rgba(78,182,72,0.85)',  borderRadius:4, borderSkipped:false },
+         backgroundColor:'rgba(46,84,150,0.95)',  borderRadius:4, borderSkipped:false },
       { label:'WIP',      data:DATA.forecast.wip,   stack:'act',
          backgroundColor:'rgba(99,138,198,0.85)', borderRadius:4, borderSkipped:false },
       { type:'line', label:'Total Revenue', stack:'l_total',
@@ -1154,7 +1154,7 @@ DATA.production.forEach(p=>{
     <td class="text-right font-mono">${p.claims}</td>
     <td class="text-right" style="white-space:nowrap">${fmt$(p.revenue)}</td>
     <td style="min-width:80px">
-      <div class="prog-bar-wrap"><div class="prog-bar" style="width:${pct}%;background:${p.revenue>10000?'#4EB648':'#F26721'}"></div></div>
+      <div class="prog-bar-wrap"><div class="prog-bar" style="width:${pct}%;background:${p.revenue>10000?'#2E5496':'#F26721'}"></div></div>
     </td>`;
   prodTbody.appendChild(tr);
 });
@@ -1180,7 +1180,7 @@ fcMonths.forEach((m,i)=>{
   else { pctAc = fc>0 ? clamp(Math.round(ac/fc*100),0,100) : 0;
          pctWip = fc>0 ? clamp(Math.round(wip/fc*100),0,100-pctAc) : 0; }
   const pctTotal = pctAc + pctWip;
-  const labelColor = exceeded ? '#4EB648' : (pctTotal>=80?'#4EB648':pctTotal>=50?'#F26721':'#B62126');
+  const labelColor = exceeded ? '#2E5496' : (pctTotal>=80?'#2E5496':pctTotal>=50?'#F26721':'#B62126');
   const acRadius  = pctWip>0 ? '4px 0 0 4px' : '4px';
   const wipRadius = pctAc>0  ? '0 4px 4px 0' : '4px';
   const projLabel = !hasData
@@ -1194,7 +1194,7 @@ fcMonths.forEach((m,i)=>{
       <span style="font-size:10px;color:#939598">${hasData?fmtK(ac+wip)+' / ':''}${fmtK(fc)}</span>
     </div>
     <div style="background:#EFEFEF;border-radius:4px;height:8px;display:flex;overflow:hidden">
-      <div style="width:${pctAc}%;height:8px;border-radius:${acRadius};background:#4EB648;transition:width 0.4s;flex-shrink:0"></div>
+      <div style="width:${pctAc}%;height:8px;border-radius:${acRadius};background:#2E5496;transition:width 0.4s;flex-shrink:0"></div>
       <div style="width:${pctWip}%;height:8px;border-radius:${wipRadius};background:#638AC6;transition:width 0.4s;flex-shrink:0"></div>
     </div>
     <div style="font-size:9px;color:${labelColor};font-weight:700;margin-top:2px;text-align:right">
@@ -1412,7 +1412,7 @@ const totalClaimsRev = DATA.clientRevenue.reduce((s,d)=>s+d.claims,0);
 const clientRevTbody = document.getElementById('clientRevTbody');
 DATA.clientRevenue.forEach((d,i)=>{
   const share = totalRev>0 ? Math.round(d.rev/totalRev*100) : 0;
-  const barColor = ['#4EB648','#638AC6','#F26721','#B62126','#939598','#2F2F2F','#4A90D9','#8B4513','#C0A060'][i%9];
+  const barColor = ['#2E5496','#638AC6','#F26721','#B62126','#939598','#2F2F2F','#4A90D9','#8B4513','#C0A060'][i%9];
   const tr = document.createElement('tr');
   tr.innerHTML=`
     <td style="font-weight:600;">${d.client}</td>
