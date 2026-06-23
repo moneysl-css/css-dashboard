@@ -574,6 +574,14 @@ tbody tr:hover td { background: #FEF0E6; }
 
   <!-- ── KPI CARDS ──────────────────────────────── -->
   <section id="kpis" class="kpi-section">
+    <div class="kpi-legend" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin-bottom:14px;padding:11px 16px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);font-size:11px;color:var(--charcoal);line-height:1.4;">
+      <span style="font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--lgray);">How to read these cards</span>
+      <span style="display:inline-flex;align-items:center;gap:7px;"><span style="display:inline-block;width:20px;height:15px;background:var(--white);border:1px solid var(--border);border-top:3px solid var(--orange);border-radius:2px;"></span>Informational &mdash; context metric, no target</span>
+      <span style="display:inline-flex;align-items:center;gap:7px;"><span style="display:inline-block;width:20px;height:15px;background:var(--white);border:1px solid var(--border);border-top:3px solid #2E5496;border-radius:2px;"></span>On track / positive result</span>
+      <span style="display:inline-flex;align-items:center;gap:7px;"><span style="display:inline-block;width:20px;height:15px;background:#EEF3FB;border:1px solid var(--border);border-top:3px solid #2E5496;border-radius:2px;"></span>Headline revenue figure</span>
+      <span style="display:inline-flex;align-items:center;gap:7px;"><span style="display:inline-block;width:20px;height:15px;background:var(--white);border:1px solid var(--border);border-top:3px solid var(--red);border-radius:2px;"></span>Below target &mdash; needs attention</span>
+      <span style="flex-basis:100%;color:var(--lgray);font-style:italic;font-size:10px;">Performance cards re-color automatically vs. target: red below 50%, orange 50&ndash;79%, blue at 80%+.</span>
+    </div>
     <div class="kpi-grid" id="kpiGrid"></div>
   </section>
 
