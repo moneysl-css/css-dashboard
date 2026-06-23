@@ -947,6 +947,7 @@ const _wipCount          = _totalActiveClaims - _approvedClaims;
 const _curMonthIdx       = DATA.forecast.labels.findIndex(l => l.slice(0,3).toLowerCase() === DATA.currentMonth.slice(0,3).toLowerCase());
 const _fcYTD             = DATA.forecast.forecast.slice(0, _curMonthIdx+1).reduce((s,v)=>s+(v||0),0);
 const _pctYTD            = _fcYTD>0 ? Math.round(DATA.kpi.revenueYTD/_fcYTD*100) : 0;
+const _fcTotal2026       = DATA.forecast.forecast.reduce((s,v)=>s+(v||0),0);
 
 const kpiDefs = [
   // ── Row 1: Business Development ──
@@ -964,6 +965,7 @@ const kpiDefs = [
   {grp:'Operations', lbl:'Approval Rate',     val:_approvalRate+'%',         sub:_approvedClaims+' of '+_totalActiveClaims+' approved', cls:'ops'},
 
   // ── Row 3: Revenue ──
+  {grp:'Revenue', lbl:'2026 Forecast',     val:fmt$(_fcTotal2026),          sub:'Full-year revenue target', cls:''},
   {grp:'Revenue', lbl:'Revenue YTD 2026',  val:fmt$(DATA.kpi.revenueYTD),   sub:'Jan – Jun incl. T&E',     cls:'won'},
   {grp:'Revenue', lbl:'YTD vs Forecast', val:_pctYTD+'%',
     sub:'of '+fmt$(_fcYTD)+' YTD target',
