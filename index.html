@@ -944,6 +944,9 @@ const _approvedClaims    = (DATA.claimsStatus.find(d=>d.status==='Approved')||{c
 const _totalSvcValue     = DATA.claimsStatus.reduce((s,d)=>s+d.value,0);
 const _approvalRate      = _totalActiveClaims>0 ? (_approvedClaims/_totalActiveClaims*100).toFixed(1) : '0.0';
 const _wipCount          = _totalActiveClaims - _approvedClaims;
+const _curMonthIdx       = DATA.forecast.labels.indexOf(DATA.currentMonth);
+const _fcYTD             = DATA.forecast.forecast.slice(0, _curMonthIdx+1).reduce((s,v)=>s+(v||0),0);
+const _pctYTD            = _fcYTD>0 ? Math.round(DATA.kpi.revenueYTD/_fcYTD*100) : 0;
 
 const kpiDefs = [
   // ── Row 1: Business Development ──
@@ -962,6 +965,9 @@ const kpiDefs = [
 
   // ── Row 3: Revenue ──
   {grp:'Revenue', lbl:'Revenue YTD 2026',  val:fmt$(DATA.kpi.revenueYTD),   sub:'Jan – Jun incl. T&E',     cls:'won'},
+  {grp:'Revenue', lbl:'YTD vs Forecast', val:_pctYTD+'%',
+    sub:'of '+fmt$(_fcYTD)+' YTD target',
+    cls: _pctYTD>=80?'ops': _pctYTD>=50?'':'warn'},
   {grp:'Revenue', lbl:'T&E Revenue',       val:fmt$(DATA.kpi.iemTERevenue), sub:'May T&E actual',          cls:'won'},
   {grp:'Revenue', lbl:'Revenue MTD',       val:fmt$(DATA.kpi.revenueMTD),   sub:DATA.currentMonth+' actual', cls:'ops'},
   {grp:'Revenue', lbl:'MTD vs Forecast',   val:DATA.kpi.pctMTD+'%',
