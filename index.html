@@ -1361,10 +1361,10 @@ claimsOrdered.forEach(d=>{
   const wrap = document.getElementById('aprilCalendar');
   if (!wrap) return;
 
-  const YEAR = 2026, MONTH = 4;
-  const DAYS_IN_MONTH = 30;
-  // April 1 2026 is a Wednesday; Mon=0 … Sun=6 (ISO week)
-  const FIRST_DOW_ISO = 2; // Wednesday = index 2 (Mon-based)
+  const YEAR = 2026, MONTH = 6;
+  const DAYS_IN_MONTH = new Date(YEAR, MONTH, 0).getDate();
+  // First weekday of the month, Mon=0 … Sun=6 (JS getDay is Sun=0, so shift)
+  const FIRST_DOW_ISO = (new Date(YEAR, MONTH - 1, 1).getDay() + 6) % 7;
   const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const today = new Date();
   const todayDay = (today.getFullYear()===YEAR && today.getMonth()===MONTH-1) ? today.getDate() : -1;
@@ -1434,8 +1434,4 @@ DATA.clientRevenue.forEach((d,i)=>{
   clientRevTbody.appendChild(tr);
 });
 document.getElementById('clientRevTotalClaims').textContent = fmtN(totalClaimsRev);
-document.getElementById('clientRevTotalRev').textContent = fmt$(totalRev);
-
-</script>
-</body>
-</html>
+document.getElementById('clientRevTotalR
