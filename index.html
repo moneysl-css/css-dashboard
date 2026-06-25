@@ -708,14 +708,14 @@ tbody tr:hover td { background: #FEF0E6; }
     </div>
   </div>
 
-  <!-- ── APRIL ASSIGNMENTS CALENDAR ────────────── -->
-  <div class="spacer" id="april-cal"></div>
+  <!-- ── ASSIGNMENTS CALENDAR ────────────── -->
+  <div class="spacer" id="assign-cal"></div>
   <div class="section-hdr">
     <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
-    ASSIGNMENTS RECEIVED — <span style="color:var(--orange);">JUNE 2026</span>
+    ASSIGNMENTS RECEIVED — <span style="color:var(--orange);" id="assignCalLabel">JUNE 2026</span>
   </div>
   <div class="chart-card" style="margin-bottom:14px;padding:20px 24px;">
-    <div id="aprilCalendar"></div>
+    <div id="assignCalendar"></div>
   </div>
 
   <!-- ── CLAIMS STATUS SECTION ─────────────────── -->
@@ -930,7 +930,7 @@ const DATA = {
     {"client":"RM Quality Construction, LLC","claims":3,"revenue":5600},
     {"client":"Ducky Recovery","claims":17,"revenue":3625}
   ],
-  juneCalendar: [4,5,5,3,6,0,0,1,2,2,2,0,0,1,9,2,3,5,3,0,0,15,2,16,1,0,0,0,0,0],
+  assignmentCalendar: [4,5,5,3,6,0,0,1,2,2,2,0,0,1,9,2,3,5,3,0,0,15,2,16,1,0,0,0,0,0],
 };
 
 
@@ -1356,12 +1356,19 @@ claimsOrdered.forEach(d=>{
   if(stSub) stSub.textContent = fmtN(claimsOrdered.reduce((s,d)=>s+d.count,0)) + ' ACTIVE CLAIMS';
 })();
 
-// ── JUNE ASSIGNMENTS CALENDAR ────────────────────────────
-(function buildAprilCalendar() {
-  const wrap = document.getElementById('aprilCalendar');
+// ── ASSIGNMENTS CALENDAR ────────────────────────────
+(function buildAssignmentCalendar() {
+  const wrap = document.getElementById('assignCalendar');
   if (!wrap) return;
 
-  const YEAR = 2026, MONTH = 6;
+  // ── Single source of truth: set the reporting month here each period ──
+  const YEAR = 2026, MONTH = 6; // MONTH is 1-based (1=Jan … 12=Dec)
+
+  const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  // Update the card heading (e.g. "JUNE 2026") from YEAR/MONTH
+  const label = document.getElementById('assignCalLabel');
+  if (label) label.textContent = (MONTH_NAMES[MONTH - 1] + ' ' + YEAR).toUpperCase();
+
   const DAYS_IN_MONTH = new Date(YEAR, MONTH, 0).getDate();
   // First weekday of the month, Mon=0 … Sun=6 (JS getDay is Sun=0, so shift)
   const FIRST_DOW_ISO = (new Date(YEAR, MONTH - 1, 1).getDay() + 6) % 7;
@@ -1388,7 +1395,7 @@ claimsOrdered.forEach(d=>{
 
   let totalAssigned = 0;
   for (let day = 1; day <= DAYS_IN_MONTH; day++) {
-    const count = DATA.juneCalendar[day - 1] || 0;
+    const count = DATA.assignmentCalendar[day - 1] || 0;
     totalAssigned += count;
     const hasData = count > 0;
     const isToday = day === todayDay;
@@ -1424,14 +1431,4 @@ DATA.clientRevenue.forEach((d,i)=>{
   const share = totalRev>0 ? Math.round(d.rev/totalRev*100) : 0;
   const barColor = ['#2E5496','#638AC6','#F26721','#B62126','#939598','#2F2F2F','#4A90D9','#8B4513','#C0A060'][i%9];
   const tr = document.createElement('tr');
-  tr.innerHTML=`
-    <td style="font-weight:600;">${d.client}</td>
-    <td class="text-right font-mono">${fmtN(d.claims)}</td>
-    <td class="text-right font-mono">${fmt$(d.rev)}</td>
-    <td style="min-width:80px;">
-      <div class="prog-bar-wrap"><div class="prog-bar" style="width:${share}%;background:${barColor};"></div></div>
-    </td>`;
-  clientRevTbody.appendChild(tr);
-});
-document.getElementById('clientRevTotalClaims').textContent = fmtN(totalClaimsRev);
-document.getElementById('clientRevTotalR
+  tr.inne
