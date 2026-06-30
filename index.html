@@ -1129,7 +1129,9 @@ stageTbody.appendChild(totTr);
 // ── Deal Detail Table ────────────────────────────────────
 const dealsTbody = document.getElementById('dealsTbody');
 let dTot=0, dWgt=0;
-DATA.openDeals.forEach(d=>{
+// Deal detail grid sorted ascending by close date (blank dates sort last)
+const _closeMs = s => { if(!s) return Infinity; const p=String(s).split('T')[0].split('/'); return p.length===3 ? new Date(+p[2],+p[0]-1,+p[1]).getTime() : (Date.parse(s)||Infinity); };
+DATA.openDeals.slice().sort((a,b)=>_closeMs(a.close)-_closeMs(b.close)).forEach(d=>{
   dTot+=d.amount; dWgt+=d.weighted;
   const badgeCls=stageBadge(d.stage);
   const cd=d.close?d.close.split('T')[0]:'—';
