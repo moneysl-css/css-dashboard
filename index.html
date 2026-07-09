@@ -1424,7 +1424,7 @@ claimsOrdered.forEach(d=>{
   }
 
   html += '</div>';
-  html += `<div class="cal-month-total">June Total: <span>${totalAssigned}</span> assignment${totalAssigned!==1?'s':''} received</div>`;
+  html += `<div class="cal-month-total">${MONTH_NAMES[MONTH - 1]} Total: <span>${totalAssigned}</span> assignment${totalAssigned!==1?'s':''} received</div>`;
 
   wrap.innerHTML = html;
 })();
