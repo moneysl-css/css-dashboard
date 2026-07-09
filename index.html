@@ -842,21 +842,21 @@ const DATA = {
   currentMonth: "June",
   claimsStatus: [
     {status:'Open',         count:0,    value:0.00,       color:'#B62126'},
-    {status:'Unassigned',   count:0,    value:0.00,       color:'#C94020'},
-    {status:'Assigned',     count:23,   value:19650.00,   color:'#F26721'},
+    {status:'Unassigned',   count:1,    value:0.00,       color:'#C94020'},
+    {status:'Assigned',     count:34,   value:21650.00,   color:'#F26721'},
     {status:'Accepted',     count:1,    value:800.00,     color:'#D4A020'},
-    {status:'Contacted',    count:2,    value:1600.00,    color:'#BAAB1A'},
+    {status:'Contacted',    count:1,    value:800.00,     color:'#BAAB1A'},
     {status:'Job Started',  count:0,    value:0.00,       color:'#5DADE2'},
     {status:'Estimate Hold',count:1,    value:1000.00,    color:'#939598'},
-    {status:'Inspected',    count:0,    value:0.00,       color:'#638AC6'},
-    {status:'Returned',     count:0,    value:0.00,       color:'#7B5EA7'},
-    {status:'Reviewed',     count:0,    value:0.00,       color:'#4A90D9'},
-    {status:'Approved',     count:120,  value:61725.00,   color:'#2E5496'},
+    {status:'Inspected',    count:1,    value:800.00,     color:'#638AC6'},
+    {status:'Returned',     count:2,    value:800.00,     color:'#7B5EA7'},
+    {status:'Reviewed',     count:9,    value:1800.00,    color:'#4A90D9'},
+    {status:'Approved',     count:121,  value:61775.00,   color:'#2E5496'},
   ],
   clientRevenue: [
     {client:'Mora Housing Management, Inc.',               claims:257, rev:163100.00},
-    {client:'GrantWorks',                                  claims:152, rev:131200.00},
-    {client:'Ducky Recovery',                              claims:88, rev:41075.00},
+    {client:'GrantWorks',                                  claims:152, rev:132000.00},
+    {client:'Ducky Recovery',                              claims:88, rev:41825.00},
     {client:'Timberline Construction Group, LLC',          claims:72, rev:20400.00},
     {client:'RM Quality Construction, LLC',                claims:14, rev:9800.00},
     {client:'Royal Engineers & Consultants',               claims:11, rev:6000.00},
@@ -870,20 +870,20 @@ const DATA = {
     openDeals:        16,
     claimsMTD:        98,
     forecastMTD:      373379,
-    wonTotal:         1553400,
-    wonDealsCount:    10,
-    revenueMTD:       76522,
-    revenueYTD:       399747,
-    iemTERevenue:     22497,
-    wipCount:         0,
-    wipRevenue:       0,
-    pctMTD:           20,
+    wonTotal:         1653400,
+    wonDealsCount:    11,
+    revenueMTD:       98429,
+    revenueYTD:       421654,
+    iemTERevenue:     42853.64,
+    wipCount:         9,
+    wipRevenue:       1800,
+    pctMTD:           26,
   },
   forecast: {
     labels:   ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
     forecast: [0,0,41955,49587,91577,373379,233831,297995,380520,831366,828056,801963],
     core:     [0,0,41955,49587,91577,373379,233831,297995,380520,352817,349507,323414],
-    actual:   [58950,57150,49125,67200,90800,76522,0,0,0,0,0,0],
+    actual:   [58950,57150,49125,67200,90800,98429,0,0,0,0,0,0],
     wip:      [0,0,0,0,0,0,0,0,0,0,0,0],
   },
   pipeline: {
@@ -901,7 +901,8 @@ const DATA = {
     {"name":"FL - Elevate Florida Elevation Inspections — Royal Engineering","value":120000,"date":"5/11/2026"},
     {"name":"NC - CDBG-DR Site Walks — Ducky Recovery","value":125000,"date":"5/15/2026"},
     {"name":"NC - CDBG-DR Construction Management Inspections — Timberline Construction Group","value":125000,"date":"5/15/2026"},
-    {"name":"NM - Hermits Peak/Calf Canyon Fires — IEM","value":258400,"date":"5/21/2026"}
+    {"name":"NM - Hermits Peak/Calf Canyon Fires — IEM","value":258400,"date":"5/21/2026"},
+    {"name":"FL - CDBG-DR Recon Services — Byrdson","value":100000,"date":"7/2/2026"}
   ],
   lostDeals: [
     {"name":"FL - City of Miami Beach HQS-NSPIRE RFP 01-2026","company":"Housing Authority of the City of Miami Beach (HACMB)","amount":563475.0,"date":"5/21/2026","reason":"Price","notes":"See attached scoring sheet. Winning bidder was Gilson Software Solutions - PHA, LLC ."}
@@ -922,16 +923,16 @@ const DATA = {
     {"name":"LA - Port of South Louisiana Emergency Management Services","company":"Metric Engineering","amount":100000.0,"weighted":50000,"stage":"Presentation","prob":50,"close":"8/21/2026","owner":"Mike Gaskins"},
     {"name":"Timberline South Carolina Construction Management","company":"Timberline Construction Group","amount":70000.0,"weighted":35000,"stage":"Qualified","prob":50,"close":"7/31/2026","owner":"Mike Gaskins"},
     {"name":"GA - CDBG-DR Allocation","company":"Timberline Construction Group","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"7/31/2026","owner":"Mike Gaskins"},
-    {"name":"Renew NC GC support","company":"Shepherd Response","amount":150000.0,"weighted":37500,"stage":"Qualified","prob":25,"close":"4/30/2026","owner":"Mike Gaskins"}
+    {"name":"Renew NC GC support","company":"Shepherd Response","amount":150000.0,"weighted":37500,"stage":"Qualified","prob":25,"close":"7/17/2026","owner":"Mike Gaskins"}
   ],
   production: [
     {"client":"Mora Housing Management, Inc.","claims":50,"revenue":23250},
-    {"client":"Ducky Recovery","claims":17,"revenue":8275},
-    {"client":"GrantWorks","claims":1,"revenue":8000},
+    {"client":"Ducky Recovery","claims":17,"revenue":9025},
+    {"client":"GrantWorks","claims":1,"revenue":8800},
     {"client":"Timberline Construction Group, LLC","claims":27,"revenue":7500},
     {"client":"RM Quality Construction, LLC","claims":3,"revenue":7000}
   ],
-  assignmentCalendar: [4,5,6,2,6,0,0,1,2,2,2,0,0,1,9,2,3,5,3,0,0,15,2,16,3,3,0,0,1,5],
+  assignmentCalendar: [4,5,6,3,6,0,0,1,2,2,2,0,0,1,9,2,3,5,3,0,0,15,2,16,3,3,0,0,1,5],
 };
 
 
