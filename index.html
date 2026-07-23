@@ -305,6 +305,7 @@ tbody tr:hover td { background: #FEF0E6; }
   border-radius: 10px; font-size: 9px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.3px;
 }
+.b-prosp{ background: #EEF2F2; color: #5B7A76; }
 .b-qual { background: #F3E8FF; color: #7B5EA7; }
 .b-pres { background: #E8EEFA; color: var(--blue); }
 .b-neg  { background: #FEF0E6; color: var(--orange); }
@@ -842,55 +843,55 @@ const DATA = {
   currentMonth: "July",
   claimsStatus: [
     {status:'Open',         count:0,    value:0.00,       color:'#B62126'},
-    {status:'Unassigned',   count:2,    value:0.00,       color:'#C94020'},
-    {status:'Assigned',     count:31,   value:8625.00,    color:'#F26721'},
+    {status:'Unassigned',   count:1,    value:0.00,       color:'#C94020'},
+    {status:'Assigned',     count:19,   value:7625.00,    color:'#F26721'},
     {status:'Accepted',     count:1,    value:800.00,     color:'#D4A020'},
     {status:'Contacted',    count:1,    value:800.00,     color:'#BAAB1A'},
     {status:'Job Started',  count:0,    value:0.00,       color:'#5DADE2'},
     {status:'Estimate Hold',count:1,    value:1000.00,    color:'#939598'},
     {status:'Inspected',    count:0,    value:0.00,       color:'#638AC6'},
     {status:'Returned',     count:2,    value:750.00,     color:'#7B5EA7'},
-    {status:'Reviewed',     count:8,    value:1450.00,    color:'#4A90D9'},
-    {status:'Approved',     count:164,  value:89075.00,   color:'#2E5496'},
+    {status:'Reviewed',     count:5,    value:900.00,     color:'#4A90D9'},
+    {status:'Approved',     count:192,  value:101625.00,  color:'#2E5496'},
   ],
   clientRevenue: [
-    {client:'Mora Housing Management, Inc.',               claims:271, rev:183800.00},
+    {client:'Mora Housing Management, Inc.',               claims:274, rev:184700.00},
     {client:'GrantWorks',                                  claims:153, rev:133600.00},
-    {client:'Ducky Recovery',                              claims:91, rev:42575.00},
-    {client:'Timberline Construction Group, LLC',          claims:97, rev:24300.00},
-    {client:'RM Quality Construction, LLC',                claims:31, rev:11200.00},
+    {client:'Ducky Recovery',                              claims:93, rev:44375.00},
+    {client:'Timberline Construction Group, LLC',          claims:104, rev:28500.00},
+    {client:'RM Quality Construction, LLC',                claims:31, rev:16100.00},
     {client:'Royal Engineers & Consultants',               claims:11, rev:6000.00},
     {client:'DSW',                                         claims:16, rev:4000.00},
+    {client:'Byrdson Services, LLC',                       claims:3, rev:1450.00},
     {client:'A Bartlett Roofing & Construction',           claims:2, rev:975.00},
-    {client:'Byrdson Services, LLC',                       claims:3, rev:700.00},
   ],
   kpi: {
-    totalPipeline:    15620390.17,
-    weightedForecast: 8337493,
-    openDeals:        15,
-    claimsMTD:        61,
+    totalPipeline:    20120390.17,
+    weightedForecast: 8962493,
+    openDeals:        16,
+    claimsMTD:        73,
     forecastMTD:      233831,
     wonTotal:         2177400,
     wonDealsCount:    12,
-    revenueMTD:       28350,
-    revenueYTD:       450004,
+    revenueMTD:       40900,
+    revenueYTD:       462554,
     iemTERevenue:     0,
     iemTERevenueYTD:  65350.92,
-    wipCount:         8,
-    wipRevenue:       1450,
-    pctMTD:           12,
+    wipCount:         5,
+    wipRevenue:       900,
+    pctMTD:           17,
   },
   forecast: {
     labels:   ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
     forecast: [0,0,41955,49587,91577,373379,233831,297995,380520,831366,828056,801963],
     core:     [0,0,41955,49587,91577,373379,233831,297995,380520,352817,349507,323414],
-    actual:   [58950,57150,49125,67200,90800,98429,28350,0,0,0,0,0],
+    actual:   [58950,57150,49125,67200,90800,98429,40900,0,0,0,0,0],
     wip:      [0,0,0,0,0,0,0,0,0,0,0,0],
   },
   pipeline: {
-    labels:  ["Qualified","Negotiation","Presentation"],
-    total:   [790000,812000,14018390.17],
-    weighted:[197500,669000,7470993],
+    labels:  ["Prospecting","Qualified","Negotiation","Presentation"],
+    total:   [2500000,2790000,812000,14018390.17],
+    weighted:[125000,697500,669000,7470993],
   },
   wonDeals: [
     {"name":"BCA and Engineering Technical Assistance — Ernst & Young","value":200000,"date":"1/26/2026"},
@@ -912,28 +913,30 @@ const DATA = {
   openDeals: [
     {"name":"FED - HUD ARC NSPIRE Backlog Inspection","company":"Akytech Consulting","amount":9570973.17,"weighted":5742584,"stage":"Presentation","prob":60,"close":"10/1/2026","owner":"Shane Lucas"},
     {"name":"LA - OCD Program Management and Construction Management Services","company":"Ducky Recovery","amount":1395917.0,"weighted":697959,"stage":"Presentation","prob":50,"close":"8/1/2027","owner":"Shane Lucas"},
-    {"name":"PR - PRDOH Cost Estimating Services \u2014 CDBG-DR / CDBG-MIT","company":"BR +","amount":750000.0,"weighted":375000,"stage":"Presentation","prob":50,"close":"11/2/2026","owner":"Shane Lucas"},
-    {"name":"NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments","company":"Department of Homeland Security and Emergency Management (DHSEM)","amount":1101500.0,"weighted":330450,"stage":"Presentation","prob":30,"close":"7/15/2026","owner":"Mike Gaskins"},
+    {"name":"FL - Pasco County Post-disaster services","company":"Pasco County","amount":2500000.0,"weighted":625000,"stage":"Qualified","prob":25,"close":"11/30/2026","owner":"Shane Lucas"},
+    {"name":"PR - PRDOH Cost Estimating Services — CDBG-DR / CDBG-MIT","company":"BR +","amount":750000.0,"weighted":375000,"stage":"Presentation","prob":50,"close":"11/2/2026","owner":"Shane Lucas"},
+    {"name":"NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments","company":"Department of Homeland Security and Emergency Management (DHSEM)","amount":1101500.0,"weighted":330450,"stage":"Presentation","prob":30,"close":"8/15/2026","owner":"Shane Lucas"},
     {"name":"FL - Hillsboro County CDBG-DR","company":"Ducky Recovery","amount":300000.0,"weighted":285000,"stage":"Negotiation","prob":95,"close":"8/3/2026","owner":"Shane Lucas"},
-    {"name":"AR - CDBG-DR Allocation","company":"GrantWorks","amount":262000.0,"weighted":196500,"stage":"Negotiation","prob":75,"close":"9/25/2026","owner":"Mike Gaskins"},
+    {"name":"AR - CDBG-DR Allocation","company":"GrantWorks","amount":262000.0,"weighted":196500,"stage":"Negotiation","prob":75,"close":"9/25/2026","owner":"Shane Lucas"},
     {"name":"NC - Staff Augmentation CDBG-DR Expert Administrative Support","company":"OST Global","amount":250000.0,"weighted":187500,"stage":"Negotiation","prob":75,"close":"10/30/2026","owner":"Shane Lucas"},
-    {"name":"FL - Pasco County Post-disaster services","company":"Pasco County","amount":500000.0,"weighted":125000,"stage":"Qualified","prob":25,"close":"","owner":"Shane Lucas"},
-    {"name":"LA - OCD RFP","company":"Dynamic","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"7/31/2026","owner":"Mike Gaskins"},
-    {"name":"LA - OCD RFP","company":"GrantWorks","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"7/31/2026","owner":"Mike Gaskins"},
-    {"name":"GA - Dept of Community Affairs ARRP","company":"Timberline Construction Group","amount":300000.0,"weighted":75000,"stage":"Presentation","prob":25,"close":"8/31/2026","owner":"Mike Gaskins"},
-    {"name":"LA - Port of South Louisiana Emergency Management Services","company":"Metric Engineering","amount":100000.0,"weighted":50000,"stage":"Presentation","prob":50,"close":"8/21/2026","owner":"Mike Gaskins"},
-    {"name":"NC - Renew NC GC support","company":"Shepherd Response","amount":150000.0,"weighted":37500,"stage":"Qualified","prob":25,"close":"7/17/2026","owner":"Mike Gaskins"},
-    {"name":"GA - CDBG-DR Allocation","company":"Timberline Construction Group","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"7/31/2026","owner":"Mike Gaskins"},
-    {"name":"SC - Timberline South Carolina Construction Management","company":"Timberline Construction Group","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"7/31/2026","owner":"Mike Gaskins"}
+    {"name":"FL - City of Sarasota Emergency Management Consulting Services","company":"City of Sarasota","amount":2500000.0,"weighted":125000,"stage":"Prospecting","prob":5,"close":"1/1/2027","owner":"Shane Lucas"},
+    {"name":"LA - OCD RFP","company":"GrantWorks","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"7/31/2026","owner":"Shane Lucas"},
+    {"name":"LA - OCD RFP","company":"Dynamic","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"8/31/2026","owner":"Shane Lucas"},
+    {"name":"GA - Dept of Community Affairs ARRP","company":"Timberline Construction Group","amount":300000.0,"weighted":75000,"stage":"Presentation","prob":25,"close":"8/31/2026","owner":"Shane Lucas"},
+    {"name":"LA - Port of South Louisiana Emergency Management Services","company":"Metric Engineering","amount":100000.0,"weighted":50000,"stage":"Presentation","prob":50,"close":"8/21/2026","owner":"Shane Lucas"},
+    {"name":"NC - Renew NC GC support","company":"Shepherd Response","amount":150000.0,"weighted":37500,"stage":"Qualified","prob":25,"close":"8/15/2026","owner":"Shane Lucas"},
+    {"name":"SC - Timberline South Carolina Construction Management","company":"Timberline Construction Group","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"7/31/2026","owner":"Shane Lucas"},
+    {"name":"GA - CDBG-DR Allocation","company":"Timberline Construction Group","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"8/31/2026","owner":"Shane Lucas"}
   ],
   production: [
-    {"client":"Mora Housing Management, Inc.","claims":14,"revenue":20700},
-    {"client":"Timberline Construction Group, LLC","claims":25,"revenue":3900},
+    {"client":"Mora Housing Management, Inc.","claims":17,"revenue":21600},
+    {"client":"Timberline Construction Group, LLC","claims":32,"revenue":8100},
+    {"client":"RM Quality Construction, LLC","claims":17,"revenue":6300},
+    {"client":"Ducky Recovery","claims":5,"revenue":2550},
     {"client":"GrantWorks","claims":1,"revenue":1600},
-    {"client":"RM Quality Construction, LLC","claims":17,"revenue":1400},
-    {"client":"Ducky Recovery","claims":3,"revenue":750}
+    {"client":"Byrdson Services, LLC","claims":1,"revenue":750}
   ],
-  assignmentCalendar: [2,2,4,0,0,3,2,7,5,5,0,0,11,7,12,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  assignmentCalendar: [2,2,4,0,0,3,2,7,5,5,0,0,11,7,12,5,2,0,1,1,1,2,1,0,0,0,0,0,0,0,0],
 };
 
 
@@ -1115,7 +1118,7 @@ let stageRows = DATA.pipeline.labels.map((s,i) => ({
 DATA.openDeals.forEach(d=>{ const r=stageRows.find(s=>s.stage===d.stage); if(r) r.count++; });
 let totT=0,totW=0,totC=0;
 stageRows.forEach(r=>{ totT+=r.total; totW+=r.weighted; totC+=r.count; });
-const stageBadge = s => s==='Won'?'b-won': s==='Negotiation'?'b-neg': s==='Qualified'?'b-qual':'b-pres';
+const stageBadge = s => s==='Won'?'b-won': s==='Negotiation'?'b-neg': s==='Qualified'?'b-qual': s==='Prospecting'?'b-prosp':'b-pres';
 stageRows.forEach(r=>{
   const badgeCls = stageBadge(r.stage);
   const tr=document.createElement('tr');
