@@ -719,6 +719,18 @@ tbody tr:hover td { background: #FEF0E6; }
     <div id="assignCalendar"></div>
   </div>
 
+  <!-- ── DAILY REVENUE PACE ────────────── -->
+  <div class="spacer" id="rev-pace"></div>
+  <div class="section-hdr">
+    <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
+    DAILY REVENUE PACE — <span style="color:var(--orange);" id="revPaceLabel"></span>
+  </div>
+  <div class="chart-card" style="margin-bottom:14px;padding:20px 24px;">
+    <div id="revPaceStats" style="display:flex;gap:28px;flex-wrap:wrap;margin-bottom:16px;"></div>
+    <canvas id="revPaceChart" style="max-height:260px;"></canvas>
+    <div id="revPaceNote" style="font-size:9px;color:var(--lgray);margin-top:8px;"></div>
+  </div>
+
   <!-- ── CLAIMS STATUS SECTION ─────────────────── -->
   <div class="spacer" id="claims"></div>
   <div class="section-hdr">
@@ -844,48 +856,48 @@ const DATA = {
   claimsStatus: [
     {status:'Open',         count:0,    value:0.00,       color:'#B62126'},
     {status:'Unassigned',   count:1,    value:0.00,       color:'#C94020'},
-    {status:'Assigned',     count:19,   value:7625.00,    color:'#F26721'},
+    {status:'Assigned',     count:21,   value:12725.00,   color:'#F26721'},
     {status:'Accepted',     count:1,    value:800.00,     color:'#D4A020'},
     {status:'Contacted',    count:1,    value:800.00,     color:'#BAAB1A'},
     {status:'Job Started',  count:0,    value:0.00,       color:'#5DADE2'},
     {status:'Estimate Hold',count:1,    value:1000.00,    color:'#939598'},
     {status:'Inspected',    count:0,    value:0.00,       color:'#638AC6'},
-    {status:'Returned',     count:2,    value:750.00,     color:'#7B5EA7'},
-    {status:'Reviewed',     count:5,    value:900.00,     color:'#4A90D9'},
-    {status:'Approved',     count:192,  value:101625.00,  color:'#2E5496'},
+    {status:'Returned',     count:5,    value:1650.00,    color:'#7B5EA7'},
+    {status:'Reviewed',     count:7,    value:5700.00,    color:'#4A90D9'},
+    {status:'Approved',     count:214,  value:110725.00,  color:'#2E5496'},
   ],
   clientRevenue: [
-    {client:'Mora Housing Management, Inc.',               claims:274, rev:184700.00},
+    {client:'Mora Housing Management, Inc.',               claims:286, rev:187400.00},
     {client:'GrantWorks',                                  claims:153, rev:133600.00},
-    {client:'Ducky Recovery',                              claims:93, rev:44375.00},
-    {client:'Timberline Construction Group, LLC',          claims:104, rev:28500.00},
-    {client:'RM Quality Construction, LLC',                claims:31, rev:16100.00},
+    {client:'Ducky Recovery',                              claims:97, rev:44975.00},
+    {client:'Timberline Construction Group, LLC',          claims:108, rev:30600.00},
+    {client:'RM Quality Construction, LLC',                claims:37, rev:21000.00},
     {client:'Royal Engineers & Consultants',               claims:11, rev:6000.00},
     {client:'DSW',                                         claims:16, rev:4000.00},
-    {client:'Byrdson Services, LLC',                       claims:3, rev:1450.00},
+    {client:'Byrdson Services, LLC',                       claims:6, rev:1450.00},
     {client:'A Bartlett Roofing & Construction',           claims:2, rev:975.00},
   ],
   kpi: {
     totalPipeline:    20120390.17,
     weightedForecast: 8962493,
     openDeals:        16,
-    claimsMTD:        73,
+    claimsMTD:        102,
     forecastMTD:      233831,
     wonTotal:         2177400,
     wonDealsCount:    12,
-    revenueMTD:       40900,
-    revenueYTD:       462554,
-    iemTERevenue:     0,
-    iemTERevenueYTD:  65350.92,
-    wipCount:         5,
-    wipRevenue:       900,
-    pctMTD:           17,
+    revenueMTD:       139048.20,
+    revenueYTD:       560701.84,
+    iemTERevenue:     87848.20,
+    iemTERevenueYTD:  153199.12,
+    wipCount:         7,
+    wipRevenue:       5700,
+    pctMTD:           59,
   },
   forecast: {
     labels:   ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
     forecast: [0,0,41955,49587,91577,373379,233831,297995,380520,831366,828056,801963],
     core:     [0,0,41955,49587,91577,373379,233831,297995,380520,352817,349507,323414],
-    actual:   [58950,57150,49125,67200,90800,98429,40900,0,0,0,0,0],
+    actual:   [58950,57150,49125,67200,90800,98429,139048.20,0,0,0,0,0],
     wip:      [0,0,0,0,0,0,0,0,0,0,0,0],
   },
   pipeline: {
@@ -920,8 +932,8 @@ const DATA = {
     {"name":"AR - CDBG-DR Allocation","company":"GrantWorks","amount":262000.0,"weighted":196500,"stage":"Negotiation","prob":75,"close":"9/25/2026","owner":"Shane Lucas"},
     {"name":"NC - Staff Augmentation CDBG-DR Expert Administrative Support","company":"OST Global","amount":250000.0,"weighted":187500,"stage":"Negotiation","prob":75,"close":"10/30/2026","owner":"Shane Lucas"},
     {"name":"FL - City of Sarasota Emergency Management Consulting Services","company":"City of Sarasota","amount":2500000.0,"weighted":125000,"stage":"Prospecting","prob":5,"close":"1/1/2027","owner":"Shane Lucas"},
-    {"name":"LA - OCD RFP","company":"GrantWorks","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"7/31/2026","owner":"Shane Lucas"},
-    {"name":"LA - OCD RFP","company":"Dynamic","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"8/31/2026","owner":"Shane Lucas"},
+    {"name":"LA - OCD Program Management and Construction Management Services","company":"GrantWorks","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"7/31/2026","owner":"Shane Lucas"},
+    {"name":"LA - OCD Program Management and Construction Management Services","company":"Dynamic","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"8/31/2026","owner":"Shane Lucas"},
     {"name":"GA - Dept of Community Affairs ARRP","company":"Timberline Construction Group","amount":300000.0,"weighted":75000,"stage":"Presentation","prob":25,"close":"8/31/2026","owner":"Shane Lucas"},
     {"name":"LA - Port of South Louisiana Emergency Management Services","company":"Metric Engineering","amount":100000.0,"weighted":50000,"stage":"Presentation","prob":50,"close":"8/21/2026","owner":"Shane Lucas"},
     {"name":"NC - Renew NC GC support","company":"Shepherd Response","amount":150000.0,"weighted":37500,"stage":"Qualified","prob":25,"close":"8/15/2026","owner":"Shane Lucas"},
@@ -929,14 +941,18 @@ const DATA = {
     {"name":"GA - CDBG-DR Allocation","company":"Timberline Construction Group","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"8/31/2026","owner":"Shane Lucas"}
   ],
   production: [
-    {"client":"Mora Housing Management, Inc.","claims":17,"revenue":21600},
-    {"client":"Timberline Construction Group, LLC","claims":32,"revenue":8100},
-    {"client":"RM Quality Construction, LLC","claims":17,"revenue":6300},
-    {"client":"Ducky Recovery","claims":5,"revenue":2550},
+    {"client":"Mora Housing Management, Inc.","claims":29,"revenue":24300},
+    {"client":"RM Quality Construction, LLC","claims":23,"revenue":11200},
+    {"client":"Timberline Construction Group, LLC","claims":36,"revenue":10200},
+    {"client":"Ducky Recovery","claims":9,"revenue":3150},
     {"client":"GrantWorks","claims":1,"revenue":1600},
-    {"client":"Byrdson Services, LLC","claims":1,"revenue":750}
+    {"client":"Byrdson Services, LLC","claims":4,"revenue":750}
   ],
-  assignmentCalendar: [2,2,4,0,0,3,2,7,5,5,0,0,11,7,12,5,2,0,1,1,1,2,1,0,0,0,0,0,0,0,0],
+  assignmentCalendar: [2,2,4,0,0,3,2,7,5,5,0,0,11,7,12,5,2,0,1,1,1,2,5,5,0,0,9,7,2,2,0],
+  // Daily Revenue Pace: production revenue by invoice day (AllClaimsList InvoiceDate/InvoiceAmount,
+  // reconciles to ProdReport MTD). te = current-month T&E total (spread across business days by the
+  // builder). asOfDay = data current through this day of month. Refresh all three each update.
+  revenuePace: { daily: [300,0,0,0,0,0,0,0,0,0,0,0,12550,0,15500,0,0,0,0,0,0,12550,1950,900,0,0,0,1000,6450,0,0], te: 87848.20, asOfDay: 30 },
 };
 
 
@@ -1366,6 +1382,96 @@ claimsOrdered.forEach(d=>{
 })();
 
 // ── ASSIGNMENTS CALENDAR ────────────────────────────
+(function buildRevenuePace() {
+  // To change reporting month: update YEAR/MONTH here (same pattern as buildAssignmentCalendar)
+  // plus DATA.revenuePace {daily, te, asOfDay}.
+  const YEAR = 2026, MONTH = 7; // 1-based
+  const MONTH_NAMES = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+  const rp = DATA.revenuePace;
+  const target = DATA.forecast.forecast[MONTH - 1];
+  const daysInMonth = new Date(YEAR, MONTH, 0).getDate();
+  const asOf = Math.min(rp.asOfDay, daysInMonth);
+  const isBiz = d => { const w = new Date(YEAR, MONTH - 1, d).getDay(); return w >= 1 && w <= 5; };
+  const bizDays = []; for (let d = 1; d <= daysInMonth; d++) if (isBiz(d)) bizDays.push(d);
+  const totalBiz = bizDays.length;
+  const bizElapsed = bizDays.filter(d => d <= asOf).length;
+  const teDaily = totalBiz > 0 ? (rp.te || 0) / totalBiz : 0;
+
+  // Cumulative series (null past asOf so lines stop at the data date)
+  const cumProd = [], cumTE = [], pace = [];
+  let p = 0, t = 0, b = 0;
+  for (let d = 1; d <= daysInMonth; d++) {
+    if (isBiz(d)) b++;
+    if (d <= asOf) {
+      p += rp.daily[d - 1] || 0;
+      if (isBiz(d)) t += teDaily;
+      cumProd.push(Math.round(p)); cumTE.push(Math.round(t));
+    } else { cumProd.push(null); cumTE.push(null); }
+    pace.push(Math.round(target * b / totalBiz));
+  }
+  const totActual = p + t;
+  const paceToday = target * bizElapsed / totalBiz;
+  const gap = totActual - paceToday;
+  const bizRemaining = totalBiz - bizElapsed;
+  const reqRate = bizRemaining > 0 ? Math.max(0, target - totActual) / bizRemaining : 0;
+  const projected = bizElapsed > 0 ? totActual / bizElapsed * totalBiz : 0;
+  const pctTarget = target > 0 ? Math.round(totActual / target * 100) : 0;
+  const pctMonth = totalBiz > 0 ? Math.round(bizElapsed / totalBiz * 100) : 0;
+
+  document.getElementById('revPaceLabel').textContent = MONTH_NAMES[MONTH - 1] + ' ' + YEAR;
+  const chip = (lbl, val, color) => `<div>
+    <div style="font-size:9px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.7px;">${lbl}</div>
+    <div style="font-size:18px;font-weight:800;color:${color || 'var(--charcoal)'};font-variant-numeric:tabular-nums;">${val}</div>
+  </div>`;
+  const gapColor = gap >= 0 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('revPaceStats').innerHTML =
+    chip('MTD Revenue', fmt$(totActual) + ' <span style="font-size:11px;color:var(--lgray);font-weight:600;">/ ' + fmtK(target) + '</span>') +
+    chip('% of Target', pctTarget + '%', pctTarget >= pctMonth ? 'var(--green)' : 'var(--red)') +
+    chip('% of Month Elapsed', pctMonth + '%', 'var(--charcoal)') +
+    chip('Gap to Pace', (gap >= 0 ? '+' : '\u2212') + fmt$(Math.abs(gap)), gapColor) +
+    chip('Req. Daily Run-Rate', fmt$(reqRate) + '<span style="font-size:11px;color:var(--lgray);font-weight:600;">/biz day</span>', 'var(--orange)') +
+    chip('Projected Month-End', fmtK(projected), projected >= target ? 'var(--green)' : 'var(--red)');
+
+  const rpCtx = document.getElementById('revPaceChart').getContext('2d');
+  new Chart(rpCtx, {
+    type: 'line',
+    data: {
+      labels: Array.from({length: daysInMonth}, (_, i) => i + 1),
+      datasets: [
+        { label: 'Production (cumulative)', data: cumProd, stack: 'act',
+          borderColor: '#2E5496', backgroundColor: 'rgba(46,84,150,0.18)',
+          stepped: true, fill: 'origin', pointRadius: 0, borderWidth: 2 },
+        { label: 'T&E (cumulative)', data: cumTE, stack: 'act',
+          borderColor: '#638AC6', backgroundColor: 'rgba(99,138,198,0.25)',
+          stepped: true, fill: 'origin', pointRadius: 0, borderWidth: 2 },
+        { label: 'Pace to Target', data: pace, stack: 'pace',
+          borderColor: '#F26721', borderDash: [6, 4], fill: false,
+          pointRadius: 0, borderWidth: 2, tension: 0 },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { font: { size: 10 }, boxWidth: 14 } },
+        tooltip: { callbacks: { label: c => c.dataset.label + ': ' + fmt$(c.parsed.y),
+                                title: items => MONTH_NAMES[MONTH - 1].charAt(0) + MONTH_NAMES[MONTH - 1].slice(1).toLowerCase() + ' ' + items[0].label } },
+      },
+      scales: {
+        y: { stacked: true, beginAtZero: true, ticks: { callback: v => fmtK(v), font: { size: 10 } }, grid: { color: '#EBEBEB' } },
+        x: { ticks: { font: { size: 9 }, maxRotation: 0, autoSkip: true }, grid: { display: false },
+             title: { display: true, text: 'Day of Month', font: { size: 9 } } },
+      },
+    },
+  });
+
+  document.getElementById('revPaceNote').textContent =
+    'Production revenue by invoice date (reconciles to ProdReport MTD). T&E spread evenly across ' + totalBiz +
+    ' business days' + (rp.te > 0 ? '' : ' (July T&E pending billing \u2014 currently $0)') +
+    '. Pace line = monthly forecast target prorated by business days elapsed. Data through ' +
+    MONTH_NAMES[MONTH - 1].charAt(0) + MONTH_NAMES[MONTH - 1].slice(1).toLowerCase() + ' ' + asOf + ', ' + YEAR + '.';
+})();
+
 (function buildAssignmentCalendar() {
   const wrap = document.getElementById('assignCalendar');
   if (!wrap) return;
