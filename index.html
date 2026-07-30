@@ -668,6 +668,36 @@ tbody tr:hover td { background: #FEF0E6; }
     </div>
   </div>
 
+  <!-- ── PIPELINE BY STRATEGY TYPE ──────────────── -->
+  <div class="spacer"></div>
+  <div class="section-hdr">
+    <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
+    OPEN PIPELINE — BY STRATEGY TYPE &nbsp;<span style="color:var(--orange);font-size:10px;">HOW WE GO TO MARKET · OPEN VS. 2026 WINS</span>
+  </div>
+  <div class="table-card">
+    <div class="table-scroll">
+      <table>
+        <thead><tr>
+          <th style="width:150px">Strategy</th>
+          <th class="text-right">Open Deals</th>
+          <th class="text-right">Open Value</th>
+          <th class="text-right">Weighted</th>
+          <th style="width:150px">Share of Weighted</th>
+          <th class="text-right">2026 Wins</th>
+          <th class="text-right">Won Value</th>
+          <th class="text-right">Win Rate</th>
+        </tr></thead>
+        <tbody id="stratTbody"></tbody>
+      </table>
+    </div>
+    <div style="padding:8px 14px 12px;font-size:10px;color:var(--lgray);line-height:1.45">
+      Win Rate = 2026 wins &divide; (2026 wins + 2026 losses) for that strategy. Strategies with no closed
+      deals in 2026 show &ldquo;&mdash;&rdquo;. Compare <strong>Share of Weighted</strong> against
+      <strong>2026 Wins</strong>: where the pipeline is concentrated but wins are not is where pursuit
+      cost is going without a track record to support it.
+    </div>
+  </div>
+
   <!-- ── DEAL DETAIL TABLE ──────────────────────── -->
   <div class="spacer"></div>
   <div class="section-hdr">
@@ -920,21 +950,21 @@ const DATA = {
     weighted:[0,72500,669000,9970993],
   },
   wonDeals: [
-    {"name":"BCA and Engineering Technical Assistance — Ernst & Young","value":200000,"date":"1/26/2026"},
-    {"name":"NC - CDBG-DR Estimate Writing — RM Quality Construction","value":250000,"date":"3/17/2026"},
-    {"name":"FL - FDEM Elevate Florida Elevation Inspections — Ducky Recovery","value":100000,"date":"3/26/2026"},
-    {"name":"FL - Construction Support Services CDBG-DR Allocation — Timberline Construction Group","value":125000,"date":"4/2/2026"},
-    {"name":"NC - RenewNC GC support — Byrdson","value":150000,"date":"4/9/2026"},
-    {"name":"FL - Pasco County CDBG-DR Allocation — A. Bartlett Roofing & Construction Services, LLC","value":100000,"date":"4/23/2026"},
-    {"name":"FL - Elevate Florida Elevation Inspections — Royal Engineering","value":120000,"date":"5/11/2026"},
-    {"name":"NC - CDBG-DR Site Walks — Ducky Recovery","value":125000,"date":"5/15/2026"},
-    {"name":"NC - CDBG-DR Construction Management Inspections — Timberline Construction Group","value":125000,"date":"5/15/2026"},
-    {"name":"NM - Hermits Peak/Calf Canyon Fires — IEM","value":258400,"date":"5/21/2026"},
-    {"name":"FL - CDBG-DR Recon Services — Byrdson","value":100000,"date":"7/2/2026"},
-    {"name":"WA - CDBG-DR Spokane County Oregon and Gray Road RFQ #26-8099 — DSW Homes","value":524000,"date":"7/16/2026"}
+    {"name":"BCA and Engineering Technical Assistance — Ernst & Young","strategy":"Sell To Winner","value":200000,"date":"1/26/2026"},
+    {"name":"NC - CDBG-DR Estimate Writing — RM Quality Construction","strategy":"General Contractor Sub","value":250000,"date":"3/17/2026"},
+    {"name":"FL - FDEM Elevate Florida Elevation Inspections — Ducky Recovery","strategy":"Sell To Winner","value":100000,"date":"3/26/2026"},
+    {"name":"FL - Construction Support Services CDBG-DR Allocation — Timberline Construction Group","strategy":"General Contractor Sub","value":125000,"date":"4/2/2026"},
+    {"name":"NC - RenewNC GC support — Byrdson","strategy":"General Contractor Sub","value":150000,"date":"4/9/2026"},
+    {"name":"FL - Pasco County CDBG-DR Allocation — A. Bartlett Roofing & Construction Services, LLC","strategy":"General Contractor Sub","value":100000,"date":"4/23/2026"},
+    {"name":"FL - Elevate Florida Elevation Inspections — Royal Engineering","strategy":"Sell To Winner","value":120000,"date":"5/11/2026"},
+    {"name":"NC - CDBG-DR Site Walks — Ducky Recovery","strategy":"General Contractor Sub","value":125000,"date":"5/15/2026"},
+    {"name":"NC - CDBG-DR Construction Management Inspections — Timberline Construction Group","strategy":"General Contractor Sub","value":125000,"date":"5/15/2026"},
+    {"name":"NM - Hermits Peak/Calf Canyon Fires — IEM","strategy":"RFP Sub","value":258400,"date":"5/21/2026"},
+    {"name":"FL - CDBG-DR Recon Services — Byrdson","strategy":"General Contractor Sub","value":100000,"date":"7/2/2026"},
+    {"name":"WA - CDBG-DR Spokane County Oregon and Gray Road RFQ #26-8099 — DSW Homes","strategy":"RFP Sub","value":524000,"date":"7/16/2026"}
   ],
   lostDeals: [
-    {"name":"FL - City of Miami Beach HQS-NSPIRE RFP 01-2026","company":"Housing Authority of the City of Miami Beach (HACMB)","amount":563475.0,"date":"5/21/2026","reason":"Price","notes":"See attached scoring sheet. Winning bidder was Gilson Software Solutions - PHA, LLC ."}
+    {"name":"FL - City of Miami Beach HQS-NSPIRE RFP 01-2026","company":"Housing Authority of the City of Miami Beach (HACMB)","strategy":"RFP Prime","amount":563475.0,"date":"5/21/2026","reason":"Price","notes":"See attached scoring sheet. Winning bidder was Gilson Software Solutions - PHA, LLC ."}
   ],
   openDeals: [
     {"name":"FED - HUD ARC NSPIRE Backlog Inspection","company":"Akytech Consulting","strategy":"RFP Sub","amount":9570973.17,"weighted":5742584,"stage":"Presentation","prob":60,"close":"10/1/2026","owner":"Shane Lucas"},
@@ -1184,6 +1214,54 @@ stageRows.forEach(r=>{
 const totTr=document.createElement('tr'); totTr.className='tfoot-row';
 totTr.innerHTML=`<td>TOTAL</td><td class="text-right">${totC}</td><td class="text-right">${fmt$(totT)}</td><td class="text-right">${fmt$(totW)}</td>`;
 stageTbody.appendChild(totTr);
+
+// ── Open Pipeline by Strategy Type ───────────────────────
+// Derived entirely from DATA.openDeals / wonDeals / lostDeals — no separate DATA field to refresh.
+const stratTbody = document.getElementById('stratTbody');
+const _STRATS = ['RFP Prime','RFP Sub','General Contractor Sub','Sell To Winner'];
+const _sAgg = {};
+_STRATS.forEach(t => _sAgg[t] = {open:0, val:0, wgt:0, won:0, wonVal:0, lost:0});
+const _sGet = t => _sAgg[_STRATS.includes(t) ? t : 'RFP Sub'];
+DATA.openDeals.forEach(d => { const a=_sGet(d.strategy); a.open++; a.val+=d.amount; a.wgt+=d.weighted; });
+(DATA.wonDeals ||[]).forEach(d => { const a=_sGet(d.strategy); a.won++; a.wonVal+=d.value; });
+(DATA.lostDeals||[]).forEach(d => { const a=_sGet(d.strategy); a.lost++; });
+const _sWgtTot = _STRATS.reduce((s,t)=>s+_sAgg[t].wgt,0) || 1;
+const _sMaxShare = Math.max(..._STRATS.map(t=>_sAgg[t].wgt/_sWgtTot)) || 1;
+let _sT={open:0,val:0,wgt:0,won:0,wonVal:0,lost:0};
+_STRATS.slice().sort((a,b)=>_sAgg[b].wgt-_sAgg[a].wgt).forEach(t => {
+  const a=_sAgg[t];
+  ['open','val','wgt','won','wonVal','lost'].forEach(k=>_sT[k]+=a[k]);
+  const share = a.wgt/_sWgtTot*100;
+  const barW  = Math.round(a.wgt/_sWgtTot/_sMaxShare*100);
+  const closed = a.won + a.lost;
+  const wr = closed ? Math.round(a.won/closed*100) : null;
+  const wrCol = wr===null ? 'var(--lgray)' : wr>=67 ? 'var(--green)' : wr>=34 ? 'var(--orange)' : 'var(--red)';
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td><span class="s-pill ${stratPill(t)}">${t}</span></td>
+    <td class="text-right">${a.open}</td>
+    <td class="text-right">${fmt$(a.val)}</td>
+    <td class="text-right" style="color:#638AC6;font-weight:600">${fmt$(a.wgt)}</td>
+    <td>
+      <div class="prog-bar-wrap"><div class="prog-bar" style="width:${barW}%;background:#2E5496;"></div></div>
+      <div style="font-size:9px;color:var(--lgray);margin-top:2px;font-weight:700">${share.toFixed(1)}%</div>
+    </td>
+    <td class="text-right">${a.won}</td>
+    <td class="text-right">${fmt$(a.wonVal)}</td>
+    <td class="text-right" style="font-weight:700;color:${wrCol}">${wr===null?'—':wr+'%'}</td>`;
+  stratTbody.appendChild(tr);
+});
+const _sTr=document.createElement('tr'); _sTr.className='tfoot-row';
+const _sClosed=_sT.won+_sT.lost;
+_sTr.innerHTML=`<td>TOTAL</td>
+  <td class="text-right">${_sT.open}</td>
+  <td class="text-right">${fmt$(_sT.val)}</td>
+  <td class="text-right">${fmt$(_sT.wgt)}</td>
+  <td></td>
+  <td class="text-right">${_sT.won}</td>
+  <td class="text-right">${fmt$(_sT.wonVal)}</td>
+  <td class="text-right">${_sClosed?Math.round(_sT.won/_sClosed*100)+'%':'—'}</td>`;
+stratTbody.appendChild(_sTr);
 
 // ── Deal Detail Table ────────────────────────────────────
 const dealsTbody = document.getElementById('dealsTbody');
