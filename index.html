@@ -926,7 +926,7 @@ const DATA = {
     weightedForecast: 10712492,
     openDeals:        16,
     claimsMTD:        20,
-    forecastMTD:      297995,
+    forecastMTD:      257599,
     wonTotal:         2177400,
     wonDealsCount:    12,
     revenueMTD:       2850.00,
@@ -938,13 +938,21 @@ const DATA = {
     wipCount:         13,
     wipRevenue:       7150,
     pctMTD:           1,
+    // First month of the revised forecast model (June = index 5); realization measures from here
+    realizationFromIdx: 5,
   },
   forecast: {
     labels:   ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-    forecast: [0,0,41955,49587,91577,373379,233831,297995,380520,831366,828056,801963],
-    core:     [0,0,41955,49587,91577,373379,233831,297995,380520,352817,349507,323414],
+    // Re-run 2026-08-07: layer 3 (open pipeline) recomputed from current CRM close dates
+    // and probabilities using the model's own rule (amount x prob / 12, starting the later of
+    // expected-close month or current month). Layers 1-2 unchanged in method; won layer picked up
+    // the Byrdson Recon and DSW Spokane 2026 wins. Jan-May and Jun are untouched.
+    forecast: [0,0,41955,49587,91577,189749.74,235377.20,257599.03,366374.13,848924.00,862280.84,836187.53],
+    core:     [0,0,41955,49587,91577,189749.74,235377.20,257599.03,366374.13,370375.34,383732.18,357638.87],
     actual:   [58950,57150,49125,67200,113297.28,98428.64,113020.37,2850,0,0,0,0],
     wip:      [0,0,0,0,0,0,0,0,0,0,0,0],
+    // Gross T&E by month (RBI sheet) — lets the realization card split production from T&E
+    te:       [0,0,0,0,22497.28,42853.64,53020.37,0,0,0,0,0],
   },
   pipeline: {
     labels:  ["Prospecting","Qualified","Negotiation","Presentation"],
@@ -1032,6 +1040,19 @@ const _mtdClaims         = Math.max(0, DATA.kpi.revenueMTD - _mtdTE);
 const _teGross           = DATA.kpi.teGrossYTD || 0;
 const _teNet             = DATA.kpi.teNetYTD   || 0;
 const _teMarginPct       = _teGross>0 ? Math.round(_teNet/_teGross*1000)/10 : 0;
+// Forecast realization: closed months inside the revised-model window (June onward) only.
+// Excludes the current month, which is still in progress.
+const _realFrom          = DATA.kpi.realizationFromIdx ?? 5;
+let _realAct=0, _realFc=0, _realProd=0;
+for (let i=_realFrom; i<_curMonthIdx; i++) {
+  _realAct  += DATA.forecast.actual[i]   || 0;
+  _realFc   += DATA.forecast.forecast[i] || 0;
+  _realProd += (DATA.forecast.actual[i]  || 0) - ((DATA.forecast.te||[])[i] || 0);
+}
+const _realPct     = _realFc>0 ? Math.round(_realAct/_realFc*100)  : 0;
+const _realProdPct = _realFc>0 ? Math.round(_realProd/_realFc*100) : 0;
+const _realGap     = Math.max(0, _realFc - _realAct);
+const _realLabel   = DATA.forecast.labels[_realFrom] + ' \u2013 ' + DATA.forecast.labels[Math.max(_realFrom,_curMonthIdx-1)];
 
 const kpiDefs = [
   // ── Row 1: Business Development ──
@@ -1065,6 +1086,10 @@ const kpiDefs = [
   {grp:'Revenue', lbl:'MTD vs Forecast',   val:DATA.kpi.pctMTD+'%',
     sub:'of '+fmt$(DATA.kpi.forecastMTD)+' target',
     cls: DATA.kpi.pctMTD>=80?'ops': DATA.kpi.pctMTD>=50?'':'warn'},
+  {grp:'Revenue', lbl:'Forecast Realization', val:_realPct+'%',
+    sub:_realLabel+' closed \u00b7 production alone '+_realProdPct+'%',
+    cls: _realPct>=85?'ops': _realPct>=65?'':'warn',
+    split:{a:{lbl:'Delivered', val:_realAct, color:'#2E5496'}, b:{lbl:'Gap to plan', val:_realGap, color:'#B62126'}}},
 ];
 
 const kpiGrid = document.getElementById('kpiGrid');
