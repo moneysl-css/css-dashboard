@@ -900,64 +900,65 @@ const DATA = {
   claimsStatus: [
     {status:'Open',         count:0,    value:0.00,       color:'#B62126'},
     {status:'Unassigned',   count:1,    value:0.00,       color:'#C94020'},
-    {status:'Assigned',     count:21,   value:14825.00,   color:'#F26721'},
+    {status:'Assigned',     count:31,   value:21825.00,   color:'#F26721'},
     {status:'Accepted',     count:1,    value:800.00,     color:'#D4A020'},
     {status:'Contacted',    count:1,    value:800.00,     color:'#BAAB1A'},
     {status:'Job Started',  count:0,    value:0.00,       color:'#5DADE2'},
     {status:'Estimate Hold',count:1,    value:1000.00,    color:'#939598'},
     {status:'Inspected',    count:0,    value:0.00,       color:'#638AC6'},
-    {status:'Returned',     count:8,    value:3750.00,    color:'#7B5EA7'},
-    {status:'Reviewed',     count:13,   value:7150.00,    color:'#4A90D9'},
-    {status:'Approved',     count:152,  value:72500.00,   color:'#2E5496'},
+    {status:'Returned',     count:1,    value:0.00,       color:'#7B5EA7'},
+    {status:'Reviewed',     count:11,   value:7600.00,    color:'#4A90D9'},
+    {status:'Approved',     count:205,  value:98825.00,   color:'#2E5496'},
   ],
   clientRevenue: [
-    {client:'Mora Housing Management, Inc.',               claims:300, rev:194150.00},
-    {client:'GrantWorks',                                  claims:153, rev:133600.00},
-    {client:'Ducky Recovery',                              claims:100, rev:44975.00},
-    {client:'Timberline Construction Group, LLC',          claims:112, rev:31200.00},
-    {client:'RM Quality Construction, LLC',                claims:39, rev:23800.00},
+    {client:'Mora Housing Management, Inc.',               claims:333, rev:204500.00},
+    {client:'GrantWorks',                                  claims:154, rev:134400.00},
+    {client:'Ducky Recovery',                              claims:104, rev:45950.00},
+    {client:'Timberline Construction Group, LLC',          claims:116, rev:33600.00},
+    {client:'RM Quality Construction, LLC',                claims:45, rev:30800.00},
     {client:'Royal Engineers & Consultants',               claims:11, rev:6000.00},
     {client:'DSW',                                         claims:16, rev:4000.00},
-    {client:'Byrdson Services, LLC',                       claims:6, rev:2950.00},
+    {client:'Byrdson Services, LLC',                       claims:12, rev:3700.00},
     {client:'A Bartlett Roofing & Construction',           claims:2, rev:975.00},
   ],
   kpi: {
-    totalPipeline:    20120390.17,
-    weightedForecast: 10712492,
-    openDeals:        16,
-    claimsMTD:        20,
-    forecastMTD:      257599,
-    wonTotal:         2177400,
-    wonDealsCount:    12,
-    revenueMTD:       2850.00,
-    revenueYTD:       560021.29,
+    totalPipeline:    19758390.17,
+    weightedForecast: 10465993,
+    openDeals:        14,
+    claimsMTD:        74,
+    forecastMTD:      277974,
+    wonTotal:         2439400,
+    wonDealsCount:    13,
+    revenueMTD:       25125.00,
+    revenueYTD:       582296.29,
     iemTERevenue:     0,
     iemTERevenueYTD:  118371.29,
     teGrossYTD:       118371.29,
     teNetYTD:         16284.00,
-    wipCount:         13,
-    wipRevenue:       7150,
-    pctMTD:           1,
+    wipCount:         11,
+    wipRevenue:       7600,
+    pctMTD:           9,
     // First month of the revised forecast model (June = index 5); realization measures from here
     realizationFromIdx: 5,
   },
   forecast: {
     labels:   ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-    // Re-run 2026-08-07: layer 3 (open pipeline) recomputed from current CRM close dates
-    // and probabilities using the model's own rule (amount x prob / 12, starting the later of
-    // expected-close month or current month). Layers 1-2 unchanged in method; won layer picked up
-    // the Byrdson Recon and DSW Spokane 2026 wins. Jan-May and Jun are untouched.
-    forecast: [0,0,41955,49587,91577,189749.74,235377.20,257599.03,366374.13,848924.00,862280.84,836187.53],
-    core:     [0,0,41955,49587,91577,189749.74,235377.20,257599.03,366374.13,370375.34,383732.18,357638.87],
-    actual:   [58950,57150,49125,67200,113297.28,98428.64,113020.37,2850,0,0,0,0],
+    // Re-run 2026-08-20: layers 2-3 recomputed from the current CRM export using the model's own
+    // rule (won = TCV/12 from actual close month; pipeline = amount x prob / 12, starting the later
+    // of expected-close month or current month). AR - CDBG-DR Allocation (GrantWorks, $262K) closed
+    // Won 8/20 and moved from the pipeline layer into the won layer; LA - Port of South Louisiana
+    // ($100K) dropped out of the CRM export; SC - Timberline slipped 7/31 -> 10/1. Jan-Jul untouched.
+    forecast: [0,0,41955,49587,91577,189749.74,235377.20,277974.03,370374.13,850215.67,863572.51,837479.20],
+    core:     [0,0,41955,49587,91577,189749.74,235377.20,277974.03,370374.13,371667.01,385023.85,358930.54],
+    actual:   [58950,57150,49125,67200,113297.28,98428.64,113020.37,25125,0,0,0,0],
     wip:      [0,0,0,0,0,0,0,0,0,0,0,0],
     // Gross T&E by month (RBI sheet) — lets the realization card split production from T&E
     te:       [0,0,0,0,22497.28,42853.64,53020.37,0,0,0,0,0],
   },
   pipeline: {
     labels:  ["Prospecting","Qualified","Negotiation","Presentation"],
-    total:   [0,290000,812000,19018390.17],
-    weighted:[0,72500,669000,9970992],
+    total:   [0,290000,550000,18918390.17],
+    weighted:[0,72500,472500,9920993],
   },
   wonDeals: [
     {"name":"BCA and Engineering Technical Assistance — Ernst & Young","strategy":"Sell To Winner","value":200000,"date":"1/26/2026"},
@@ -971,7 +972,8 @@ const DATA = {
     {"name":"NC - CDBG-DR Construction Management Inspections — Timberline Construction Group","strategy":"General Contractor Sub","value":125000,"date":"5/15/2026"},
     {"name":"NM - Hermits Peak/Calf Canyon Fires — IEM","strategy":"RFP Sub","value":258400,"date":"5/21/2026"},
     {"name":"FL - CDBG-DR Recon Services — Byrdson","strategy":"General Contractor Sub","value":100000,"date":"7/2/2026"},
-    {"name":"WA - CDBG-DR Spokane County Oregon and Gray Road RFQ #26-8099 — DSW Homes","strategy":"RFP Sub","value":524000,"date":"7/16/2026"}
+    {"name":"WA - CDBG-DR Spokane County Oregon and Gray Road RFQ #26-8099 — DSW Homes","strategy":"RFP Sub","value":524000,"date":"7/16/2026"},
+    {"name":"AR - CDBG-DR Allocation — GrantWorks","strategy":"RFP Sub","value":262000,"date":"8/20/2026"}
   ],
   lostDeals: [
     {"name":"FL - City of Miami Beach HQS-NSPIRE RFP 01-2026","company":"Housing Authority of the City of Miami Beach (HACMB)","strategy":"RFP Prime","amount":563475.0,"date":"5/21/2026","reason":"Price","notes":"See attached scoring sheet. Winning bidder was Gilson Software Solutions - PHA, LLC ."}
@@ -980,32 +982,35 @@ const DATA = {
     {"name":"FED - HUD ARC NSPIRE Backlog Inspection","company":"Akytech Consulting","strategy":"RFP Sub","amount":9570973.17,"weighted":5742584,"stage":"Presentation","prob":60,"close":"10/1/2026","owner":"Shane Lucas"},
     {"name":"FL - City of Sarasota Emergency Management Consulting Services","company":"KPMG","strategy":"RFP Sub","amount":2500000.0,"weighted":1250000,"stage":"Presentation","prob":50,"close":"1/1/2027","owner":"Shane Lucas"},
     {"name":"FL - Pasco County Post-disaster services","company":"Pasco County","strategy":"RFP Prime","amount":2500000.0,"weighted":1250000,"stage":"Presentation","prob":50,"close":"1/1/2027","owner":"Shane Lucas"},
-    {"name":"LA - OCD Program Management and Construction Management Services","company":"Ducky Recovery","strategy":"RFP Sub","amount":1395917.0,"weighted":697958,"stage":"Presentation","prob":50,"close":"8/1/2027","owner":"Shane Lucas"},
+    {"name":"LA - OCD Program Management and Construction Management Services","company":"Ducky Recovery","strategy":"RFP Sub","amount":1395917.0,"weighted":697959,"stage":"Presentation","prob":50,"close":"8/1/2027","owner":"Shane Lucas"},
     {"name":"PR - PRDOH Cost Estimating Services \u2014 CDBG-DR / CDBG-MIT","company":"BR +","strategy":"RFP Sub","amount":750000.0,"weighted":375000,"stage":"Presentation","prob":50,"close":"11/2/2026","owner":"Shane Lucas"},
     {"name":"NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments","company":"Department of Homeland Security and Emergency Management (DHSEM)","strategy":"RFP Prime","amount":1101500.0,"weighted":330450,"stage":"Presentation","prob":30,"close":"10/31/2026","owner":"Shane Lucas"},
     {"name":"FL - Hillsboro County CDBG-DR","company":"Ducky Recovery","strategy":"General Contractor Sub","amount":300000.0,"weighted":285000,"stage":"Negotiation","prob":95,"close":"9/30/2026","owner":"Shane Lucas"},
-    {"name":"AR - CDBG-DR Allocation","company":"GrantWorks","strategy":"RFP Sub","amount":262000.0,"weighted":196500,"stage":"Negotiation","prob":75,"close":"9/25/2026","owner":"Shane Lucas"},
     {"name":"NC - Staff Augmentation CDBG-DR Expert Administrative Support","company":"OST Global","strategy":"RFP Sub","amount":250000.0,"weighted":187500,"stage":"Negotiation","prob":75,"close":"10/30/2026","owner":"Shane Lucas"},
     {"name":"LA - OCD Program Management and Construction Management Services","company":"GrantWorks","strategy":"RFP Sub","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"8/1/2027","owner":"Shane Lucas"},
     {"name":"LA - OCD Program Management and Construction Management Services","company":"Dynamic","strategy":"RFP Sub","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"8/1/2027","owner":"Shane Lucas"},
     {"name":"GA - Dept of Community Affairs ARRP","company":"Timberline Construction Group","strategy":"RFP Sub","amount":300000.0,"weighted":75000,"stage":"Presentation","prob":25,"close":"9/30/2026","owner":"Shane Lucas"},
-    {"name":"LA - Port of South Louisiana Emergency Management Services","company":"Metric Engineering","strategy":"RFP Sub","amount":100000.0,"weighted":50000,"stage":"Presentation","prob":50,"close":"10/1/2026","owner":"Shane Lucas"},
     {"name":"NC - Renew NC GC support","company":"Shepherd Response","strategy":"Sell To Winner","amount":150000.0,"weighted":37500,"stage":"Qualified","prob":25,"close":"9/30/2026","owner":"Shane Lucas"},
-    {"name":"SC - Timberline South Carolina Construction Management","company":"Timberline Construction Group","strategy":"Sell To Winner","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"7/31/2026","owner":"Shane Lucas"},
+    {"name":"SC - Timberline South Carolina Construction Management","company":"Timberline Construction Group","strategy":"Sell To Winner","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"10/1/2026","owner":"Shane Lucas"},
     {"name":"GA - CDBG-DR Allocation","company":"Timberline Construction Group","strategy":"General Contractor Sub","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"9/30/2026","owner":"Shane Lucas"}
   ],
 
   production: [
-    {"client":"Byrdson Services, LLC","claims":0,"revenue":1500},
-    {"client":"Mora Housing Management, Inc.","claims":14,"revenue":1350},
-    {"client":"Ducky Recovery","claims":3,"revenue":0},
-    {"client":"Timberline Construction Group, LLC","claims":3,"revenue":0}
+    {"client":"Mora Housing Management, Inc.","claims":47,"revenue":11700},
+    {"client":"RM Quality Construction, LLC","claims":6,"revenue":7000},
+    {"client":"Timberline Construction Group, LLC","claims":7,"revenue":2400},
+    {"client":"Byrdson Services, LLC","claims":6,"revenue":2250},
+    {"client":"Ducky Recovery","claims":7,"revenue":975},
+    {"client":"GrantWorks","claims":1,"revenue":800}
   ],
-  assignmentCalendar: [0,0,1,6,1,5,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  assignmentCalendar: [0,0,1,6,1,5,10,0,5,3,1,23,5,0,0,0,2,8,4,0,0,0,0,0,0,0,0,0,0,0,0],
   // Daily Revenue Pace: production revenue by invoice day (AllClaimsList InvoiceDate/InvoiceAmount,
   // reconciles to ProdReport MTD). te = current-month T&E total (spread across business days by the
   // builder). asOfDay = data current through this day of month. Refresh all three each update.
-  revenuePace: { daily: [0,0,0,0,2850,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], te: 0, asOfDay: 7 },
+  // NOTE 8/20: AllClaimsList shows $25,825 invoiced in August vs ProdReport's $25,125. The gap is
+  // RM Quality claim 31832, invoiced 8/15 at a doubled $1,400 but approved 7/31 — ProdReport
+  // recognizes one unit of it in July. The 8/15 bar is held to $700 so this array ties to ProdReport.
+  revenuePace: { daily: [0,0,0,0,2850,0,0,0,0,7800,0,0,8925,0,1400,0,0,4150,0,0,0,0,0,0,0,0,0,0,0,0,0], te: 0, asOfDay: 19 },
 };
 
 
@@ -1616,7 +1621,7 @@ claimsOrdered.forEach(d=>{
 
   document.getElementById('revPaceNote').textContent =
     'Production revenue by invoice date (reconciles to ProdReport MTD). T&E spread evenly across ' + totalBiz +
-    ' business days' + (rp.te > 0 ? '' : ' (July T&E pending billing \u2014 currently $0)') +
+    ' business days' + (rp.te > 0 ? '' : ' (' + DATA.currentMonth + ' T&E not yet invoiced by Pelican Assets \u2014 currently $0)') +
     '. Pace line = monthly forecast target prorated by business days elapsed. Data through ' +
     MONTH_NAMES[MONTH - 1].charAt(0) + MONTH_NAMES[MONTH - 1].slice(1).toLowerCase() + ' ' + asOf + ', ' + YEAR + '.';
 })();
