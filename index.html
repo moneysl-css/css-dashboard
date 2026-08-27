@@ -324,6 +324,57 @@ tbody tr:hover td { background: #FEF0E6; }
 .s-sub  { background:#E8EEFA; color:#2E5496; border-color:#C3D2EC; }
 .s-gc   { background:#FEF0E6; color:#C05515; border-color:#F6D3B8; }
 .s-win  { background:#E6F4E6; color:#2E7D32; border-color:#C2E0C3; }
+.s-idiq { background:#F26721; color:#FFFFFF; border-color:#D8551A; letter-spacing:0.6px; }
+
+/* ── IDIQ EXPOSURE ───────────────────────────────────────── */
+.idiq-card {
+  background: var(--white); border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow); padding: 16px;
+}
+.idiq-tiles {
+  display: grid; grid-template-columns: repeat(auto-fit,minmax(170px,1fr));
+  gap: 10px; margin-bottom: 16px;
+}
+.idiq-tile {
+  background: #FAFAFA; border-left: 4px solid var(--orange);
+  border-radius: 0 6px 6px 0; padding: 10px 12px;
+}
+.idiq-tile.neutral { border-left-color: #638AC6; }
+.idiq-tile.muted   { border-left-color: var(--lgray); }
+.idiq-tile.warnt   { border-left-color: var(--red); }
+.idiq-tile-lbl { font-size: 9px; font-weight: 700; color: var(--lgray);
+                 text-transform: uppercase; letter-spacing: 0.5px; }
+.idiq-tile-val { font-size: 21px; font-weight: 900; color: var(--near-black); line-height: 1.1; }
+.idiq-tile.warnt .idiq-tile-val { color: var(--red); }
+.idiq-tile-sub { font-size: 10px; color: var(--lgray); margin-top: 2px; line-height: 1.3; }
+
+.idiq-slider-wrap {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  background: #FEF6F1; border: 1px solid #F6D3B8; border-radius: 6px;
+  padding: 10px 14px; margin-bottom: 16px;
+}
+.idiq-slider-wrap label { font-size: 10px; font-weight: 700; color: var(--near-black);
+                          text-transform: uppercase; letter-spacing: 0.5px; }
+.idiq-slider-wrap input[type=range] { flex: 1 1 200px; min-width: 160px; accent-color: var(--orange); }
+.idiq-rate { font-size: 20px; font-weight: 900; color: var(--orange); min-width: 56px; text-align: right; }
+.idiq-slider-note { flex: 1 1 100%; font-size: 10px; color: var(--lgray); line-height: 1.4; }
+
+.idiq-ladder { margin-bottom: 4px; }
+.idiq-rung { margin-bottom: 12px; }
+.idiq-rung-hdr { display: flex; justify-content: space-between; align-items: baseline;
+                 font-size: 11px; margin-bottom: 4px; gap: 10px; }
+.idiq-rung-name { font-weight: 700; color: var(--near-black); }
+.idiq-rung-note { font-size: 10px; color: var(--lgray); font-weight: 400; }
+.idiq-rung-val  { font-weight: 900; font-size: 13px; color: var(--near-black); white-space: nowrap; }
+.idiq-bar { display: flex; height: 24px; border-radius: 4px; overflow: hidden; background: #F0F0F0; }
+.idiq-bar span { display: block; height: 100%; transition: width .18s ease; }
+.idiq-seg-def  { background: #2E5496; }
+.idiq-seg-idiq { background: #F26721; }
+.idiq-seg-gone { background: repeating-linear-gradient(45deg,#E1E1E1,#E1E1E1 4px,#EDEDED 4px,#EDEDED 8px); }
+.idiq-lgd { display: flex; gap: 14px; flex-wrap: wrap; font-size: 10px;
+            font-weight: 700; color: var(--lgray); margin-top: 8px; }
+.idiq-lgd i { font-style: normal; display: inline-block; width: 9px; height: 9px;
+              border-radius: 2px; margin-right: 4px; vertical-align: middle; }
 
 /* Sparkline-style progress bar */
 .prog-bar-wrap { background: #EFEFEF; border-radius: 4px; height: 5px; min-width: 60px; }
@@ -576,6 +627,7 @@ tbody tr:hover td { background: #FEF0E6; }
   <nav class="dash-nav">
     <a href="#kpis"     class="active">Overview</a>
     <a href="#pipeline">Sales Pipeline</a>
+    <a href="#idiq">IDIQ Exposure</a>
     <a href="#forecast">Forecast vs Actual</a>
     <a href="#ops">     Operations</a>
     <a href="#claims">  Claims Status</a>
@@ -660,6 +712,7 @@ tbody tr:hover td { background: #FEF0E6; }
             <thead><tr>
               <th>Stage</th><th class="text-right"># Deals</th>
               <th class="text-right">Total Value</th><th class="text-right">Weighted</th>
+              <th class="text-right">of which IDIQ</th>
             </tr></thead>
             <tbody id="stageTbody"></tbody>
           </table>
@@ -715,6 +768,73 @@ tbody tr:hover td { background: #FEF0E6; }
         </tr></thead>
         <tbody id="dealsTbody"></tbody>
       </table>
+    </div>
+    <div style="padding:8px 14px 12px;font-size:10px;color:var(--lgray);line-height:1.45">
+      Rows flagged <span class="s-pill s-idiq">IDIQ</span> are indefinite-delivery / indefinite-quantity
+      vehicles: <strong>Value is a contract ceiling, not committed revenue</strong>. Winning the vehicle
+      only earns the right to compete for or receive task orders. See
+      <a href="#idiq" style="color:var(--orange);font-weight:700;text-decoration:none">IDIQ Exposure</a>
+      for the capture-adjusted view.
+    </div>
+  </div>
+
+  <!-- ── IDIQ EXPOSURE ────────────────────────── -->
+  <div class="spacer" id="idiq"></div>
+  <div class="section-hdr">
+    <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
+    IDIQ EXPOSURE &mdash; CEILING vs EXPECTED TASK-ORDER REVENUE
+    <span style="color:var(--orange);font-size:10px;">HOW MUCH OF THE PIPELINE IS A HUNTING LICENSE</span>
+  </div>
+  <div class="idiq-card">
+
+    <div class="idiq-tiles" id="idiqTiles"></div>
+
+    <div class="idiq-slider-wrap">
+      <label for="idiqCapture">Task-order capture rate</label>
+      <input type="range" id="idiqCapture" min="5" max="100" step="5" value="25">
+      <div class="idiq-rate" id="idiqRate">25%</div>
+      <div class="idiq-slider-note">
+        Share of an awarded IDIQ ceiling assumed to convert into actual task orders. Drag to stress-test
+        the forecast. 25% is a conservative planning figure for multiple-award vehicles where each order
+        is re-competed; raise it only for single-award or sole-source vehicles with a committed minimum.
+      </div>
+    </div>
+
+    <div class="idiq-ladder" id="idiqLadder"></div>
+    <div class="idiq-lgd">
+      <span><i class="idiq-seg-def"></i>Definite-quantity deals</span>
+      <span><i class="idiq-seg-idiq"></i>IDIQ &mdash; expected to convert</span>
+      <span><i style="background:#E1E1E1"></i>IDIQ ceiling not expected to convert</span>
+    </div>
+
+    <div style="margin-top:18px">
+      <div style="font-size:10px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">
+        IDIQ Deals &mdash; ceiling vs expected value
+      </div>
+      <div class="table-card" style="border-radius:6px">
+        <div class="table-scroll">
+          <table>
+            <thead><tr>
+              <th>Deal</th><th style="width:120px">Company</th>
+              <th class="text-right">Ceiling</th>
+              <th class="text-right">Win Prob</th>
+              <th class="text-right">Wtd Ceiling</th>
+              <th class="text-right">Expected Rev</th>
+              <th>Expected Close</th><th class="text-right">FY</th>
+            </tr></thead>
+            <tbody id="idiqTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="idiqCallout" style="margin-top:14px"></div>
+
+    <div style="margin-top:12px;font-size:10px;color:var(--lgray);line-height:1.5">
+      <strong>Expected Rev</strong> = Ceiling &times; CRM win probability &times; capture rate. It is the
+      dollar figure that belongs in a revenue forecast; the ceiling is a capacity figure that belongs in a
+      capture plan. <strong>Read this card alongside Total Pipeline:</strong> where the two diverge is the
+      gap between how large the pipeline looks and how much of it can be staffed against and billed.
     </div>
   </div>
 
@@ -955,6 +1075,13 @@ const DATA = {
     // Gross T&E by month (RBI sheet) — lets the realization card split production from T&E
     te:       [0,0,0,0,22497.28,42853.64,53020.37,0,0,0,0,0],
   },
+  // ── IDIQ (Indefinite Delivery / Indefinite Quantity) model ──────────────
+  // Deals carrying Tags="IDIQ" in the CRM export get idiq:true on their openDeals
+  // entry. An IDIQ award is a CEILING, not committed revenue — dollars only arrive
+  // as task orders are issued, and on multiple-award vehicles each order is
+  // re-competed. captureRate is the planning assumption for the share of ceiling
+  // that converts to task orders; the slider on the IDIQ Exposure card flexes it.
+  idiq: { captureRate: 25 },
   pipeline: {
     labels:  ["Prospecting","Qualified","Negotiation","Presentation"],
     total:   [0,290000,550000,18918390.17],
@@ -980,15 +1107,15 @@ const DATA = {
   ],
   openDeals: [
     {"name":"FED - HUD ARC NSPIRE Backlog Inspection","company":"Akytech Consulting","strategy":"RFP Sub","amount":9570973.17,"weighted":5742584,"stage":"Presentation","prob":60,"close":"10/1/2026","owner":"Shane Lucas"},
-    {"name":"FL - City of Sarasota Emergency Management Consulting Services","company":"KPMG","strategy":"RFP Sub","amount":2500000.0,"weighted":1250000,"stage":"Presentation","prob":50,"close":"1/1/2027","owner":"Shane Lucas"},
+    {"idiq":true,"name":"FL - City of Sarasota Emergency Management Consulting Services","company":"KPMG","strategy":"RFP Sub","amount":2500000.0,"weighted":1250000,"stage":"Presentation","prob":50,"close":"1/1/2027","owner":"Shane Lucas"},
     {"name":"FL - Pasco County Post-disaster services","company":"Pasco County","strategy":"RFP Prime","amount":2500000.0,"weighted":1250000,"stage":"Presentation","prob":50,"close":"1/1/2027","owner":"Shane Lucas"},
-    {"name":"LA - OCD Program Management and Construction Management Services","company":"Ducky Recovery","strategy":"RFP Sub","amount":1395917.0,"weighted":697959,"stage":"Presentation","prob":50,"close":"8/1/2027","owner":"Shane Lucas"},
+    {"idiq":true,"name":"LA - OCD Program Management and Construction Management Services","company":"Ducky Recovery","strategy":"RFP Sub","amount":1395917.0,"weighted":697959,"stage":"Presentation","prob":50,"close":"8/1/2027","owner":"Shane Lucas"},
     {"name":"PR - PRDOH Cost Estimating Services \u2014 CDBG-DR / CDBG-MIT","company":"BR +","strategy":"RFP Sub","amount":750000.0,"weighted":375000,"stage":"Presentation","prob":50,"close":"11/2/2026","owner":"Shane Lucas"},
     {"name":"NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments","company":"Department of Homeland Security and Emergency Management (DHSEM)","strategy":"RFP Prime","amount":1101500.0,"weighted":330450,"stage":"Presentation","prob":30,"close":"10/31/2026","owner":"Shane Lucas"},
     {"name":"FL - Hillsboro County CDBG-DR","company":"Ducky Recovery","strategy":"General Contractor Sub","amount":300000.0,"weighted":285000,"stage":"Negotiation","prob":95,"close":"9/30/2026","owner":"Shane Lucas"},
     {"name":"NC - Staff Augmentation CDBG-DR Expert Administrative Support","company":"OST Global","strategy":"RFP Sub","amount":250000.0,"weighted":187500,"stage":"Negotiation","prob":75,"close":"10/30/2026","owner":"Shane Lucas"},
-    {"name":"LA - OCD Program Management and Construction Management Services","company":"GrantWorks","strategy":"RFP Sub","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"8/1/2027","owner":"Shane Lucas"},
-    {"name":"LA - OCD Program Management and Construction Management Services","company":"Dynamic","strategy":"RFP Sub","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"8/1/2027","owner":"Shane Lucas"},
+    {"idiq":true,"name":"LA - OCD Program Management and Construction Management Services","company":"GrantWorks","strategy":"RFP Sub","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"8/1/2027","owner":"Shane Lucas"},
+    {"idiq":true,"name":"LA - OCD Program Management and Construction Management Services","company":"Dynamic","strategy":"RFP Sub","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"8/1/2027","owner":"Shane Lucas"},
     {"name":"GA - Dept of Community Affairs ARRP","company":"Timberline Construction Group","strategy":"RFP Sub","amount":300000.0,"weighted":75000,"stage":"Presentation","prob":25,"close":"9/30/2026","owner":"Shane Lucas"},
     {"name":"NC - Renew NC GC support","company":"Shepherd Response","strategy":"Sell To Winner","amount":150000.0,"weighted":37500,"stage":"Qualified","prob":25,"close":"9/30/2026","owner":"Shane Lucas"},
     {"name":"SC - Timberline South Carolina Construction Management","company":"Timberline Construction Group","strategy":"Sell To Winner","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"10/1/2026","owner":"Shane Lucas"},
@@ -1059,11 +1186,41 @@ const _realProdPct = _realFc>0 ? Math.round(_realProd/_realFc*100) : 0;
 const _realGap     = Math.max(0, _realFc - _realAct);
 const _realLabel   = DATA.forecast.labels[_realFrom] + ' \u2013 ' + DATA.forecast.labels[Math.max(_realFrom,_curMonthIdx-1)];
 
+// ── IDIQ aggregates (derived from DATA.openDeals[].idiq) ─────────────────
+// An IDIQ deal's `amount` is a CONTRACT CEILING, not committed revenue. Everything
+// below splits the pipeline into definite-quantity value and IDIQ ceiling so the
+// headline numbers stay comparable to prior reporting while their composition is visible.
+const _idiqDeals = DATA.openDeals.filter(d => d.idiq);
+const _defDeals  = DATA.openDeals.filter(d => !d.idiq);
+const _idiqVal   = _idiqDeals.reduce((s,d)=>s+d.amount,0);
+const _idiqWgt   = _idiqDeals.reduce((s,d)=>s+d.weighted,0);
+const _defVal    = _defDeals.reduce((s,d)=>s+d.amount,0);
+const _defWgt    = _defDeals.reduce((s,d)=>s+d.weighted,0);
+const _pipeVal   = _idiqVal + _defVal;
+const _pipeWgt   = _idiqWgt + _defWgt;
+const _idiqShare = _pipeVal>0 ? _idiqVal/_pipeVal*100 : 0;
+// Close-year split: an IDIQ closing after 2026 contributes nothing to the 2026 forecast
+const _closeYr   = s => { const m=String(s||'').match(/(\d{4})/g); return m ? +m[m.length-1] : null; };
+const _idiqFY26  = _idiqDeals.filter(d => _closeYr(d.close)===2026);
+const _idiqFY26V = _idiqFY26.reduce((s,d)=>s+d.amount,0);
+
 const kpiDefs = [
   // ── Row 1: Business Development ──
-  {grp:'Business Development', lbl:'Total Pipeline',    val:fmt$(DATA.kpi.totalPipeline),    sub:'Open opportunity value', cls:''},
-  {grp:'Business Development', lbl:'Weighted Forecast', val:fmt$(DATA.kpi.weightedForecast), sub:'Probability-adjusted',   cls:''},
-  {grp:'Business Development', lbl:'Open Deals',        val:fmtN(DATA.kpi.openDeals),        sub:'Active in pipeline',     cls:''},
+  {grp:'Business Development', lbl:'Total Pipeline',    val:fmt$(DATA.kpi.totalPipeline),
+    sub:'Open opportunity value',
+    cls:'',
+    split:{a:{lbl:'Definite', val:_defVal,  color:'#2E5496'},
+           b:{lbl:'IDIQ ceiling', val:_idiqVal, color:'#F26721'}}},
+  {grp:'Business Development', lbl:'Weighted Forecast', val:fmt$(DATA.kpi.weightedForecast),
+    sub:'Probability-adjusted',
+    cls:'',
+    split:{a:{lbl:'Definite', val:_defWgt,  color:'#2E5496'},
+           b:{lbl:'IDIQ', val:_idiqWgt, color:'#F26721'}}},
+  {grp:'Business Development', lbl:'IDIQ Ceiling',      val:fmt$(_idiqVal),
+    sub:_idiqDeals.length+' vehicles \u00b7 '+_idiqShare.toFixed(0)+'% of pipeline \u00b7 '+fmt$(_idiqFY26V)+' closing in FY26',
+    cls:'warn'},
+  {grp:'Business Development', lbl:'Open Deals',        val:fmtN(DATA.kpi.openDeals),
+    sub:_defDeals.length+' definite \u00b7 '+_idiqDeals.length+' IDIQ', cls:''},
   {grp:'Business Development', lbl:'Won YTD',           val:fmt$(DATA.kpi.wonTotal),         sub:DATA.kpi.wonDealsCount+' deals closed', cls:'won'},
 
   // ── Row 2: Operations ──
@@ -1203,27 +1360,38 @@ new Chart(fctx, {
 });
 
 // ── Pipeline Chart (horizontal bar) ─────────────────────
+// Each stage shows two stacked bars — open value and weighted — with the IDIQ
+// portion broken out, so a stage that looks large on ceiling dollars alone is obvious.
+const _byStage = (isIdiq, field) => DATA.pipeline.labels.map(st =>
+  DATA.openDeals.filter(d => d.stage===st && !!d.idiq===isIdiq)
+                .reduce((s,d)=>s+d[field],0));
 const pctx = document.getElementById('pipelineChart').getContext('2d');
 new Chart(pctx, {
   type:'bar',
   data:{
     labels: DATA.pipeline.labels,
     datasets:[
-      { label:'Total Value', data:DATA.pipeline.total,
-         backgroundColor:'rgba(99,138,198,0.7)', borderRadius:4 },
-      { label:'Weighted',    data:DATA.pipeline.weighted,
-         backgroundColor:'rgba(242,103,33,0.85)', borderRadius:4 },
+      // Bar 1 (stack 'total'): open value, split definite vs IDIQ ceiling
+      { label:'Definite Value', data:_byStage(false,'amount'), stack:'total',
+         backgroundColor:'rgba(46,84,150,0.75)', borderRadius:4 },
+      { label:'IDIQ Ceiling',   data:_byStage(true,'amount'),  stack:'total',
+         backgroundColor:'rgba(242,103,33,0.45)', borderRadius:4 },
+      // Bar 2 (stack 'wtd'): probability-weighted, same split
+      { label:'Definite Weighted', data:_byStage(false,'weighted'), stack:'wtd',
+         backgroundColor:'rgba(46,84,150,1)', borderRadius:4 },
+      { label:'IDIQ Weighted',     data:_byStage(true,'weighted'),  stack:'wtd',
+         backgroundColor:'rgba(242,103,33,0.95)', borderRadius:4 },
     ]
   },
   options:{
     indexAxis:'y', responsive:true, maintainAspectRatio:true,
     plugins:{
-      legend:{ position:'top', labels:{ font:{size:11}, boxWidth:12, padding:16 } },
+      legend:{ position:'top', labels:{ font:{size:10}, boxWidth:10, padding:10 } },
       tooltip:{ callbacks:{ label: c=>' '+c.dataset.label+': '+fmt$(c.parsed.x) } },
     },
     scales:{
-      x:{ ticks:{ callback:v=>fmtK(v), font:{size:10} }, grid:{color:'#EBEBEB'} },
-      y:{ ticks:{ font:{size:11} }, grid:{display:false} },
+      x:{ stacked:true, ticks:{ callback:v=>fmtK(v), font:{size:10} }, grid:{color:'#EBEBEB'} },
+      y:{ stacked:true, ticks:{ font:{size:11} }, grid:{display:false} },
     }
   }
 });
@@ -1231,11 +1399,14 @@ new Chart(pctx, {
 // ── Stage Summary Table ───────────────────────────────────
 const stageTbody = document.getElementById('stageTbody');
 let stageRows = DATA.pipeline.labels.map((s,i) => ({
-  stage:s, count:0, total:DATA.pipeline.total[i], weighted:DATA.pipeline.weighted[i]
+  stage:s, count:0, total:DATA.pipeline.total[i], weighted:DATA.pipeline.weighted[i], idiq:0
 }));
-DATA.openDeals.forEach(d=>{ const r=stageRows.find(s=>s.stage===d.stage); if(r) r.count++; });
-let totT=0,totW=0,totC=0;
-stageRows.forEach(r=>{ totT+=r.total; totW+=r.weighted; totC+=r.count; });
+DATA.openDeals.forEach(d=>{
+  const r=stageRows.find(s=>s.stage===d.stage);
+  if(r){ r.count++; if(d.idiq) r.idiq+=d.amount; }
+});
+let totT=0,totW=0,totC=0,totI=0;
+stageRows.forEach(r=>{ totT+=r.total; totW+=r.weighted; totC+=r.count; totI+=r.idiq; });
 const stageBadge = s => s==='Won'?'b-won': s==='Negotiation'?'b-neg': s==='Qualified'?'b-qual': s==='Prospecting'?'b-prosp':'b-pres';
 // Strategy Type -> pill class (CRM 'Strategy Type' column)
 const stratPill = t => t==='RFP Prime'?'s-prime': t==='General Contractor Sub'?'s-gc': t==='Sell To Winner'?'s-win':'s-sub';
@@ -1245,11 +1416,12 @@ stageRows.forEach(r=>{
   tr.innerHTML=`<td><span class="badge ${badgeCls}">${r.stage}</span></td>
     <td class="text-right">${r.count}</td>
     <td class="text-right">${fmt$(r.total)}</td>
-    <td class="text-right">${fmt$(r.weighted)}</td>`;
+    <td class="text-right">${fmt$(r.weighted)}</td>
+    <td class="text-right" style="color:${r.idiq>0?'var(--orange)':'var(--lgray)'};font-weight:${r.idiq>0?700:400}">${r.idiq>0?fmt$(r.idiq):'—'}</td>`;
   stageTbody.appendChild(tr);
 });
 const totTr=document.createElement('tr'); totTr.className='tfoot-row';
-totTr.innerHTML=`<td>TOTAL</td><td class="text-right">${totC}</td><td class="text-right">${fmt$(totT)}</td><td class="text-right">${fmt$(totW)}</td>`;
+totTr.innerHTML=`<td>TOTAL</td><td class="text-right">${totC}</td><td class="text-right">${fmt$(totT)}</td><td class="text-right">${fmt$(totW)}</td><td class="text-right" style="color:var(--orange)">${fmt$(totI)}</td>`;
 stageTbody.appendChild(totTr);
 
 // ── Open Pipeline by Strategy Type ───────────────────────
@@ -1312,11 +1484,11 @@ DATA.openDeals.slice().sort((a,b)=>_closeMs(a.close)-_closeMs(b.close)).forEach(
   const tr=document.createElement('tr');
   tr.innerHTML=`
     <td style="max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"
-        title="${d.name}">${d.name}</td>
+        title="${d.name}${d.idiq?' — IDIQ vehicle: value shown is a contract ceiling':''}">${d.idiq?'<span class="s-pill s-idiq">IDIQ</span> ':''}${d.name}</td>
     <td style="width:132px;font-size:11px;white-space:normal;overflow-wrap:anywhere;line-height:1.25"
         title="${d.company}">${d.company}</td>
     <td style="width:104px"><span class="s-pill ${stratPill(d.strategy)}">${d.strategy||'—'}</span></td>
-    <td class="text-right" style="white-space:nowrap">${fmt$(d.amount)}</td>
+    <td class="text-right" style="white-space:nowrap">${fmt$(d.amount)}${d.idiq?'<div style="font-size:9px;color:var(--orange);font-weight:700;letter-spacing:0.3px">CEILING</div>':''}</td>
     <td class="text-right" style="white-space:nowrap;color:#638AC6;font-weight:600">${fmt$(d.weighted)}</td>
     <td><span class="badge ${badgeCls}">${d.stage}</span></td>
     <td class="text-right">${d.prob}%</td>
@@ -1330,6 +1502,141 @@ dTotRow.innerHTML=`<td colspan="3">TOTAL</td>
   <td class="text-right">${fmt$(dWgt)}</td>
   <td colspan="4"></td>`;
 dealsTbody.appendChild(dTotRow);
+// Second footer line separating definite-quantity value from IDIQ ceiling
+const dIdiqRow=document.createElement('tr'); dIdiqRow.className='tfoot-row';
+dIdiqRow.innerHTML=`<td colspan="3" style="font-weight:400;color:var(--lgray)">of which IDIQ ceiling</td>
+  <td class="text-right" style="color:var(--orange)">${fmt$(_idiqVal)}</td>
+  <td class="text-right" style="color:var(--orange)">${fmt$(_idiqWgt)}</td>
+  <td colspan="4" style="font-weight:400;color:var(--lgray);font-size:10px">${_idiqShare.toFixed(1)}% of open value \u00b7 not committed revenue</td>`;
+dealsTbody.appendChild(dIdiqRow);
+
+
+// ── IDIQ EXPOSURE ────────────────────────────────────────
+// Everything here re-derives from DATA.openDeals[].idiq plus the capture-rate
+// slider — there is no separate DATA field to keep in sync on refresh.
+(function buildIdiqExposure(){
+  const tiles   = document.getElementById('idiqTiles');
+  const ladder  = document.getElementById('idiqLadder');
+  const tbody   = document.getElementById('idiqTbody');
+  const slider  = document.getElementById('idiqCapture');
+  const rateEl  = document.getElementById('idiqRate');
+  const callout = document.getElementById('idiqCallout');
+  if(!tiles || !ladder || !tbody || !slider) return;
+
+  slider.value = (DATA.idiq && DATA.idiq.captureRate) || 25;
+
+  const render = () => {
+    const cap = +slider.value / 100;
+    rateEl.textContent = Math.round(cap*100) + '%';
+
+    const idiqExp   = _idiqWgt * cap;              // expected task-order revenue
+    const idiqEvap  = _idiqWgt - idiqExp;          // weighted ceiling that never lands
+    const adjWgt    = _defWgt + idiqExp;           // capture-adjusted weighted pipeline
+    const haircut   = _pipeWgt - adjWgt;
+    const haircutPc = _pipeWgt>0 ? haircut/_pipeWgt*100 : 0;
+
+    // ── Stat tiles ──
+    tiles.innerHTML = `
+      <div class="idiq-tile">
+        <div class="idiq-tile-lbl">IDIQ Ceiling</div>
+        <div class="idiq-tile-val">${fmtK(_idiqVal)}</div>
+        <div class="idiq-tile-sub">${_idiqDeals.length} of ${DATA.openDeals.length} open deals &middot; ${_idiqShare.toFixed(1)}% of pipeline</div>
+      </div>
+      <div class="idiq-tile neutral">
+        <div class="idiq-tile-lbl">Weighted Ceiling</div>
+        <div class="idiq-tile-val">${fmtK(_idiqWgt)}</div>
+        <div class="idiq-tile-sub">Ceiling &times; CRM win probability</div>
+      </div>
+      <div class="idiq-tile">
+        <div class="idiq-tile-lbl">Expected Task-Order Rev</div>
+        <div class="idiq-tile-val">${fmtK(idiqExp)}</div>
+        <div class="idiq-tile-sub">At ${Math.round(cap*100)}% capture &middot; ${fmtK(idiqEvap)} of weighted ceiling assumed never ordered</div>
+      </div>
+      <div class="idiq-tile ${_idiqFY26V>0?'muted':'warnt'}">
+        <div class="idiq-tile-lbl">Contribution to FY2026</div>
+        <div class="idiq-tile-val">${fmtK(_idiqFY26V)}</div>
+        <div class="idiq-tile-sub">${_idiqFY26.length} of ${_idiqDeals.length} IDIQ deals close in 2026 &middot; the rest are an FY2027 story</div>
+      </div>
+      <div class="idiq-tile muted">
+        <div class="idiq-tile-lbl">Capture-Adjusted Pipeline</div>
+        <div class="idiq-tile-val">${fmtK(adjWgt)}</div>
+        <div class="idiq-tile-sub">vs ${fmtK(_pipeWgt)} weighted &middot; &minus;${fmtK(haircut)} (${haircutPc.toFixed(1)}%)</div>
+      </div>`;
+
+    // ── Value ladder — same scale, so the shrink is visible ──
+    const scale = _pipeVal || 1;
+    const rung = (name, note, total, segs) => {
+      const bars = segs.map(g =>
+        `<span class="${g.cls}" style="width:${(g.v/scale*100).toFixed(2)}%" title="${g.t}: ${fmt$(g.v)}"></span>`).join('');
+      return `<div class="idiq-rung">
+        <div class="idiq-rung-hdr">
+          <div><span class="idiq-rung-name">${name}</span> <span class="idiq-rung-note">${note}</span></div>
+          <div class="idiq-rung-val">${fmt$(total)}</div>
+        </div>
+        <div class="idiq-bar">${bars}</div>
+      </div>`;
+    };
+    ladder.innerHTML =
+      rung('Total pipeline', '&mdash; ceiling basis, as reported', _pipeVal, [
+        {cls:'idiq-seg-def',  v:_defVal,  t:'Definite'},
+        {cls:'idiq-seg-idiq', v:_idiqVal, t:'IDIQ ceiling'}]) +
+      rung('Weighted forecast', '&mdash; CRM win probability applied', _pipeWgt, [
+        {cls:'idiq-seg-def',  v:_defWgt,  t:'Definite weighted'},
+        {cls:'idiq-seg-idiq', v:_idiqWgt, t:'IDIQ weighted'}]) +
+      rung('Capture-adjusted', `&mdash; ${Math.round(cap*100)}% of IDIQ ceiling converts to task orders`, adjWgt, [
+        {cls:'idiq-seg-def',  v:_defWgt,  t:'Definite weighted'},
+        {cls:'idiq-seg-idiq', v:idiqExp,  t:'IDIQ expected'},
+        {cls:'idiq-seg-gone', v:idiqEvap, t:'IDIQ ceiling not expected to convert'}]);
+
+    // ── Per-deal table ──
+    tbody.innerHTML = '';
+    let tC=0,tW=0,tE=0;
+    _idiqDeals.slice().sort((a,b)=>b.amount-a.amount).forEach(d=>{
+      const exp = d.weighted*cap, yr = _closeYr(d.close);
+      tC+=d.amount; tW+=d.weighted; tE+=exp;
+      const tr=document.createElement('tr');
+      tr.innerHTML=`
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${d.name}">
+          <span class="s-pill s-idiq">IDIQ</span> ${d.name}</td>
+        <td style="width:120px;font-size:11px;white-space:normal;overflow-wrap:anywhere;line-height:1.25">${d.company}</td>
+        <td class="text-right" style="white-space:nowrap">${fmt$(d.amount)}</td>
+        <td class="text-right">${d.prob}%</td>
+        <td class="text-right" style="white-space:nowrap;color:#638AC6;font-weight:600">${fmt$(d.weighted)}</td>
+        <td class="text-right" style="white-space:nowrap;color:var(--orange);font-weight:700">${fmt$(exp)}</td>
+        <td style="white-space:nowrap;font-size:11px">${d.close||'—'}</td>
+        <td class="text-right"><span class="badge ${yr===2026?'b-neg':'b-pres'}">FY${yr||'—'}</span></td>`;
+      tbody.appendChild(tr);
+    });
+    const tr=document.createElement('tr'); tr.className='tfoot-row';
+    tr.innerHTML=`<td colspan="2">TOTAL</td>
+      <td class="text-right">${fmt$(tC)}</td><td></td>
+      <td class="text-right">${fmt$(tW)}</td>
+      <td class="text-right" style="color:var(--orange)">${fmt$(tE)}</td>
+      <td colspan="2"></td>`;
+    tbody.appendChild(tr);
+
+    // ── So-what callout ──
+    const fy27 = _idiqVal - _idiqFY26V;
+    callout.innerHTML = `
+      <div style="background:#FEF6F1;border-left:4px solid var(--orange);border-radius:0 6px 6px 0;padding:11px 14px;font-size:11px;line-height:1.55;color:var(--near-black)">
+        <strong>What this means.</strong> ${fmtK(_idiqVal)} of the ${fmtK(_pipeVal)} open pipeline
+        (${_idiqShare.toFixed(0)}%) is IDIQ ceiling. At a ${Math.round(cap*100)}% capture rate that
+        ${fmtK(_idiqWgt)} of weighted ceiling is worth <strong>${fmtK(idiqExp)}</strong> of expected
+        revenue &mdash; a <strong>${fmtK(haircut)} (${haircutPc.toFixed(1)}%)</strong> haircut to the
+        weighted forecast.
+        ${fy27>0 ? `And ${fmtK(fy27)} of it closes in 2027, so it carries
+        <strong>no FY2026 revenue at all</strong> &mdash; today's IDIQ pipeline is next year's capacity,
+        not this year's number.` : ''}
+        <br><span style="color:var(--lgray)">Decision prompts: are these single-award or multiple-award
+        vehicles? Is there a guaranteed minimum? What task-order capture capacity do we have to staff if
+        they land together? Winning the vehicle and winning the work are two separate pursuits &mdash;
+        the second one needs its own resourcing.</span>
+      </div>`;
+  };
+
+  slider.addEventListener('input', render);
+  render();
+})();
 
 // ── Production Table ─────────────────────────────────────
 const prodTbody=document.getElementById('prodTbody');
