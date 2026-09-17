@@ -376,6 +376,36 @@ tbody tr:hover td { background: #FEF0E6; }
 .idiq-lgd i { font-style: normal; display: inline-block; width: 9px; height: 9px;
               border-radius: 2px; margin-right: 4px; vertical-align: middle; }
 
+/* ── STALLED DEALS / DEAL MOMENTUM ───────────────────────── */
+.stall-band { display:inline-block; padding:2px 8px; border-radius:10px; font-size:9px;
+              font-weight:800; text-transform:uppercase; letter-spacing:0.4px; white-space:nowrap; }
+.sb-crit  { background:#FDECEC; color:#B62126; }
+.sb-watch { background:#FEF0E6; color:#C05515; }
+.sb-ok    { background:#E8EEFA; color:#2E5496; }
+.stall-score { display:flex; align-items:center; gap:6px; justify-content:flex-end; }
+.stall-score-bar { width:46px; height:5px; border-radius:3px; background:#EFEFEF; overflow:hidden; }
+.stall-score-bar i { display:block; height:100%; border-radius:3px; }
+.stall-sub { font-size:9px; color:var(--lgray); line-height:1.3; }
+.stall-num { font-variant-numeric:tabular-nums; font-weight:700; }
+.stall-num.hot  { color:var(--red); }
+.stall-num.warm { color:#C05515; }
+.stall-actions { margin-top:18px; }
+.stall-act {
+  display:flex; gap:12px; align-items:flex-start; padding:10px 12px; border-radius:6px;
+  background:#FAFAFA; border-left:4px solid var(--orange); margin-bottom:8px;
+}
+.stall-act.crit { border-left-color:var(--red); background:#FDF4F4; }
+.stall-act-rank { font-size:15px; font-weight:900; color:var(--lgray); min-width:20px; line-height:1.3; }
+.stall-act-body { flex:1; font-size:11px; line-height:1.45; color:var(--charcoal); }
+.stall-act-deal { font-weight:800; color:var(--near-black); }
+.stall-act-why  { color:var(--lgray); font-size:10px; }
+.stall-act-val  { font-weight:900; font-size:12px; white-space:nowrap; color:var(--near-black);
+                  font-variant-numeric:tabular-nums; }
+.stall-lgd { display:flex; gap:14px; flex-wrap:wrap; font-size:10px; font-weight:700;
+             color:var(--lgray); margin-top:8px; }
+.stall-lgd i { font-style:normal; display:inline-block; width:9px; height:9px;
+               border-radius:2px; margin-right:4px; vertical-align:middle; }
+
 /* Sparkline-style progress bar */
 .prog-bar-wrap { background: #EFEFEF; border-radius: 4px; height: 5px; min-width: 60px; }
 .prog-bar { height: 5px; border-radius: 4px; background: var(--orange); }
@@ -628,6 +658,7 @@ tbody tr:hover td { background: #FEF0E6; }
     <a href="#kpis"     class="active">Overview</a>
     <a href="#pipeline">Sales Pipeline</a>
     <a href="#idiq">IDIQ Exposure</a>
+    <a href="#stalled">Stalled Deals</a>
     <a href="#forecast">Forecast vs Actual</a>
     <a href="#ops">     Operations</a>
     <a href="#claims">  Claims Status</a>
@@ -677,7 +708,7 @@ tbody tr:hover td { background: #FEF0E6; }
       <div class="section-hdr">
         <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
         REVENUE — FORECAST vs ACTUAL &nbsp;(Jan – Dec 2026)
-        <span style="color:var(--orange);font-size:10px;">REVISED MODEL · JUN 22</span>
+        <span style="color:var(--orange);font-size:10px;">REVISED MODEL · JUN 22 &nbsp;|&nbsp; SEP–DEC HAIRCUT 50% · SEP 11</span>
       </div>
       <div class="chart-card">
         <canvas id="forecastChart"></canvas>
@@ -685,6 +716,7 @@ tbody tr:hover td { background: #FEF0E6; }
           Jan&ndash;Jun retain the original forecast (measured against actuals); Jul&ndash;Dec use the recognition-based model (won contracts &amp; weighted pipeline spread over 12 months).
           Dashed red line = core business excluding the $9.57M Akytech/HUD deal, which alone drives the Q4 ramp.
         </div>
+        <div id="haircutNote" style="margin-top:10px"></div>
       </div>
     </div>
   </div>
@@ -835,6 +867,76 @@ tbody tr:hover td { background: #FEF0E6; }
       dollar figure that belongs in a revenue forecast; the ceiling is a capacity figure that belongs in a
       capture plan. <strong>Read this card alongside Total Pipeline:</strong> where the two diverge is the
       gap between how large the pipeline looks and how much of it can be staffed against and billed.
+    </div>
+  </div>
+
+  <!-- ── STALLED DEALS / DEAL MOMENTUM ────────── -->
+  <div class="spacer" id="stalled"></div>
+  <div class="section-hdr">
+    <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
+    STALLED DEALS &mdash; WHERE THE PIPELINE HAS STOPPED MOVING
+    <span style="color:var(--orange);font-size:10px;" id="stallHdrNote"></span>
+  </div>
+  <div class="idiq-card">
+
+    <div class="idiq-tiles" id="stallTiles"></div>
+
+    <div class="idiq-slider-wrap" style="background:#FDF4F4;border-color:#F0C4C5;">
+      <label for="stallThresh" style="color:var(--red);">Silence threshold</label>
+      <input type="range" id="stallThresh" min="10" max="90" step="5" value="30" style="accent-color:var(--red);">
+      <div class="idiq-rate" id="stallThreshVal" style="color:var(--red);">30d</div>
+      <div class="idiq-slider-note">
+        A deal counts as <strong>untouched</strong> when no activity has been logged against it in this
+        many days. Drag to test how much of the pipeline survives a tighter or looser definition of
+        engagement. The tiles and the aging ladder below both respond; stall scores do not.
+      </div>
+    </div>
+
+    <div class="idiq-ladder" id="stallLadder"></div>
+    <div class="stall-lgd">
+      <span><i style="background:#2E5496"></i>Touched inside the threshold</span>
+      <span><i style="background:#F26721"></i>Untouched 1&ndash;2&times; the threshold</span>
+      <span><i style="background:#B62126"></i>Untouched 2&times;+ the threshold, or never logged</span>
+    </div>
+
+    <div style="margin-top:20px">
+      <div style="font-size:10px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">
+        Open deals &mdash; momentum detail (worst first)
+      </div>
+      <div class="table-card" style="border-radius:6px">
+        <div class="table-scroll">
+          <table>
+            <thead><tr>
+              <th style="width:210px">Deal</th>
+              <th style="width:100px">Stage</th>
+              <th class="text-right">Weighted</th>
+              <th class="text-right">Days in Stage</th>
+              <th class="text-right">Days Silent</th>
+              <th>Next Action</th>
+              <th>Expected Close</th>
+              <th class="text-right" style="width:112px">Stall Score</th>
+            </tr></thead>
+            <tbody id="stallTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="stall-actions">
+      <div style="font-size:10px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">
+        Highest-value unblocking moves this week
+      </div>
+      <div id="stallActions"></div>
+    </div>
+
+    <div id="stallCallout" style="margin-top:14px"></div>
+
+    <div style="margin-top:12px;font-size:10px;color:var(--lgray);line-height:1.5">
+      <strong>Read this card as two things at once.</strong> A high stall score means either the deal
+      really has stopped moving <em>or</em> the work on it is not being logged in the CRM &mdash; and from
+      outside the deal those look identical. Both are management problems, but they need opposite
+      responses, so confirm which one you are looking at before acting. Every figure here derives from
+      the CRM deals export joined to the activity log; nothing is estimated.
     </div>
   </div>
 
@@ -1020,49 +1122,55 @@ const DATA = {
   claimsStatus: [
     {status:'Open',         count:0,    value:0.00,       color:'#B62126'},
     {status:'Unassigned',   count:1,    value:0.00,       color:'#C94020'},
-    {status:'Assigned',     count:28,   value:24225.00,   color:'#F26721'},
+    {status:'Assigned',     count:14,   value:11825.00,   color:'#F26721'},
     {status:'Accepted',     count:1,    value:800.00,     color:'#D4A020'},
     {status:'Contacted',    count:1,    value:800.00,     color:'#BAAB1A'},
     {status:'Job Started',  count:0,    value:0.00,       color:'#5DADE2'},
     {status:'Estimate Hold',count:1,    value:1000.00,    color:'#939598'},
-    {status:'Inspected',    count:0,    value:0.00,       color:'#638AC6'},
+    {status:'Inspected',    count:1,    value:800.00,     color:'#638AC6'},
     {status:'Returned',     count:1,    value:0.00,       color:'#7B5EA7'},
     {status:'Reviewed',     count:0,    value:0.00,       color:'#4A90D9'},
-    {status:'Approved',     count:196,  value:87575.00,   color:'#2E5496'},
+    {status:'Approved',     count:222,  value:103975.00,  color:'#2E5496'},
   ],
   clientRevenue: [
-    {client:'Mora Housing Management, Inc.',               claims:358, rev:229850.00},
-    {client:'GrantWorks',                                  claims:154, rev:134400.00},
-    {client:'Ducky Recovery',                              claims:106, rev:47000.00},
-    {client:'Timberline Construction Group, LLC',          claims:125, rev:36300.00},
-    {client:'RM Quality Construction, LLC',                claims:47, rev:30800.00},
-    {client:'Byrdson Services, LLC',                       claims:12, rev:7800.00},
-    {client:'Royal Engineers & Consultants',               claims:11, rev:6000.00},
-    {client:'DSW',                                         claims:16, rev:4000.00},
-    {client:'A Bartlett Roofing & Construction',           claims:2, rev:975.00},
+    {client:'Mora Housing Management, Inc.',                 claims:369, rev:244650.00},
+    {client:'GrantWorks',                                    claims:155, rev:134400.00},
+    {client:'Ducky Recovery',                                claims:114, rev:48950.00},
+    {client:'Timberline Construction Group, LLC',            claims:132, rev:38100.00},
+    {client:'RM Quality Construction, LLC',                  claims:54, rev:34650.00},
+    {client:'Byrdson Services, LLC',                         claims:13, rev:8550.00},
+    {client:'Royal Engineers & Consultants',                 claims:11, rev:6000.00},
+    {client:'DSW',                                           claims:16, rev:4000.00},
+    {client:'A Bartlett Roofing & Construction',             claims:2, rev:975.00},
   ],
   kpi: {
     totalPipeline:    19758390.17,
     weightedForecast: 10465993,
     openDeals:        14,
-    claimsMTD:        6,
-    forecastMTD:      370374,
+    claimsMTD:        35,
+    forecastMTD:      185187,
     wonTotal:         2439400,
     wonDealsCount:    13,
-    revenueMTD:       2650.00,
-    revenueYTD:       676106.29,
+    revenueMTD:       23150.00,
+    revenueYTD:       696606.29,
     iemTERevenue:     0,
     iemTERevenueYTD:  176331.29,
     teGrossYTD:       176331.29,
     teNetYTD:         24978.00,
     wipCount:         0,
     wipRevenue:       0,
-    pctMTD:           1,
+    pctMTD:           13,
     // First month of the revised forecast model (June = index 5); realization measures from here
     realizationFromIdx: 5,
   },
   forecast: {
     labels:   ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+    // Re-run 2026-09-17: FOURTH consecutive refresh with no substantive CRM change (same 14 open deals,
+    // amounts, probabilities and close dates; won still 13). Earliest open expected close is still 9/30,
+    // so the past-due floor rule pulls nothing forward — arrays and the 50% haircut carried unchanged.
+    // Re-run 2026-09-11: layers 2-3 recomputed again and reproduced Sep-Dec to the cent. THIRD
+    // consecutive refresh with no substantive CRM change — no deal closed, was lost, slipped a close
+    // date, or changed amount/probability since the 8/20 AR - CDBG-DR win. Only "Days In Stage" moved.
     // Re-run 2026-09-03: layers 2-3 recomputed from the current CRM export with the floor month
     // advanced to September, and reproduced the published arrays to the cent. Two reasons nothing
     // moved: (a) the CRM export is byte-identical to 8/27 — no deal closed, was lost, slipped a
@@ -1074,9 +1182,20 @@ const DATA = {
     // of expected-close month or current month). AR - CDBG-DR Allocation (GrantWorks, $262K) closed
     // Won 8/20 and moved from the pipeline layer into the won layer; LA - Port of South Louisiana
     // ($100K) dropped out of the CRM export; SC - Timberline slipped 7/31 -> 10/1. Jan-Jul untouched.
-    forecast: [0,0,41955,49587,91577,189749.74,235377.20,277974.03,370374.13,850215.67,863572.51,837479.20],
-    core:     [0,0,41955,49587,91577,189749.74,235377.20,277974.03,370374.13,371667.01,385023.85,358930.54],
-    actual:   [58950,57150,49125,67200,113297.28,98428.64,113020.37,116285,2650,0,0,0],
+    // ── MANAGEMENT HAIRCUT, 2026-09-11 (Shane's direction) ──────────────────────────────
+    // Sep-Dec on BOTH forecast and core are cut to 50% of what the recognition model produced.
+    // This is a deliberate override, NOT a re-derivation: the model's own re-run on 9/11
+    // reproduced the pre-haircut Sep-Dec figures to the cent. Rationale given: the pipeline has
+    // stalled (no stage change since 8/20; 87% of weighted pipeline untouched 30+ days) and claim
+    // volume is running below plan. Jan-Aug are closed months and are NOT touched.
+    // `preHaircut` keeps the original model line on the chart so the size of the override stays
+    // auditable. To undo, restore forecast/core from preHaircut/preHaircutCore.
+    forecast: [0,0,41955,49587,91577,189749.74,235377.20,277974.03,185187.065,425107.835,431786.255,418739.60],
+    core:     [0,0,41955,49587,91577,189749.74,235377.20,277974.03,185187.065,185833.505,192511.925,179465.27],
+    preHaircut:     [0,0,41955,49587,91577,189749.74,235377.20,277974.03,370374.13,850215.67,863572.51,837479.20],
+    preHaircutCore: [0,0,41955,49587,91577,189749.74,235377.20,277974.03,370374.13,371667.01,385023.85,358930.54],
+    haircut: { pct: 50, fromIdx: 8, note: "Sep\u2013Dec cut 50% for stalled pipeline and below-plan claim volume" },
+    actual:   [58950,57150,49125,67200,113297.28,98428.64,113020.37,116285,23150,0,0,0],
     wip:      [0,0,0,0,0,0,0,0,0,0,0,0],
     // Gross T&E by month (RBI sheet) — lets the realization card split production from T&E
     te:       [0,0,0,0,22497.28,42853.64,53020.37,57960,0,0,0,0],
@@ -1128,22 +1247,68 @@ const DATA = {
     {"name":"GA - CDBG-DR Allocation","company":"Timberline Construction Group","strategy":"General Contractor Sub","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"9/30/2026","owner":"Shane Lucas"}
   ],
 
-  production: [
-    {"client":"Mora Housing Management, Inc.","claims":3,"revenue":1350},
-    {"client":"RM Quality Construction, LLC","claims":1,"revenue":700},
-    {"client":"Timberline Construction Group, LLC","claims":2,"revenue":600}
+  // ── DEAL MOMENTUM / STALLED PIPELINE ────────────────────────────────────
+  // Derived from the CRM deals export joined to all_activities_activities_export.csv on Deal ID.
+  //   dsa  = days since the most recent logged activity on that deal (null = none ever logged)
+  //   dis  = Days In Stage, straight from the CRM export
+  //   over = days the deal's Next Task is past due (null = no next task scheduled at all)
+  //   dtc  = days from the reporting date to the expected close date
+  //   acts = total activities ever logged against the deal
+  // score is a transparent 0-100 weighted sum, recomputed each refresh:
+  //   activity 35 (dsa/90, capped) + stage 25 (dis/270, capped)
+  //   + task 25 (over/90, capped; a flat 20 if NO next task exists)
+  //   + 15 if the deal closes within 30 days and is not yet in Negotiation.
+  // Bands: >=60 Stalled, 45-59 Watch, <45 Moving. Re-derive every refresh; never carry forward.
+  stalledAsOf: "9/17/2026",
+  crmHealth: {
+    totalActivities: 85,
+    lastAnyActivity: "9/17/2026",
+    lastDealLinkedActivity: "9/17/2026",
+    lastStageChange: "8/20/2026",
+    refreshesNoMovement: 4,
+    // Activity logged 9/3 against a company that has no deal record at all — still no deal on 9/17.
+    unpipelined: "9/3 activity log records a new contract started with Allco Construction, Inc. " +
+                 "(\u201CJason will send details\u201D) \u2014 still no deal record two weeks later, so it is in " +
+                 "neither the pipeline nor the forecast.",
+  },
+  // 9/17: Pasco's "Submit Proposal" task was completed in the activity log ~30 min after the deals export
+  // was cut, so it is treated as closed (no next task). The 9/17 Ducky Recovery note joined by Deal ID to
+  // the LA - OCD deal discusses Hillsborough feed stock — likely mis-linked to the FL - Hillsboro deal.
+  stalled: [
+    {"name": "GA - Dept of Community Affairs ARRP", "company": "Timberline Construction Group", "strategy": "RFP Sub", "stage": "Presentation", "amount": 300000.0, "wtd": 75000, "prob": 25, "close": "9/30/2026", "dtc": 13, "dis": 279, "dsa": 56, "acts": 1, "task": "Meet with Jeff for updates", "taskDue": "7/1/2026", "over": 78, "idiq": false, "score": 83},
+    {"name": "NC - Staff Augmentation CDBG-DR Expert Administrative Support", "company": "OST Global", "strategy": "RFP Sub", "stage": "Negotiation", "amount": 250000.0, "wtd": 187500, "prob": 75, "close": "10/30/2026", "dtc": 43, "dis": 254, "dsa": 79, "acts": 2, "task": "Semi-monthly meeting with OST", "taskDue": "5/25/2026", "over": 115, "idiq": true, "score": 79},
+    {"name": "NC - Renew NC GC support", "company": "Shepherd Response", "strategy": "Sell To Winner", "stage": "Qualified", "amount": 150000.0, "wtd": 37500, "prob": 25, "close": "9/30/2026", "dtc": 13, "dis": 79, "dsa": 56, "acts": 1, "task": "Schedule call with Kyle.  He requested a meeting", "taskDue": "7/1/2026", "over": 78, "idiq": false, "score": 66},
+    {"name": "SC - Timberline South Carolina Construction Management", "company": "Timberline Construction Group", "strategy": "Sell To Winner", "stage": "Qualified", "amount": 70000.0, "wtd": 17500, "prob": 25, "close": "10/1/2026", "dtc": 14, "dis": 84, "dsa": 56, "acts": 1, "task": "Follow up with Kiara on SC kickoff", "taskDue": "7/8/2026", "over": 71, "idiq": false, "score": 64},
+    {"name": "GA - CDBG-DR Allocation", "company": "Timberline Construction Group", "strategy": "General Contractor Sub", "stage": "Qualified", "amount": 70000.0, "wtd": 17500, "prob": 25, "close": "9/30/2026", "dtc": 13, "dis": 84, "dsa": 56, "acts": 1, "task": "Follow up with Kiara on GA kickoff", "taskDue": "7/8/2026", "over": 71, "idiq": false, "score": 64},
+    {"name": "FED - HUD ARC NSPIRE Backlog Inspection", "company": "Akytech Consulting", "strategy": "RFP Sub", "stage": "Presentation", "amount": 9570973.17, "wtd": 5742584, "prob": 60, "close": "10/1/2026", "dtc": 14, "dis": 163, "dsa": 50, "acts": 4, "task": "Follow up on award status", "taskDue": "8/12/2026", "over": 36, "idiq": false, "score": 60},
+    {"name": "FL - Hillsboro County CDBG-DR", "company": "Ducky Recovery", "strategy": "General Contractor Sub", "stage": "Negotiation", "amount": 300000.0, "wtd": 285000, "prob": 95, "close": "9/30/2026", "dtc": 13, "dis": 90, "dsa": 79, "acts": 2, "task": "Permitting Expeditor Process", "taskDue": "7/7/2026", "over": 72, "idiq": false, "score": 59},
+    {"name": "LA - OCD Program Management and Construction Management Services", "company": "Dynamic", "strategy": "RFP Sub", "stage": "Presentation", "amount": 400000.0, "wtd": 100000, "prob": 25, "close": "8/1/2027", "dtc": 318, "dis": 189, "dsa": 49, "acts": 2, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 57},
+    {"name": "NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments", "company": "Department of Homeland Security and Emergency Management (DHSEM)", "strategy": "RFP Prime", "stage": "Presentation", "amount": 1101500.0, "wtd": 330450, "prob": 30, "close": "10/31/2026", "dtc": 44, "dis": 155, "dsa": 50, "acts": 2, "task": null, "taskDue": null, "over": null, "idiq": false, "score": 54},
+    {"name": "LA - OCD Program Management and Construction Management Services", "company": "GrantWorks", "strategy": "RFP Sub", "stage": "Presentation", "amount": 400000.0, "wtd": 100000, "prob": 25, "close": "8/1/2027", "dtc": 318, "dis": 181, "dsa": 37, "acts": 3, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 51},
+    {"name": "PR - PRDOH Cost Estimating Services — CDBG-DR / CDBG-MIT", "company": "BR +", "strategy": "RFP Sub", "stage": "Presentation", "amount": 750000.0, "wtd": 375000, "prob": 50, "close": "11/2/2026", "dtc": 46, "dis": 62, "dsa": 63, "acts": 4, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 50},
+    {"name": "FL - City of Sarasota Emergency Management Consulting Services", "company": "KPMG", "strategy": "RFP Sub", "stage": "Presentation", "amount": 2500000.0, "wtd": 1250000, "prob": 50, "close": "1/1/2027", "dtc": 106, "dis": 48, "dsa": 49, "acts": 1, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 44},
+    {"name": "LA - OCD Program Management and Construction Management Services", "company": "Ducky Recovery", "strategy": "RFP Sub", "stage": "Presentation", "amount": 1395917.0, "wtd": 697959, "prob": 50, "close": "8/1/2027", "dtc": 318, "dis": 195, "dsa": 0, "acts": 1, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 38},
+    {"name": "FL - Pasco County Post-disaster services", "company": "Pasco County", "strategy": "RFP Prime", "stage": "Presentation", "amount": 2500000.0, "wtd": 1250000, "prob": 50, "close": "1/1/2027", "dtc": 106, "dis": 48, "dsa": 0, "acts": 5, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 24}
   ],
-  assignmentCalendar: [1,2,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+
+  production: [
+    {"client":"Mora Housing Management, Inc.","claims":11,"revenue":14800},
+    {"client":"RM Quality Construction, LLC","claims":7,"revenue":3850},
+    {"client":"Ducky Recovery","claims":8,"revenue":1950},
+    {"client":"Timberline Construction Group, LLC","claims":7,"revenue":1800},
+    {"client":"Byrdson Services, LLC","claims":1,"revenue":750},
+    {"client":"GrantWorks","claims":1,"revenue":0}
+  ],
+  assignmentCalendar: [1,2,8,5,0,0,0,3,3,1,1,0,1,3,2,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   // Daily Revenue Pace: production revenue by invoice day (AllClaimsList InvoiceDate/InvoiceAmount,
   // reconciles to ProdReport MTD). te = current-month T&E total (spread across business days by the
   // builder). asOfDay = data current through this day of month. Refresh all three each update.
-  // NOTE 9/3: ProdReport has not yet cut a September row, so September MTD production comes from
-  // AllClaimsList invoices instead. That substitution is safe this period: August closed with
-  // AllClaimsList and ProdReport agreeing to the cent at $58,325 (the July/August RM Quality
-  // double-bill artifact resolved itself), and all six September claims were approved in September,
-  // so there is no month-boundary recognition gap to correct for. Revert to ProdReport as the
-  // source of truth for the month as soon as its September row appears.
-  revenuePace: { daily: [0,900,1750,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], te: 0, asOfDay: 3 },
+  // NOTE 9/17: ProdReport September = $23,150 / 35 claims, ties to AllClaimsList invoices to the cent.
+  // 9/11 late-day Mora batch (11 x $900) landed after the prior snapshot, lifting day 11 from 750 to 10,650.
+  // NOTE 9/11: ProdReport has now cut its September row and it ties to AllClaimsList invoices to the
+  // cent ($9,650). The 9/3 substitution is retired — ProdReport is once again the source of truth for
+  // MTD production. No RM Quality month-boundary double-bill artifact this period.
+  revenuePace: { daily: [0,900,1750,0,0,0,0,5350,900,0,10650,0,0,600,1700,1300,0,0,0,0,0,0,0,0,0,0,0,0,0,0], te: 0, asOfDay: 16 },
 };
 
 
@@ -1333,6 +1498,30 @@ if (lostGrid && DATA.lostDeals) {
 }
 
 // ── Forecast vs Actual Bar Chart ─────────────────────────
+/* Management-haircut disclosure — keeps the override visible rather than silently baked in */
+(function buildHaircutNote(){
+  const el = document.getElementById('haircutNote');
+  const hc = DATA.forecast.haircut, pre = DATA.forecast.preHaircut;
+  if (!el || !hc || !pre) return;
+  const i = hc.fromIdx;
+  const was = pre.slice(i).reduce((s,v)=>s+(v||0),0);
+  const now = DATA.forecast.forecast.slice(i).reduce((s,v)=>s+(v||0),0);
+  const yrWas = pre.reduce((s,v)=>s+(v||0),0);
+  const yrNow = DATA.forecast.forecast.reduce((s,v)=>s+(v||0),0);
+  const span = DATA.forecast.labels[i] + '\u2013' + DATA.forecast.labels[11];
+  el.innerHTML =
+    `<div style="background:#FEF6F1;border:1px solid #F6D3B8;border-left:4px solid var(--orange);border-radius:6px;padding:11px 14px;font-size:11px;line-height:1.55;color:var(--charcoal)">
+       <strong style="color:#C05515">${span} carries a ${hc.pct}% management haircut.</strong>
+       The recognition model produced ${fmt$(was)} for ${span}; leadership reduced it to ${fmt$(now)}
+       \u2014 a ${fmt$(was-now)} reduction \u2014 for stalled pipeline and below-plan claim volume.
+       Full-year target moves ${fmt$(yrWas)} \u2192 ${fmt$(yrNow)}. The dotted grey line is the
+       un-haircut model, kept on the chart so the size of the override stays visible.
+       <strong>This is a judgement call, not a model output</strong> \u2014 the 9/11 re-run reproduced
+       the original ${span} figures to the cent, so nothing in the CRM justifies the cut on its own.
+       Closed months (Jan\u2013Aug) are untouched.
+     </div>`;
+})();
+
 const fctx = document.getElementById('forecastChart').getContext('2d');
 new Chart(fctx, {
   type: 'bar',
@@ -1341,6 +1530,9 @@ new Chart(fctx, {
     datasets: [
       { label:'Forecast (revised)', data:DATA.forecast.forecast, stack:'fc',
          backgroundColor:'rgba(242,103,33,0.85)', borderRadius:4, borderSkipped:false },
+      { type:'line', label:'Pre-haircut model', data:DATA.forecast.preHaircut||[], stack:'l_pre',
+         borderColor:'#939598', borderDash:[2,3], borderWidth:1.5,
+         pointRadius:0, pointHoverRadius:5, tension:0.35, fill:false, order:0, spanGaps:true },
       { type:'line', label:'Core (ex-Akytech)', data:DATA.forecast.core, stack:'l_core',
          borderColor:'#B62126', borderDash:[6,4], borderWidth:2,
          pointBackgroundColor:'#B62126', pointBorderColor:'#FFFFFF',
@@ -1650,6 +1842,192 @@ dealsTbody.appendChild(dIdiqRow);
 })();
 
 // ── Production Table ─────────────────────────────────────
+/* ══ STALLED DEALS / DEAL MOMENTUM ═══════════════════════════════════ */
+(function buildStalledDeals(){
+  const S = DATA.stalled || [];
+  if (!S.length) return;
+  const CH = DATA.crmHealth || {};
+  const NEVER = 999;                       // sort/bucket value for "never logged"
+  const dsa = d => (d.dsa === null || d.dsa === undefined) ? NEVER : d.dsa;
+  const band = d => d.score >= 60 ? 'crit' : d.score >= 45 ? 'watch' : 'ok';
+  const bandLbl = {crit:'Stalled', watch:'Watch', ok:'Moving'};
+  const bandCol = {crit:'#B62126', watch:'#F26721', ok:'#638AC6'};
+  const rows = S.slice().sort((a,b)=>b.score-a.score);
+  const wgtTot = rows.reduce((s,d)=>s+d.wtd,0) || 1;
+
+  document.getElementById('stallHdrNote').textContent =
+    'AS OF ' + (DATA.stalledAsOf||'') + ' \u00B7 ' + rows.length + ' OPEN DEALS';
+
+  /* ---- header tiles (respond to the threshold slider) ---- */
+  const tiles = document.getElementById('stallTiles');
+  function renderTiles(TH){
+    const crit   = rows.filter(d=>band(d)==='crit');
+    const quiet  = rows.filter(d=>dsa(d) > TH);
+    const quietW = quiet.reduce((s,d)=>s+d.wtd,0);
+    const soon30All = rows.filter(d=>d.dtc <= 30);
+    const soon   = soon30All.filter(d=>dsa(d) > TH);
+    const soonW  = soon.reduce((s,d)=>s+d.wtd,0);
+    const noTask = rows.filter(d=>d.over === null || d.over === undefined);
+    const odue   = rows.filter(d=>d.over !== null && d.over !== undefined && d.over > 0);
+    const odMed  = odue.length ? odue.map(d=>d.over).sort((a,b)=>a-b)[Math.floor(odue.length/2)] : 0;
+    const tile = (cls,lbl,val,sub) =>
+      `<div class="idiq-tile ${cls}"><div class="idiq-tile-lbl">${lbl}</div>` +
+      `<div class="idiq-tile-val">${val}</div><div class="idiq-tile-sub">${sub}</div></div>`;
+    tiles.innerHTML =
+      tile('warnt','Stalled Deals', crit.length + ' of ' + rows.length,
+           fmtK(crit.reduce((s,d)=>s+d.wtd,0)) + ' weighted \u00B7 stall score 60+') +
+      tile('warnt','Weighted $ Untouched', fmtK(quietW),
+           quiet.length + ' deals \u00B7 ' + Math.round(quietW/wgtTot*100) + '% of weighted pipeline \u00B7 ' + TH + 'd+ silent') +
+      tile('', 'Closing \u2264 30 Days &amp; Silent', fmtK(soonW),
+           soon.length + ' of the ' + soon30All.length + ' deals closing within 30 days ' + (soon.length===1?'has':'have') + ' no touch in ' + TH + 'd+') +
+      tile('neutral','Next Actions Overdue', odue.length + ' of ' + rows.length,
+           'median ' + odMed + ' days past due \u00B7 ' + noTask.length + ' deals have no next action at all') +
+      tile('muted','Last Logged Activity', CH.lastAnyActivity || '\u2014',
+           'any deal, any type \u00B7 ' + (CH.totalActivities||0) + ' activities logged all year') +
+      tile('muted','Refreshes w/o Stage Change', String(CH.refreshesNoMovement||0),
+           'last stage change ' + (CH.lastStageChange||'\u2014'));
+  }
+
+  /* ---- aging ladder: weighted $ by silence bucket ---- */
+  const ladder = document.getElementById('stallLadder');
+  function renderLadder(TH){
+    const defs = [
+      {name:'Touched within ' + TH + ' days',            col:'#2E5496', test:d=>dsa(d) <= TH},
+      {name:'Silent ' + (TH+1) + '\u2013' + (TH*2) + ' days', col:'#F26721', test:d=>dsa(d) > TH && dsa(d) <= TH*2},
+      {name:'Silent ' + (TH*2+1) + '+ days or never logged', col:'#B62126', test:d=>dsa(d) > TH*2},
+    ];
+    const max = Math.max(...defs.map(b=>rows.filter(b.test).reduce((s,d)=>s+d.wtd,0)), 1);
+    ladder.innerHTML = defs.map(b=>{
+      const g = rows.filter(b.test);
+      const v = g.reduce((s,d)=>s+d.wtd,0);
+      return `<div class="idiq-rung">
+        <div class="idiq-rung-hdr">
+          <span><span class="idiq-rung-name">${b.name}</span>
+            <span class="idiq-rung-note">&nbsp;${g.length} deal${g.length===1?'':'s'} \u00B7 ${Math.round(v/wgtTot*100)}% of weighted pipeline</span></span>
+          <span class="idiq-rung-val">${fmt$(v)}</span>
+        </div>
+        <div class="idiq-bar"><span style="width:${(v/max*100).toFixed(1)}%;background:${b.col}"></span></div>
+      </div>`;
+    }).join('');
+  }
+
+  /* ---- detail table ---- */
+  const tb = document.getElementById('stallTbody');
+  const stageB = s => s==='Negotiation'?'b-neg': s==='Qualified'?'b-qual': s==='Prospecting'?'b-prosp':'b-pres';
+  rows.forEach(d=>{
+    const b = band(d);
+    const silent = (d.dsa === null || d.dsa === undefined)
+      ? '<span class="stall-num hot">never</span>'
+      : `<span class="stall-num ${d.dsa>=60?'hot':d.dsa>=30?'warm':''}">${d.dsa}</span>`;
+    const task = (d.over === null || d.over === undefined)
+      ? '<span class="stall-num hot">none scheduled</span>'
+      : `${d.task}<div class="stall-sub">due ${d.taskDue} \u00B7 ` +
+        (d.over > 0 ? `<span class="stall-num ${d.over>=60?'hot':'warm'}">${d.over}d overdue</span>` : 'on time') + '</div>';
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      `<td><strong>${d.name}</strong>${d.idiq?' <span class="s-pill s-idiq">IDIQ</span>':''}` +
+        `<div class="stall-sub">${d.company} \u00B7 ${d.acts} logged activit${d.acts===1?'y':'ies'}</div></td>
+       <td><span class="badge ${stageB(d.stage)}">${d.stage}</span><div class="stall-sub">${d.prob}% prob</div></td>
+       <td class="text-right">${fmt$(d.wtd)}<div class="stall-sub">of ${fmtK(d.amount)}</div></td>
+       <td class="text-right"><span class="stall-num ${d.dis>=180?'hot':d.dis>=90?'warm':''}">${d.dis}</span></td>
+       <td class="text-right">${silent}</td>
+       <td style="font-size:10px">${task}</td>
+       <td>${d.close}<div class="stall-sub">${d.dtc<=30?'<span class="stall-num warm">in '+d.dtc+' days</span>':'in '+d.dtc+' days'}</div></td>
+       <td class="text-right"><div class="stall-score">
+            <span class="stall-band sb-${b==='crit'?'crit':b==='watch'?'watch':'ok'}">${bandLbl[b]}</span>
+            <strong style="font-variant-numeric:tabular-nums">${d.score}</strong>
+          </div>
+          <div class="stall-score-bar" style="margin-left:auto;margin-top:4px"><i style="width:${d.score}%;background:${bandCol[b]}"></i></div></td>`;
+    tb.appendChild(tr);
+  });
+  const tot = document.createElement('tr'); tot.className = 'tfoot-row';
+  const medScore = rows.map(d=>d.score).sort((a,b)=>a-b)[Math.floor(rows.length/2)];
+  tot.innerHTML =
+    `<td colspan="2">TOTAL &mdash; ${rows.length} OPEN DEALS</td>
+     <td class="text-right">${fmt$(wgtTot)}</td>
+     <td class="text-right">${Math.round(rows.reduce((s,d)=>s+d.dis,0)/rows.length)} avg</td>
+     <td class="text-right">${Math.round(rows.reduce((s,d)=>s+Math.min(dsa(d),120),0)/rows.length)} avg</td>
+     <td colspan="2"></td>
+     <td class="text-right">${medScore} median</td>`;
+  tb.appendChild(tot);
+
+  /* ---- prescriptive action list ---- */
+  const silence = d => (d.dsa === null || d.dsa === undefined)
+        ? 'no activity has ever been logged on it'
+        : d.dsa + ' days since the last logged touch';
+  const why = d => {
+    if (d.dtc <= 30)
+      return {do_:'Confirm the ' + d.close + ' close date or move it',
+              note:'Closes in ' + d.dtc + ' days, ' + silence(d) +
+                   (d.over > 0 ? ', and \u201C' + d.task + '\u201D is ' + d.over + ' days overdue' : '') +
+                   '. A close date this near with no recent contact is the forecast\u2019s weakest assumption.'};
+    if (d.over === null || d.over === undefined)
+      return {do_:'Schedule a next action \u2014 the deal has none',
+              note:'No task of any kind is set, so nothing will surface this deal again on its own; ' +
+                   silence(d) + ' and ' + d.dis + ' days in ' + d.stage + '.'};
+    if (d.dsa === null || d.dsa >= 45)
+      return {do_:'Re-engage and re-test the ' + d.prob + '% probability',
+              note:silence(d).charAt(0).toUpperCase() + silence(d).slice(1) +
+                   '; the ' + d.prob + '% figure has not been revalidated in that time.'};
+    if (d.over > 30)
+      return {do_:'Clear or reschedule \u201C' + d.task + '\u201D',
+              note:d.over + ' days past due; ' + d.dis + ' days in ' + d.stage + ' with ' + silence(d) + '.'};
+    return {do_:'Log a touch and re-test the close date',
+            note:silence(d) + '; ' + d.dis + ' days in ' + d.stage + '.'};
+  };
+  // Ranked by weighted dollars at risk (stall score x weighted value), not by stall score alone —
+  // the table above already ranks by score. This answers "where does an hour of BD time pay most?"
+  const top = rows.slice().sort((a,b)=>(b.score*b.wtd)-(a.score*a.wtd)).slice(0, 6);
+  document.getElementById('stallActions').innerHTML = top.map((d,i)=>{
+    const w = why(d);
+    return `<div class="stall-act ${band(d)==='crit'?'crit':''}">
+      <div class="stall-act-rank">${i+1}</div>
+      <div class="stall-act-body">
+        <span class="stall-act-deal">${d.name}</span> &mdash; ${d.company}<br>
+        ${w.do_}<br><span class="stall-act-why">${w.note}</span>
+      </div>
+      <div style="text-align:right">
+        <div class="stall-act-val">${fmt$(d.score/100*d.wtd)}</div>
+        <div class="stall-act-why">at risk &middot; ${fmtK(d.wtd)} wtd</div>
+      </div>
+    </div>`;
+  }).join('') +
+  `<div style="font-size:10px;color:var(--lgray);line-height:1.5;margin-top:4px">
+     <strong>At risk</strong> = weighted value &times; stall score. Ranked this way rather than by stall
+     score alone, so the list answers where an hour of BD time pays most &mdash; the table above is the
+     pure stall ranking. ${CH.unpipelined ? '<br><strong style="color:var(--orange)">Not in the pipeline:</strong> ' + CH.unpipelined : ''}
+   </div>`;
+
+  /* ---- callout ---- */
+  const critN  = rows.filter(d=>band(d)==='crit').length;
+  const q30    = rows.filter(d=>dsa(d) > 30);
+  const q30W   = q30.reduce((s,d)=>s+d.wtd,0);
+  const soon30 = rows.filter(d=>d.dtc <= 30);
+  const soonW  = soon30.reduce((s,d)=>s+d.wtd,0);
+  document.getElementById('stallCallout').innerHTML =
+    `<div style="background:#FDF4F4;border:1px solid #F0C4C5;border-left:4px solid var(--red);border-radius:6px;padding:12px 14px;font-size:11px;line-height:1.55;color:var(--charcoal)">
+       <strong style="color:var(--red)">The pipeline is not moving, and the CRM cannot tell us why.</strong>
+       ${critN} of ${rows.length} open deals score 60+ on stall risk, and ${q30.length} deals carrying
+       ${fmt$(q30W)} of weighted forecast \u2014 ${Math.round(q30W/wgtTot*100)}% of the pipeline \u2014
+       have had no activity logged in over 30 days. ${soon30.length} of them, worth ${fmt$(soonW)} weighted,
+       are scheduled to close within 30 days. Meanwhile the last stage change of any kind was
+       ${CH.lastStageChange||'\u2014'} and the whole year holds only ${CH.totalActivities||0} logged activities.
+       <strong>Either these deals are genuinely dormant &mdash; in which case the September and October
+       forecast is overstated &mdash; or they are being worked without being logged, in which case the
+       dashboard cannot see the business.</strong> Deciding which is the single highest-leverage BD action available.
+     </div>`;
+
+  /* ---- threshold slider ---- */
+  const sl = document.getElementById('stallThresh');
+  const paint = () => {
+    const TH = +sl.value;
+    document.getElementById('stallThreshVal').textContent = TH + 'd';
+    renderTiles(TH); renderLadder(TH);
+  };
+  sl.addEventListener('input', paint);
+  paint();
+})();
+
 const prodTbody=document.getElementById('prodTbody');
 let maxRev=Math.max(...DATA.production.map(p=>p.revenue));
 let totC2=0,totR2=0;
@@ -1938,8 +2316,8 @@ claimsOrdered.forEach(d=>{
   });
 
   document.getElementById('revPaceNote').textContent =
-    'Production revenue by invoice date, from AllClaimsList (ProdReport has not yet cut a September row; ' +
-    'the two agreed to the cent for August). T&E spread evenly across ' + totalBiz +
+    'Production revenue by invoice date (AllClaimsList), reconciled to the cent against the ProdReport ' +
+    'September row. T&E spread evenly across ' + totalBiz +
     ' business days' + (rp.te > 0 ? '' : ' (' + DATA.currentMonth + ' T&E not yet invoiced by Pelican Assets \u2014 currently $0)') +
     '. Pace line = monthly forecast target prorated by business days elapsed. Data through ' +
     MONTH_NAMES[MONTH - 1].charAt(0) + MONTH_NAMES[MONTH - 1].slice(1).toLowerCase() + ' ' + asOf + ', ' + YEAR + '.';
