@@ -376,6 +376,46 @@ tbody tr:hover td { background: #FEF0E6; }
 .idiq-lgd i { font-style: normal; display: inline-block; width: 9px; height: 9px;
               border-radius: 2px; margin-right: 4px; vertical-align: middle; }
 
+/* ── PRE-PIPELINE BD ACTIVITY ───────────────────────────── */
+.bd-months { display:grid; grid-template-columns:repeat(12,1fr); gap:6px; align-items:end; height:110px;
+             padding:0 2px; margin:6px 0 4px; }
+.bd-mcol { display:flex; flex-direction:column; justify-content:flex-end; height:100%; position:relative; }
+.bd-mcol span { display:block; width:100%; }
+.bd-mcol .bd-mval { font-size:10px; font-weight:800; color:var(--near-black); text-align:center; margin-bottom:2px; }
+.bd-mlbls { display:grid; grid-template-columns:repeat(12,1fr); gap:6px; font-size:9px; font-weight:700;
+            color:var(--lgray); text-align:center; text-transform:uppercase; }
+.bd-mlbls .fut { opacity:.45; }
+.bd-filters { display:flex; flex-wrap:wrap; gap:6px; margin:14px 0 8px; align-items:center; }
+.bd-filters .lbl { font-size:9px; font-weight:700; color:var(--lgray); text-transform:uppercase; letter-spacing:.5px; margin-right:4px; }
+.bd-chip { border:1px solid var(--border); background:#fff; border-radius:12px; padding:3px 10px; font-size:10px;
+           font-weight:700; color:var(--charcoal); cursor:pointer; font-family:inherit; }
+.bd-chip.on { background:var(--charcoal); color:#fff; border-color:var(--charcoal); }
+.bd-pill { display:inline-block; padding:2px 8px; border-radius:10px; font-size:9px; font-weight:800;
+           text-transform:uppercase; letter-spacing:.4px; white-space:nowrap; }
+.bdt-prospect { background:#FEF0E6; color:#B04A0E; }
+.bdt-teaming  { background:#E8EEFA; color:#2E5496; }
+.bdt-account  { background:#EFEFEF; color:#5A5A5A; }
+.bds-convert  { background:#2E5496; color:#fff; }
+.bds-owed     { background:#FBE3E4; color:var(--red); }
+.bds-nurture  { background:#E8EEFA; color:#2E5496; }
+.bds-outreach { background:#F3F3F3; color:#6B6B6B; }
+.bds-nofit    { background:#F3F3F3; color:#9A9A9A; text-decoration:line-through; }
+.bd-row { cursor:pointer; }
+.bd-row:hover td { background:#FAFAFA; }
+.bd-row td { vertical-align:top; }
+.bd-caret { display:inline-block; width:10px; color:var(--lgray); font-size:9px; transition:transform .15s; }
+.bd-row.open .bd-caret { transform:rotate(90deg); }
+.bd-tl td { background:#FAFAFA; padding:0 12px 12px 30px !important; }
+.bd-tl-item { display:grid; grid-template-columns:78px 120px 1fr; gap:10px; font-size:10.5px; line-height:1.45;
+              padding:6px 0; border-top:1px dashed var(--border); color:var(--charcoal); }
+.bd-tl-item:first-child { border-top:0; }
+.bd-tl-d { font-weight:800; font-variant-numeric:tabular-nums; }
+.bd-tl-c { color:var(--lgray); font-weight:700; font-size:9.5px; text-transform:uppercase; letter-spacing:.3px; }
+.bd-note { font-size:10.5px; color:var(--charcoal); line-height:1.4; max-width:360px; }
+.bd-next { font-size:10.5px; line-height:1.4; color:var(--near-black); font-weight:600; max-width:300px; }
+@media (max-width:700px){ .bd-tl-item{grid-template-columns:70px 1fr;} .bd-tl-c{display:none;} .bd-months{height:90px;gap:3px;} .bd-mlbls{gap:3px;font-size:8px;}
+  .bd-mcol .bd-mval{font-size:9px;} #bdTbody td:nth-child(6), #bd ~ .idiq-card th:nth-child(6){display:none;} }
+
 /* ── STALLED DEALS / DEAL MOMENTUM ───────────────────────── */
 .stall-band { display:inline-block; padding:2px 8px; border-radius:10px; font-size:9px;
               font-weight:800; text-transform:uppercase; letter-spacing:0.4px; white-space:nowrap; }
@@ -659,6 +699,7 @@ tbody tr:hover td { background: #FEF0E6; }
     <a href="#pipeline">Sales Pipeline</a>
     <a href="#idiq">IDIQ Exposure</a>
     <a href="#stalled">Stalled Deals</a>
+    <a href="#bd">BD Activity</a>
     <a href="#forecast">Forecast vs Actual</a>
     <a href="#ops">     Operations</a>
     <a href="#claims">  Claims Status</a>
@@ -936,7 +977,58 @@ tbody tr:hover td { background: #FEF0E6; }
       really has stopped moving <em>or</em> the work on it is not being logged in the CRM &mdash; and from
       outside the deal those look identical. Both are management problems, but they need opposite
       responses, so confirm which one you are looking at before acting. Every figure here derives from
-      the CRM deals export joined to the activity log; nothing is estimated.
+      the CRM deals export joined to the full-history activity log; nothing is estimated. Business-development work not yet
+      tied to a deal is tracked separately on the <a href="#bd" style="color:var(--orange)">BD Activity</a> tab.
+    </div>
+  </div>
+
+  <!-- ── PRE-PIPELINE BD ACTIVITY ───────────── -->
+  <div class="spacer" id="bd"></div>
+  <div class="section-hdr">
+    <div class="dot-accent"><span></span><span></span><span></span><span></span></div>
+    BD ACTIVITY &mdash; RELATIONSHIPS NOT YET TIED TO A DEAL
+    <span style="color:var(--orange);font-size:10px;" id="bdHdrNote"></span>
+  </div>
+  <div class="idiq-card">
+    <div class="idiq-tiles" id="bdTiles"></div>
+
+    <div style="font-size:10px;font-weight:700;color:var(--lgray);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">
+      Pre-pipeline BD touches logged per month, 2026
+    </div>
+    <div class="bd-months" id="bdMonths"></div>
+    <div class="bd-mlbls" id="bdMonthLbls"></div>
+    <div class="stall-lgd" style="margin-top:8px">
+      <span><i style="background:#F26721"></i>Prospect</span>
+      <span><i style="background:#2E5496"></i>Teaming partner</span>
+      <span><i style="background:#B9B9B9"></i>Existing account (activity not on a deal)</span>
+    </div>
+
+    <div class="bd-filters" id="bdFilters"></div>
+    <div class="table-card" style="border-radius:6px">
+      <div class="table-scroll" style="max-height:640px">
+        <table>
+          <thead><tr>
+            <th style="width:220px">Company</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th class="text-right">Touches</th>
+            <th class="text-right">Last Touch</th>
+            <th>Latest Note</th>
+            <th>Next Step</th>
+          </tr></thead>
+          <tbody id="bdTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="bdCallout" style="margin-top:14px"></div>
+
+    <div style="margin-top:12px;font-size:10px;color:var(--lgray);line-height:1.5">
+      <strong>What is on this list.</strong> Every 2026 activity in the CRM activity log that is not linked to a deal,
+      grouped by company &mdash; one row per relationship; click a row for its full timeline. Owner-reassignment
+      records and test leads are excluded. These relationships carry <strong>no dollar value and are not in the
+      pipeline or the forecast</strong>; they show where new deals should come from. Type and Next Step are set
+      by reading the notes and are reviewed every refresh.
     </div>
   </div>
 
@@ -1118,53 +1210,76 @@ tbody tr:hover td { background: #FEF0E6; }
 
 const DATA = {
   asOf: new Date().toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}),
-  currentMonth: "September",
+  currentMonth: "October",
   claimsStatus: [
-    {status:'Open',         count:0,    value:0.00,       color:'#B62126'},
-    {status:'Unassigned',   count:1,    value:0.00,       color:'#C94020'},
-    {status:'Assigned',     count:14,   value:11825.00,   color:'#F26721'},
-    {status:'Accepted',     count:1,    value:800.00,     color:'#D4A020'},
-    {status:'Contacted',    count:1,    value:800.00,     color:'#BAAB1A'},
-    {status:'Job Started',  count:0,    value:0.00,       color:'#5DADE2'},
-    {status:'Estimate Hold',count:1,    value:1000.00,    color:'#939598'},
-    {status:'Inspected',    count:1,    value:800.00,     color:'#638AC6'},
-    {status:'Returned',     count:1,    value:0.00,       color:'#7B5EA7'},
-    {status:'Reviewed',     count:0,    value:0.00,       color:'#4A90D9'},
-    {status:'Approved',     count:222,  value:103975.00,  color:'#2E5496'},
+    {status:'Open',         count:0,  value:0.00,       color:'#B62126'},
+    {status:'Unassigned',   count:1,  value:0.00,       color:'#C94020'},
+    {status:'Assigned',     count:29, value:23725.00,   color:'#F26721'},
+    {status:'Accepted',     count:1,  value:800.00,     color:'#D4A020'},
+    {status:'Contacted',    count:1,  value:800.00,     color:'#BAAB1A'},
+    {status:'Job Started',  count:0,  value:0.00,       color:'#5DADE2'},
+    {status:'Estimate Hold',count:1,  value:1000.00,    color:'#939598'},
+    {status:'Inspected',    count:0,  value:0.00,       color:'#638AC6'},
+    {status:'Returned',     count:1,  value:0.00,       color:'#7B5EA7'},
+    {status:'Reviewed',     count:13, value:9350.00,    color:'#4A90D9'},
+    {status:'Approved',     count:130,value:59700.00,   color:'#2E5496'},
   ],
   clientRevenue: [
-    {client:'Mora Housing Management, Inc.',                 claims:369, rev:244650.00},
-    {client:'GrantWorks',                                    claims:155, rev:134400.00},
-    {client:'Ducky Recovery',                                claims:114, rev:48950.00},
-    {client:'Timberline Construction Group, LLC',            claims:132, rev:38100.00},
-    {client:'RM Quality Construction, LLC',                  claims:54, rev:34650.00},
-    {client:'Byrdson Services, LLC',                         claims:13, rev:8550.00},
-    {client:'Royal Engineers & Consultants',                 claims:11, rev:6000.00},
-    {client:'DSW',                                           claims:16, rev:4000.00},
-    {client:'A Bartlett Roofing & Construction',             claims:2, rev:975.00},
+    {client:'Mora Housing Management, Inc.',                    claims:414, rev:261750.00},
+    {client:'GrantWorks',                                       claims:155, rev:135200.00},
+    {client:'Ducky Recovery',                                   claims:126, rev:51800.00},
+    {client:'Timberline Construction Group, LLC',               claims:160, rev:45100.00},
+    {client:'RM Quality Construction, LLC',                     claims:69, rev:37750.00},
+    {client:'Byrdson Services, LLC',                            claims:13, rev:8550.00},
+    {client:'Royal Engineers & Consultants',                    claims:11, rev:6000.00},
+    {client:'DSW',                                              claims:16, rev:4000.00},
+    {client:'A Bartlett Roofing & Construction',                claims:2, rev:975.00},
   ],
   kpi: {
-    totalPipeline:    19758390.17,
-    weightedForecast: 10465993,
-    openDeals:        14,
-    claimsMTD:        35,
-    forecastMTD:      185187,
-    wonTotal:         2439400,
-    wonDealsCount:    13,
-    revenueMTD:       23150.00,
-    revenueYTD:       696606.29,
+    totalPipeline:    17418390.17,
+    weightedForecast: 9233493,
+    openDeals:        11,
+    claimsMTD:        21,
+    forecastMTD:      196813,
+    wonTotal:         3060400,
+    wonDealsCount:    18,
+    revenueMTD:       13625.00,
+    revenueYTD:       776216.29,
     iemTERevenue:     0,
-    iemTERevenueYTD:  176331.29,
-    teGrossYTD:       176331.29,
-    teNetYTD:         24978.00,
-    wipCount:         0,
-    wipRevenue:       0,
-    pctMTD:           13,
+    iemTERevenueYTD:  225091.29,
+    teGrossYTD:       225091.29,
+    teNetYTD:         32292.00,
+    wipCount:         13,
+    wipRevenue:       9350,
+    pctMTD:           7,
     // First month of the revised forecast model (June = index 5); realization measures from here
     realizationFromIdx: 5,
   },
   forecast: {
     labels:   ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+    // Re-run 2026-10-01 (September close-out): September is now a closed month and is FROZEN at its
+    // published 357,124.127 pre-haircut / 178,562.063 post-haircut (a from-scratch recompute would give
+    // 350,874.127 only because GA - Dept of Community Affairs ARRP slipped 9/30->10/31 after the fact).
+    // Oct-Dec recomputed: SC - Timberline SC Construction Management ($70K) and GA - CDBG-DR Allocation
+    // ($70K), both Timberline, closed Won 10/1 and moved from the pipeline layer to the won layer
+    // (+$11,666.67/mo from Oct, less their 25%-weighted pipeline contributions). NC - Renew NC GC support
+    // (Shepherd Response, $150K @ 25%) was moved Qualified->Prospecting on 10/1 and does NOT appear in the
+    // CRM deals export at all, so it drops out of layer 3 (-$3,125/mo). Net pre-haircut: Oct 385,292.01->
+    // 392,375.343, Nov 878,655.842->884,280.842, Dec 852,562.532->858,187.532. 50% haircut re-applied.
+    // Self-check: the prior 14-deal/15-win set reproduces the 9/24 Sep-Dec arrays to the cent.
+    // Re-run 2026-09-24: layers 2-3 recomputed from the current CRM export. Two new self-generated deals
+    // (Strategy Type blank in the export — defaulted to General Contractor Sub, matching similarly-named
+    // prior deals with the same companies; flag for Shane to confirm in CRM) closed Won 9/22: GA - Construction
+    // Management Inspection Services (RM Quality, $56K) and CA - Construction Management Inspections
+    // (Timberline, $125K) — won count 13->15, wonTotal +$181K. Bigger driver: six open deals slipped their
+    // expected close date (Akytech 10/1->11/30, PRDOH 11/2->11/30, Hillsboro 9/30->10/31, NC Renew NC
+    // 9/30->10/31, SC Timberline 10/1->10/5, GA CDBG-DR Allocation 9/30->11/30) with NO deal past-due, so the
+    // floor is still the current month. Net effect: September pre-haircut forecast fell 370,374->357,124 (three
+    // deals dropped out of the Sep layer) and October fell 850,216->385,292 (Akytech's $478,549/mo contribution
+    // moved from Oct into Nov as its close slipped past month-end) while Nov/Dec absorbed it instead. The 50%
+    // Sep-Dec haircut is re-applied on top per Shane's 9/11 standing direction. Total pipeline and weighted
+    // forecast are unchanged to the cent (19,758,390.17 / 10,465,993) — the 14 open deals are the same set,
+    // only dates moved on 6 of them.
     // Re-run 2026-09-17: FOURTH consecutive refresh with no substantive CRM change (same 14 open deals,
     // amounts, probabilities and close dates; won still 13). Earliest open expected close is still 9/30,
     // so the past-due floor rule pulls nothing forward — arrays and the 50% haircut carried unchanged.
@@ -1190,15 +1305,23 @@ const DATA = {
     // volume is running below plan. Jan-Aug are closed months and are NOT touched.
     // `preHaircut` keeps the original model line on the chart so the size of the override stays
     // auditable. To undo, restore forecast/core from preHaircut/preHaircutCore.
-    forecast: [0,0,41955,49587,91577,189749.74,235377.20,277974.03,185187.065,425107.835,431786.255,418739.60],
-    core:     [0,0,41955,49587,91577,189749.74,235377.20,277974.03,185187.065,185833.505,192511.925,179465.27],
-    preHaircut:     [0,0,41955,49587,91577,189749.74,235377.20,277974.03,370374.13,850215.67,863572.51,837479.20],
-    preHaircutCore: [0,0,41955,49587,91577,189749.74,235377.20,277974.03,370374.13,371667.01,385023.85,358930.54],
+    // Re-run 2026-10-08 (October roll): floor month = October. FL - Hillsboro County CDBG-DR (Ducky, $300K)
+    // closed Won 10/5 -> won layer (+$25,000/mo from Oct, less its $23,750/mo 95%-weighted pipeline share).
+    // FL - Pasco County ($2.5M IDIQ, 2027 close, never in layer 3) Lost 10/7 to competitor (shortlist: Tidal
+    // Basin, Tetra Tech, H2Bravo). FED - HUD ARC NSPIRE (Akytech) slipped 11/30/2026 -> 1/29/2027, so it leaves
+    // the 2026 model entirely (-$478,548.66/mo Nov-Dec) and core now equals forecast. New: CO - DOLA DRR
+    // Master Task Order RFQ ($750K IDIQ, 50%, 11/24) adds $31,250/mo Nov-Dec; Legacy Construction Logistical
+    // Staging Area staff aug is $0 in CRM so adds nothing. Sept stays frozen. Self-check: the 10/1 deal set
+    // reproduces the published 10/1 Oct-Dec pre-haircut arrays to the cent. 50% haircut re-applied.
+    forecast: [0,0,41955,49587,91577,189749.74,235377.2,277974.03,178562.06,196812.67,219116.09,206069.44],
+    core:     [0,0,41955,49587,91577,189749.74,235377.2,277974.03,178562.06,196812.67,219116.09,206069.44],
+    preHaircut:     [0,0,41955,49587,91577,189749.74,235377.2,277974.03,357124.13,393625.34,438232.18,412138.87],
+    preHaircutCore: [0,0,41955,49587,91577,189749.74,235377.2,277974.03,357124.13,393625.34,438232.18,412138.87],
     haircut: { pct: 50, fromIdx: 8, note: "Sep\u2013Dec cut 50% for stalled pipeline and below-plan claim volume" },
-    actual:   [58950,57150,49125,67200,113297.28,98428.64,113020.37,116285,23150,0,0,0],
+    actual:   [58950,57150,49125,67200,113297.28,98428.64,113020.37,116285,89135,13625,0,0],
     wip:      [0,0,0,0,0,0,0,0,0,0,0,0],
     // Gross T&E by month (RBI sheet) — lets the realization card split production from T&E
-    te:       [0,0,0,0,22497.28,42853.64,53020.37,57960,0,0,0,0],
+    te:       [0,0,0,0,22497.28,42853.64,53020.37,57960,48760,0,0,0],
   },
   // ── IDIQ (Indefinite Delivery / Indefinite Quantity) model ──────────────
   // Deals carrying Tags="IDIQ" in the CRM export get idiq:true on their openDeals
@@ -1209,42 +1332,45 @@ const DATA = {
   idiq: { captureRate: 25 },
   pipeline: {
     labels:  ["Prospecting","Qualified","Negotiation","Presentation"],
-    total:   [0,290000,550000,18918390.17],
-    weighted:[0,72500,472500,9920993],
+    total:   [0,0,250000,17168390.17],
+    weighted:[0,0,187500,9045993],
   },
   wonDeals: [
-    {"name":"BCA and Engineering Technical Assistance — Ernst & Young","strategy":"Sell To Winner","value":200000,"date":"1/26/2026"},
-    {"name":"NC - CDBG-DR Estimate Writing — RM Quality Construction","strategy":"General Contractor Sub","value":250000,"date":"3/17/2026"},
-    {"name":"FL - FDEM Elevate Florida Elevation Inspections — Ducky Recovery","strategy":"Sell To Winner","value":100000,"date":"3/26/2026"},
-    {"name":"FL - Construction Support Services CDBG-DR Allocation — Timberline Construction Group","strategy":"General Contractor Sub","value":125000,"date":"4/2/2026"},
-    {"name":"NC - RenewNC GC support — Byrdson","strategy":"General Contractor Sub","value":150000,"date":"4/9/2026"},
-    {"name":"FL - Pasco County CDBG-DR Allocation — A. Bartlett Roofing & Construction Services, LLC","strategy":"General Contractor Sub","value":100000,"date":"4/23/2026"},
-    {"name":"FL - Elevate Florida Elevation Inspections — Royal Engineering","strategy":"Sell To Winner","value":120000,"date":"5/11/2026"},
-    {"name":"NC - CDBG-DR Site Walks — Ducky Recovery","strategy":"General Contractor Sub","value":125000,"date":"5/15/2026"},
-    {"name":"NC - CDBG-DR Construction Management Inspections — Timberline Construction Group","strategy":"General Contractor Sub","value":125000,"date":"5/15/2026"},
-    {"name":"NM - Hermits Peak/Calf Canyon Fires — IEM","strategy":"RFP Sub","value":258400,"date":"5/21/2026"},
-    {"name":"FL - CDBG-DR Recon Services — Byrdson","strategy":"General Contractor Sub","value":100000,"date":"7/2/2026"},
-    {"name":"WA - CDBG-DR Spokane County Oregon and Gray Road RFQ #26-8099 — DSW Homes","strategy":"RFP Sub","value":524000,"date":"7/16/2026"},
-    {"name":"AR - CDBG-DR Allocation — GrantWorks","strategy":"RFP Sub","value":262000,"date":"8/20/2026"}
+    {"name": "BCA and Engineering Technical Assistance — Ernst & Young", "strategy": "Sell To Winner", "value": 200000, "date": "1/26/2026"},
+    {"name": "NC - CDBG-DR Estimate Writing — RM Quality Construction", "strategy": "General Contractor Sub", "value": 250000, "date": "3/17/2026"},
+    {"name": "FL - FDEM Elevate Florida Elevation Inspections — Ducky Recovery", "strategy": "Sell To Winner", "value": 100000, "date": "3/26/2026"},
+    {"name": "FL - Construction Support Services CDBG-DR Allocation — Timberline Construction Group", "strategy": "General Contractor Sub", "value": 125000, "date": "4/2/2026"},
+    {"name": "NC - RenewNC GC support — Byrdson", "strategy": "General Contractor Sub", "value": 150000, "date": "4/9/2026"},
+    {"name": "FL - Pasco County CDBG-DR Allocation — A. Bartlett Roofing & Construction Services, LLC", "strategy": "General Contractor Sub", "value": 100000, "date": "4/23/2026"},
+    {"name": "FL - Elevate Florida Elevation Inspections — Royal Engineering", "strategy": "Sell To Winner", "value": 120000, "date": "5/11/2026"},
+    {"name": "NC - CDBG-DR Site Walks — Ducky Recovery", "strategy": "General Contractor Sub", "value": 125000, "date": "5/15/2026"},
+    {"name": "NC - CDBG-DR Construction Management Inspections — Timberline Construction Group", "strategy": "General Contractor Sub", "value": 125000, "date": "5/15/2026"},
+    {"name": "NM - Hermits Peak/Calf Canyon Fires — IEM", "strategy": "RFP Sub", "value": 258400, "date": "5/21/2026"},
+    {"name": "FL - CDBG-DR Recon Services — Byrdson", "strategy": "General Contractor Sub", "value": 100000, "date": "7/2/2026"},
+    {"name": "WA - CDBG-DR Spokane County Oregon and Gray Road RFQ #26-8099 — DSW Homes", "strategy": "RFP Sub", "value": 524000, "date": "7/16/2026"},
+    {"name": "AR - CDBG-DR Allocation — GrantWorks", "strategy": "RFP Sub", "value": 262000, "date": "8/20/2026"},
+    {"name": "GA - Construction Management Inspection Services — RM Quality Construction", "strategy": "General Contractor Sub", "value": 56000, "date": "9/22/2026"},
+    {"name": "CA - Construction Management Inspections — Timberline Construction Group", "strategy": "General Contractor Sub", "value": 125000, "date": "9/22/2026"},
+    {"name": "SC - Timberline South Carolina Construction Management — Timberline Construction Group", "strategy": "Sell To Winner", "value": 70000, "date": "10/1/2026"},
+    {"name": "GA - CDBG-DR Allocation — Timberline Construction Group", "strategy": "General Contractor Sub", "value": 70000, "date": "10/1/2026"},
+    {"name": "FL - Hillsboro County CDBG-DR — Ducky Recovery", "strategy": "General Contractor Sub", "value": 300000, "date": "10/5/2026"}
   ],
   lostDeals: [
-    {"name":"FL - City of Miami Beach HQS-NSPIRE RFP 01-2026","company":"Housing Authority of the City of Miami Beach (HACMB)","strategy":"RFP Prime","amount":563475.0,"date":"5/21/2026","reason":"Price","notes":"See attached scoring sheet. Winning bidder was Gilson Software Solutions - PHA, LLC ."}
+    {"name": "FL - City of Miami Beach HQS-NSPIRE RFP 01-2026", "company": "Housing Authority of the City of Miami Beach (HACMB)", "strategy": "RFP Prime", "amount": 563475.0, "date": "5/21/2026", "reason": "Price", "notes": "See attached scoring sheet. Winning bidder was Gilson Software Solutions - PHA, LLC ."},
+    {"name": "FL - Pasco County Post-disaster services", "company": "Pasco County", "strategy": "RFP Prime", "amount": 2500000.0, "date": "10/7/2026", "reason": "Competitor", "notes": "Received notification of short-listed vendor selection; Tidal Basin, Tetra Tech Inc., H2Bravo. The County intends to award a primary and a secondary contract to firms with whom an agreement is reached, up to two (2) contracts."}
   ],
   openDeals: [
-    {"name":"FED - HUD ARC NSPIRE Backlog Inspection","company":"Akytech Consulting","strategy":"RFP Sub","amount":9570973.17,"weighted":5742584,"stage":"Presentation","prob":60,"close":"10/1/2026","owner":"Shane Lucas"},
-    {"idiq":true,"name":"FL - City of Sarasota Emergency Management Consulting Services","company":"KPMG","strategy":"RFP Sub","amount":2500000.0,"weighted":1250000,"stage":"Presentation","prob":50,"close":"1/1/2027","owner":"Shane Lucas"},
-    {"idiq":true,"name":"FL - Pasco County Post-disaster services","company":"Pasco County","strategy":"RFP Prime","amount":2500000.0,"weighted":1250000,"stage":"Presentation","prob":50,"close":"1/1/2027","owner":"Shane Lucas"},
-    {"idiq":true,"name":"LA - OCD Program Management and Construction Management Services","company":"Ducky Recovery","strategy":"RFP Sub","amount":1395917.0,"weighted":697959,"stage":"Presentation","prob":50,"close":"8/1/2027","owner":"Shane Lucas"},
-    {"idiq":true,"name":"PR - PRDOH Cost Estimating Services \u2014 CDBG-DR / CDBG-MIT","company":"BR +","strategy":"RFP Sub","amount":750000.0,"weighted":375000,"stage":"Presentation","prob":50,"close":"11/2/2026","owner":"Shane Lucas"},
-    {"name":"NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments","company":"Department of Homeland Security and Emergency Management (DHSEM)","strategy":"RFP Prime","amount":1101500.0,"weighted":330450,"stage":"Presentation","prob":30,"close":"10/31/2026","owner":"Shane Lucas"},
-    {"name":"FL - Hillsboro County CDBG-DR","company":"Ducky Recovery","strategy":"General Contractor Sub","amount":300000.0,"weighted":285000,"stage":"Negotiation","prob":95,"close":"9/30/2026","owner":"Shane Lucas"},
-    {"idiq":true,"name":"NC - Staff Augmentation CDBG-DR Expert Administrative Support","company":"OST Global","strategy":"RFP Sub","amount":250000.0,"weighted":187500,"stage":"Negotiation","prob":75,"close":"10/30/2026","owner":"Shane Lucas"},
-    {"idiq":true,"name":"LA - OCD Program Management and Construction Management Services","company":"GrantWorks","strategy":"RFP Sub","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"8/1/2027","owner":"Shane Lucas"},
-    {"idiq":true,"name":"LA - OCD Program Management and Construction Management Services","company":"Dynamic","strategy":"RFP Sub","amount":400000.0,"weighted":100000,"stage":"Presentation","prob":25,"close":"8/1/2027","owner":"Shane Lucas"},
-    {"name":"GA - Dept of Community Affairs ARRP","company":"Timberline Construction Group","strategy":"RFP Sub","amount":300000.0,"weighted":75000,"stage":"Presentation","prob":25,"close":"9/30/2026","owner":"Shane Lucas"},
-    {"name":"NC - Renew NC GC support","company":"Shepherd Response","strategy":"Sell To Winner","amount":150000.0,"weighted":37500,"stage":"Qualified","prob":25,"close":"9/30/2026","owner":"Shane Lucas"},
-    {"name":"SC - Timberline South Carolina Construction Management","company":"Timberline Construction Group","strategy":"Sell To Winner","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"10/1/2026","owner":"Shane Lucas"},
-    {"name":"GA - CDBG-DR Allocation","company":"Timberline Construction Group","strategy":"General Contractor Sub","amount":70000.0,"weighted":17500,"stage":"Qualified","prob":25,"close":"9/30/2026","owner":"Shane Lucas"}
+    {"name": "FED - HUD ARC NSPIRE Backlog Inspection", "company": "Akytech Consulting", "strategy": "RFP Sub", "amount": 9570973.17, "weighted": 5742584, "stage": "Presentation", "prob": 60, "close": "1/29/2027", "owner": "Shane Lucas"},
+    {"idiq": true, "name": "FL - City of Sarasota Emergency Management Consulting Services", "company": "KPMG", "strategy": "RFP Sub", "amount": 2500000.0, "weighted": 1250000, "stage": "Presentation", "prob": 50, "close": "1/1/2027", "owner": "Shane Lucas"},
+    {"idiq": true, "name": "LA - OCD Program Management and Construction Management Services", "company": "Ducky Recovery", "strategy": "RFP Sub", "amount": 1395917.0, "weighted": 697959, "stage": "Presentation", "prob": 50, "close": "8/1/2027", "owner": "Shane Lucas"},
+    {"idiq": true, "name": "PR - PRDOH Cost Estimating Services \u2014 CDBG-DR / CDBG-MIT", "company": "BR +", "strategy": "RFP Sub", "amount": 750000.0, "weighted": 375000, "stage": "Presentation", "prob": 50, "close": "11/30/2026", "owner": "Shane Lucas"},
+    {"idiq": true, "name": "CO \u2013 RFQ NLAA-2027000003 Pre-Disaster Request for Qualifications (DRR Program Master Task Order Contract)", "company": "Colorado Department of Local Affairs (DOLA), Division of Local Government", "strategy": "RFP Prime", "amount": 750000.0, "weighted": 375000, "stage": "Presentation", "prob": 50, "close": "11/24/2026", "owner": "Shane Lucas"},
+    {"name": "NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments", "company": "Department of Homeland Security and Emergency Management (DHSEM)", "strategy": "RFP Prime", "amount": 1101500.0, "weighted": 330450, "stage": "Presentation", "prob": 30, "close": "10/31/2026", "owner": "Shane Lucas"},
+    {"idiq": true, "name": "NC - Staff Augmentation CDBG-DR Expert Administrative Support", "company": "OST Global", "strategy": "RFP Sub", "amount": 250000.0, "weighted": 187500, "stage": "Negotiation", "prob": 75, "close": "10/30/2026", "owner": "Shane Lucas"},
+    {"idiq": true, "name": "LA - OCD Program Management and Construction Management Services", "company": "Dynamic", "strategy": "RFP Sub", "amount": 400000.0, "weighted": 100000, "stage": "Presentation", "prob": 25, "close": "8/1/2027", "owner": "Shane Lucas"},
+    {"idiq": true, "name": "LA - OCD Program Management and Construction Management Services", "company": "GrantWorks", "strategy": "RFP Sub", "amount": 400000.0, "weighted": 100000, "stage": "Presentation", "prob": 25, "close": "8/1/2027", "owner": "Shane Lucas"},
+    {"name": "GA - Dept of Community Affairs ARRP", "company": "Timberline Construction Group", "strategy": "RFP Sub", "amount": 300000.0, "weighted": 75000, "stage": "Presentation", "prob": 25, "close": "10/31/2026", "owner": "Shane Lucas"},
+    {"name": "Logistical Staging Area - Staff Augmentation", "company": "Legacy Construction", "strategy": "Sell To Winner", "amount": 0.0, "weighted": 0, "stage": "Qualified", "prob": 25, "close": "10/9/2026", "owner": "Shane Lucas"}
   ],
 
   // ── DEAL MOMENTUM / STALLED PIPELINE ────────────────────────────────────
@@ -1259,47 +1385,106 @@ const DATA = {
   //   + task 25 (over/90, capped; a flat 20 if NO next task exists)
   //   + 15 if the deal closes within 30 days and is not yet in Negotiation.
   // Bands: >=60 Stalled, 45-59 Watch, <45 Moving. Re-derive every refresh; never carry forward.
-  stalledAsOf: "9/17/2026",
+  stalledAsOf: "10/8/2026",
   crmHealth: {
-    totalActivities: 85,
-    lastAnyActivity: "9/17/2026",
-    lastDealLinkedActivity: "9/17/2026",
-    lastStageChange: "8/20/2026",
-    refreshesNoMovement: 4,
-    // Activity logged 9/3 against a company that has no deal record at all — still no deal on 9/17.
-    unpipelined: "9/3 activity log records a new contract started with Allco Construction, Inc. " +
-                 "(\u201CJason will send details\u201D) \u2014 still no deal record two weeks later, so it is in " +
-                 "neither the pipeline nor the forecast.",
+    totalActivities: 201,
+    lastAnyActivity: "10/7/2026",
+    lastDealLinkedActivity: "10/7/2026",
+    lastStageChange: "10/7/2026",
+    refreshesNoMovement: 0,
+    // Company-level activity with no deal record behind it (re-checked 10/8 — no new non-deal activity since 10/1).
+    unpipelined: "Allco Construction (contract started 9/3) and Resilience Community Navigator (MNDA, 10/1) " +
+                 "have BD activity but no deal record \u2014 see the BD Activity tab for all pre-pipeline relationships.",
   },
-  // 9/17: Pasco's "Submit Proposal" task was completed in the activity log ~30 min after the deals export
-  // was cut, so it is treated as closed (no next task). The 9/17 Ducky Recovery note joined by Deal ID to
-  // the LA - OCD deal discusses Hillsborough feed stock — likely mis-linked to the FL - Hillsboro deal.
+  // 10/8: Hillsboro (Ducky) Negotiation->Won 10/5 (assignments started under the standing MSA); Pasco County
+  // Presentation->Lost 10/7; CO - DOLA RFQ Qualified->Presentation 10/7 (new to the export). New $0 Legacy Construction
+  // staff-aug deal (Qualified, close 10/9, no activity logged yet). Akytech close 11/30/2026 -> 1/29/2027; with no dtc
+  // bonus to lose it re-enters Stalled purely from aging (55->60). NC Renew NC GC (Shepherd) still absent from deals export.
+  // SOURCE 10/1: all_activities_activities_export.csv is now a TRUE full-history export (320 rows back to
+  // 6/2025; the 9/24 file only reached back to 6/24/2026). acts is therefore a lifetime count and rose on
+  // several deals (e.g. OST 2->21); dsa and every stall score are unchanged. totalActivities counts 2026 only
+  // (the tile reads "logged all year"). 10/1 stage changes: SC Timberline and GA CDBG-DR
+  // Allocation (Timberline) Qualified->Won; NC - Renew NC GC support (Shepherd) Qualified->Prospecting,
+  // after which it is missing from the deals export entirely. GA ARRP close 9/30->10/31, task moved to 10/2.
+  // 9/22: two deals (CA - Construction Mgmt Inspections/Timberline; GA - Construction Mgmt Inspection
+  // Services/RM Quality) moved Won and drop out of this list. That is the first stage change of any
+  // kind since 8/20/2026 (refreshesNoMovement resets 4->0). The 9/17 Ducky Recovery note joined by Deal
+  // ID to the LA - OCD deal discusses Hillsborough feed stock — likely mis-linked to the FL - Hillsboro
+  // deal; still unresolved as of 9/24. Six deals below slipped their Expected close since 9/17 (Akytech,
+  // PRDOH, Hillsboro, NC Renew NC, SC Timberline, GA CDBG-DR Allocation) — see forecast comment above.
   stalled: [
-    {"name": "GA - Dept of Community Affairs ARRP", "company": "Timberline Construction Group", "strategy": "RFP Sub", "stage": "Presentation", "amount": 300000.0, "wtd": 75000, "prob": 25, "close": "9/30/2026", "dtc": 13, "dis": 279, "dsa": 56, "acts": 1, "task": "Meet with Jeff for updates", "taskDue": "7/1/2026", "over": 78, "idiq": false, "score": 83},
-    {"name": "NC - Staff Augmentation CDBG-DR Expert Administrative Support", "company": "OST Global", "strategy": "RFP Sub", "stage": "Negotiation", "amount": 250000.0, "wtd": 187500, "prob": 75, "close": "10/30/2026", "dtc": 43, "dis": 254, "dsa": 79, "acts": 2, "task": "Semi-monthly meeting with OST", "taskDue": "5/25/2026", "over": 115, "idiq": true, "score": 79},
-    {"name": "NC - Renew NC GC support", "company": "Shepherd Response", "strategy": "Sell To Winner", "stage": "Qualified", "amount": 150000.0, "wtd": 37500, "prob": 25, "close": "9/30/2026", "dtc": 13, "dis": 79, "dsa": 56, "acts": 1, "task": "Schedule call with Kyle.  He requested a meeting", "taskDue": "7/1/2026", "over": 78, "idiq": false, "score": 66},
-    {"name": "SC - Timberline South Carolina Construction Management", "company": "Timberline Construction Group", "strategy": "Sell To Winner", "stage": "Qualified", "amount": 70000.0, "wtd": 17500, "prob": 25, "close": "10/1/2026", "dtc": 14, "dis": 84, "dsa": 56, "acts": 1, "task": "Follow up with Kiara on SC kickoff", "taskDue": "7/8/2026", "over": 71, "idiq": false, "score": 64},
-    {"name": "GA - CDBG-DR Allocation", "company": "Timberline Construction Group", "strategy": "General Contractor Sub", "stage": "Qualified", "amount": 70000.0, "wtd": 17500, "prob": 25, "close": "9/30/2026", "dtc": 13, "dis": 84, "dsa": 56, "acts": 1, "task": "Follow up with Kiara on GA kickoff", "taskDue": "7/8/2026", "over": 71, "idiq": false, "score": 64},
-    {"name": "FED - HUD ARC NSPIRE Backlog Inspection", "company": "Akytech Consulting", "strategy": "RFP Sub", "stage": "Presentation", "amount": 9570973.17, "wtd": 5742584, "prob": 60, "close": "10/1/2026", "dtc": 14, "dis": 163, "dsa": 50, "acts": 4, "task": "Follow up on award status", "taskDue": "8/12/2026", "over": 36, "idiq": false, "score": 60},
-    {"name": "FL - Hillsboro County CDBG-DR", "company": "Ducky Recovery", "strategy": "General Contractor Sub", "stage": "Negotiation", "amount": 300000.0, "wtd": 285000, "prob": 95, "close": "9/30/2026", "dtc": 13, "dis": 90, "dsa": 79, "acts": 2, "task": "Permitting Expeditor Process", "taskDue": "7/7/2026", "over": 72, "idiq": false, "score": 59},
-    {"name": "LA - OCD Program Management and Construction Management Services", "company": "Dynamic", "strategy": "RFP Sub", "stage": "Presentation", "amount": 400000.0, "wtd": 100000, "prob": 25, "close": "8/1/2027", "dtc": 318, "dis": 189, "dsa": 49, "acts": 2, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 57},
-    {"name": "NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments", "company": "Department of Homeland Security and Emergency Management (DHSEM)", "strategy": "RFP Prime", "stage": "Presentation", "amount": 1101500.0, "wtd": 330450, "prob": 30, "close": "10/31/2026", "dtc": 44, "dis": 155, "dsa": 50, "acts": 2, "task": null, "taskDue": null, "over": null, "idiq": false, "score": 54},
-    {"name": "LA - OCD Program Management and Construction Management Services", "company": "GrantWorks", "strategy": "RFP Sub", "stage": "Presentation", "amount": 400000.0, "wtd": 100000, "prob": 25, "close": "8/1/2027", "dtc": 318, "dis": 181, "dsa": 37, "acts": 3, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 51},
-    {"name": "PR - PRDOH Cost Estimating Services — CDBG-DR / CDBG-MIT", "company": "BR +", "strategy": "RFP Sub", "stage": "Presentation", "amount": 750000.0, "wtd": 375000, "prob": 50, "close": "11/2/2026", "dtc": 46, "dis": 62, "dsa": 63, "acts": 4, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 50},
-    {"name": "FL - City of Sarasota Emergency Management Consulting Services", "company": "KPMG", "strategy": "RFP Sub", "stage": "Presentation", "amount": 2500000.0, "wtd": 1250000, "prob": 50, "close": "1/1/2027", "dtc": 106, "dis": 48, "dsa": 49, "acts": 1, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 44},
-    {"name": "LA - OCD Program Management and Construction Management Services", "company": "Ducky Recovery", "strategy": "RFP Sub", "stage": "Presentation", "amount": 1395917.0, "wtd": 697959, "prob": 50, "close": "8/1/2027", "dtc": 318, "dis": 195, "dsa": 0, "acts": 1, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 38},
-    {"name": "FL - Pasco County Post-disaster services", "company": "Pasco County", "strategy": "RFP Prime", "stage": "Presentation", "amount": 2500000.0, "wtd": 1250000, "prob": 50, "close": "1/1/2027", "dtc": 106, "dis": 48, "dsa": 0, "acts": 5, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 24}
+    {"name": "NC - Staff Augmentation CDBG-DR Expert Administrative Support", "company": "OST Global", "strategy": "RFP Sub", "stage": "Negotiation", "amount": 250000.0, "wtd": 187500, "prob": 75, "close": "10/30/2026", "dtc": 22, "dis": 275, "dsa": 100, "acts": 21, "task": "Semi-monthly meeting with OST", "taskDue": "5/25/2026", "over": 136, "idiq": true, "score": 85},
+    {"name": "NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments", "company": "Department of Homeland Security and Emergency Management (DHSEM)", "strategy": "RFP Prime", "stage": "Presentation", "amount": 1101500.0, "wtd": 330450, "prob": 30, "close": "10/31/2026", "dtc": 23, "dis": 176, "dsa": 71, "acts": 3, "task": null, "taskDue": null, "over": null, "idiq": false, "score": 79},
+    {"name": "GA - Dept of Community Affairs ARRP", "company": "Timberline Construction Group", "strategy": "RFP Sub", "stage": "Presentation", "amount": 300000.0, "wtd": 75000, "prob": 25, "close": "10/31/2026", "dtc": 23, "dis": 300, "dsa": 77, "acts": 1, "task": "Meet with Jeff for updates", "taskDue": "10/2/2026", "over": 6, "idiq": false, "score": 72},
+    {"name": "LA - OCD Program Management and Construction Management Services", "company": "Dynamic", "strategy": "RFP Sub", "stage": "Presentation", "amount": 400000.0, "wtd": 100000, "prob": 25, "close": "8/1/2027", "dtc": 297, "dis": 210, "dsa": 70, "acts": 2, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 67},
+    {"name": "LA - OCD Program Management and Construction Management Services", "company": "GrantWorks", "strategy": "RFP Sub", "stage": "Presentation", "amount": 400000.0, "wtd": 100000, "prob": 25, "close": "8/1/2027", "dtc": 297, "dis": 202, "dsa": 58, "acts": 3, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 61},
+    {"name": "FED - HUD ARC NSPIRE Backlog Inspection", "company": "Akytech Consulting", "strategy": "RFP Sub", "stage": "Presentation", "amount": 9570973.17, "wtd": 5742584, "prob": 60, "close": "1/29/2027", "dtc": 113, "dis": 184, "dsa": 71, "acts": 7, "task": "Follow up on award status", "taskDue": "8/12/2026", "over": 57, "idiq": false, "score": 60},
+    {"name": "PR - PRDOH Cost Estimating Services — CDBG-DR / CDBG-MIT", "company": "BR +", "strategy": "RFP Sub", "stage": "Presentation", "amount": 750000.0, "wtd": 375000, "prob": 50, "close": "11/30/2026", "dtc": 53, "dis": 83, "dsa": 84, "acts": 4, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 60},
+    {"name": "FL - City of Sarasota Emergency Management Consulting Services", "company": "KPMG", "strategy": "RFP Sub", "stage": "Presentation", "amount": 2500000.0, "wtd": 1250000, "prob": 50, "close": "1/1/2027", "dtc": 85, "dis": 69, "dsa": 70, "acts": 1, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 54},
+    {"name": "Logistical Staging Area - Staff Augmentation", "company": "Legacy Construction", "strategy": "Sell To Winner", "stage": "Qualified", "amount": 0.0, "wtd": 0, "prob": 25, "close": "10/9/2026", "dtc": 1, "dis": 0, "dsa": null, "acts": 0, "task": "Obtain task order", "taskDue": "10/12/2026", "over": 0, "idiq": false, "score": 50},
+    {"name": "LA - OCD Program Management and Construction Management Services", "company": "Ducky Recovery", "strategy": "RFP Sub", "stage": "Presentation", "amount": 1395917.0, "wtd": 697959, "prob": 50, "close": "8/1/2027", "dtc": 297, "dis": 216, "dsa": 21, "acts": 8, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 48},
+    {"name": "CO – RFQ NLAA-2027000003 Pre-Disaster Request for Qualifications (DRR Program Master Task Order Contract)", "company": "Colorado Department of Local Affairs (DOLA), Division of Local Government", "strategy": "RFP Prime", "stage": "Presentation", "amount": 750000.0, "wtd": 375000, "prob": 50, "close": "11/24/2026", "dtc": 47, "dis": 0, "dsa": 1, "acts": 1, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 20}
   ],
 
+  // ── PRE-PIPELINE BD ACTIVITY ─────────────────────────────────────────────
+  // Every 2026 activity with NO Deal ID in all_activities_activities_export.csv, grouped by company,
+  // excluding Category Company/Person/Customer (owner reassignments, customer conversions) and test leads.
+  // type: Prospect | Teaming partner | Existing account (company has a deal record, this activity isn't on it)
+  // status: convert | owed (a promised follow-up has no logged outcome) | nurture | outreach (single cold
+  // touch) | nofit. type/status/next are hand-set from the notes — re-read new activities every refresh.
+  // Dates, counts and "days since" derive client-side from acts[].
+  bdAsOf: "10/8/2026",
+  bdActivity: [{"company": "AB & H", "type": "Prospect", "status": "outreach", "next": "Single outreach touch (1/26) — no follow-up logged", "contacts": [], "acts": [{"d": "1/26/2026", "c": "CalendarTask", "n": "Task done: \"Initial Outreach to Offer Construction Mgt Services\" with description \"Jason is speaking with Kenny, the company VP.\"."}]},
+    {"company": "AEINC", "type": "Prospect", "status": "outreach", "next": "Single outreach touch (1/26) — capabilities email + discovery request", "contacts": [], "acts": [{"d": "1/26/2026", "c": "CalendarTask", "n": "Task done: \"Initial Outreach to Offer Construction Mgt Services\" with description \"Send email with capabilities statement and follow up with a phone call requesting a discovery session.\"."}]},
+    {"company": "Allco Construction, Inc.", "type": "Prospect", "status": "convert", "next": "Create the deal record — a contract was started 9/3; get scope and value from Jason", "contacts": [], "acts": [{"d": "1/26/2026", "c": "CalendarTask", "n": "Task done: \"Initial Outreach to Offer Construction Mgt Services\"."}, {"d": "9/3/2026", "c": "Deal Status Update", "n": "Started a new contract with this company. Jason will send details."}]},
+    {"company": "BDO USA", "type": "Prospect", "status": "owed", "next": "Lacy was to set up an ops follow-up after 7/30 — nothing logged since; chase it with geographic-strength talking points", "contacts": ["Lacy Lyons", "Neil Forbes"], "acts": [{"d": "7/16/2026", "c": "Phone Call", "n": "Met with Neil to catch up and discuss work opportunities. He will put me in contact with Lacy Lyons, who currently runs their CDBG-DR business. She is travelling next week and will connect with me later next week."}, {"d": "7/30/2026", "c": "Phone Call", "n": "Connected with Lacy to explore possible work opportunities. She explained BDO is going through a surge now with projects ongoing across 13 states. She explained that she would be setting up a follow up call with some of her operations folks to talk more about where Choice might be able to help. We n…"}]},
+    {"company": "BHL Federal LLC.", "type": "Prospect", "status": "owed", "next": "Meeting was scheduled 7/16 — log the outcome or reschedule", "contacts": ["Christian Baumgardner"], "acts": [{"d": "7/16/2026", "c": "Appointment", "n": "Scheduled meeting with BHL Christian Boswell."}]},
+    {"company": "Byrdson", "type": "Existing account", "status": "outreach", "next": "CM-services outreach (3/12) to an existing customer", "contacts": [], "acts": [{"d": "3/12/2026", "c": "CalendarTask", "n": "Task done: \"Initial Outreach to Offer Construction Mgt Services\"."}]},
+    {"company": "DSW Homes", "type": "Existing account", "status": "nurture", "next": "Account BD: met Moneka 10/1 on pipeline and Spokane readiness (logged on the Spokane deal)", "contacts": ["Moneka Jani"], "acts": [{"d": "1/22/2026", "c": "CalendarEvent", "n": "Event: \"BD Update Discussion with Moneka\" with description \"Discussed a wide range of topics, primarily about Choice providing additional construction management services. Upshot... DSW is not receiving a large volume of assignments and internally distributing work they would normally give us. Monek…"}, {"d": "3/12/2026", "c": "CalendarTask", "n": "Task done: \"Monthly follow up with Jani\"."}, {"d": "3/12/2026", "c": "Phone Call", "n": "Followed up with Moneka. She said there is still not a lot of activity in DR, they are waiting for assignments for projects they've won. They are working with IEM on one project in NM. Pinellas County will be rebid (GC) work. Apparently one of the other firms protested and she expects others will be…"}]},
+    {"company": "Dewberry", "type": "Prospect", "status": "nurture", "next": "Doug briefed Dewberry’s PA leadership in March — ask for the intro meeting", "contacts": ["Doug Frost"], "acts": [{"d": "2/27/2026", "c": "CalendarEvent", "n": "Event: \"Initial Outreach to Offer Construction Mgt Services\" with description \"Introduction call was successful. Doug will forward our information to the Dewberry President over PA programs. They don't deal much in the IA space any longer.\"."}, {"d": "3/12/2026", "c": "Email", "n": "Received response from Doug on the initial outreach and flyer... Hey Shane,I looked at the info flyer for Choice and will reach out to Mark Montgomery tomorrow to brief him. I'll connect with Melissa over the weekend and do the same.RegardsDoug"}]},
+    {"company": "Ducky Recovery", "type": "Existing account", "status": "nurture", "next": "Pre-deal LA OCD teaming notes (Feb) — now tracked on the LA-OCD deal; watch Ducky’s CM/PMO build-out", "contacts": ["Kelly Huck"], "acts": [{"d": "1/12/2026", "c": "Concerns", "n": "Ducky has been hiring resources (executive leadership) to expand their PM capacity. It seems they are positioning themselves for CM/PMO combined offering."}, {"d": "2/3/2026", "c": "Phone Call", "n": "Discussed LA OCD opportunity and teaming with Ducky to deliver damage assessments, scope walks, scope write ups, pre-construction services and professional services positions. Kelly is in the process of selecting other teaming partners and will give us a significant portion of the work."}, {"d": "2/18/2026", "c": "Phone Call", "n": "Spoke with Kelly about LA OCD opportunity. The Ducky team is being assembled, Choice, Cobolt Engineering, Southall, Crescent Title. He is still working on a few pieces and will start working through the proposal response over the next several weeks. I offered to help with proposal as needed. Still a…"}]},
+    {"company": "Dynamic", "type": "Existing account", "status": "nurture", "next": "Not a fit now (in-house, overstaffed) — re-contact if assignment volume rises", "contacts": ["Justin Coogler"], "acts": [{"d": "7/30/2026", "c": "Phone Call", "n": "Connected with Justin to share our capabilities and understand their current needs. This was my first meeting with Dynamic. They are currently active in five housing programs; North Carolina, Pinellas County, Pasco County, Hillborough County, Texas GLO. They prefer to do most of the work in house wi…"}]},
+    {"company": "Emergent Risk Solutions, LLC", "type": "Teaming partner", "status": "nurture", "next": "Follow up on Kipp’s interest in insurance work (3/12); teamed with Dynamic on LA OCD", "contacts": ["Kipp Nelson"], "acts": [{"d": "3/12/2026", "c": "Phone Call", "n": "Spoke to Kipp while he was at the NEMA mid-year conference. Discussed work opportunities including the LA OCD proposal. He is teaming up with Dynamic and thinks they will win. He is of the opinion, that OCD will pick and choose who they want which will lead to less work per firm. He is interested in…"}]},
+    {"company": "Excel", "type": "Prospect", "status": "outreach", "next": "Single outreach touch (3/12) — no follow-up logged", "contacts": [], "acts": [{"d": "3/12/2026", "c": "CalendarTask", "n": "Task done: \"Initial Outreach to Offer Construction Mgt Services\"."}]},
+    {"company": "GrantWorks", "type": "Existing account", "status": "nurture", "next": "2026 planning session held 7/29; update requested from Rick", "contacts": ["Rick Faircloth"], "acts": [{"d": "7/29/2026", "c": "CalendarEvent", "n": "Event: \"2026 Planning Session\"."}, {"d": "7/29/2026", "c": "Deal Status Update", "n": "Sent Rick Faircloth an email requesting an update."}]},
+    {"company": "Guidehouse", "type": "Teaming partner", "status": "owed", "next": "Pasco teaming meeting held 7/23 — record the teaming decision", "contacts": ["Laura Slutsky"], "acts": [{"d": "2/27/2026", "c": "CalendarEvent", "n": "Event: \"Initial Outreach to Offer Construction Mgt Services\"."}, {"d": "7/16/2026", "c": "CalendarTask", "n": "Task done: \"Follow up on initial email\"."}, {"d": "7/16/2026", "c": "Email", "n": "Sent email to ask whether Guidehouse will team up with us on a response to the Pasco County RFP. They are interested."}, {"d": "7/23/2026", "c": "CalendarEvent", "n": "Event: \"Meeting to discuss teaming opportunity for Pasco County\"."}]},
+    {"company": "ICF International", "type": "Prospect", "status": "owed", "next": "6/10 commitment to meet regularly (FEMA PA expansion) — no meeting logged since", "contacts": ["Amber Madden"], "acts": [{"d": "6/10/2026", "c": "CalendarEvent", "n": "Event: \"Meeting with Amber Madden\"."}, {"d": "6/10/2026", "c": "Phone Call", "n": "Great conversation. ICF if currently looking into expanding their footprint in FEMA PA work. I asked whether they would be interested in teaming up with us for the Puerto Rico Inspections opportunity and they had not looked at it yet. There may be other deals we can pursue with them and I have a com…"}]},
+    {"company": "JW Turner Construction", "type": "Prospect", "status": "nurture", "next": "Monthly check-in lapsed after 3/16 — resume; handling CM in-house while volume is low", "contacts": [], "acts": [{"d": "1/12/2026", "c": "CalendarTask", "n": "Task done: \"Initial Outreach to Offer Construction Mgt Services\"."}, {"d": "1/12/2026", "c": "Email", "n": "Sent introductory email to JW and JT. Attached single page company overview."}, {"d": "1/24/2026", "c": "CalendarTask", "n": "Task done: \"Follow up on Initial Outreach and Business Opportunities\"."}, {"d": "3/16/2026", "c": "CalendarTask", "n": "Task done: \"Discovery meeting\" with description \"This is a follow up to our introduction email and phone call. We need to understand JWTC's current project portfolio and where we can help.\"."}, {"d": "3/16/2026", "c": "Phone Call", "n": "Spoke with JW during our monthly call. I will continue to follow up with him. He explained that he has been handling CM inspections, CO, Scope walks, etc. internally and really has been able to manage due to the decreased volume and delayed roll out of programs. He read through our capabilities broc…"}]},
+    {"company": "Johnson & Asberry Communications", "type": "Prospect", "status": "outreach", "next": "Single outreach touch (3/2) — no follow-up logged", "contacts": [], "acts": [{"d": "3/2/2026", "c": "CalendarTask", "n": "Task done: \"Initial Outreach to Offer Services\"."}]},
+    {"company": "KPMG", "type": "Existing account", "status": "owed", "next": "Pasco: KPMG asked to sub to Choice; rate card requested 7/23 — record the teaming decision", "contacts": ["Maggice Mickler", "May Boucherak"], "acts": [{"d": "7/16/2026", "c": "Email", "n": "Sent email to notify them of the Pasco County RFP and gauge their interest in teaming up with us. They are interested and need to schedule a meeting."}, {"d": "7/23/2026", "c": "Appointment", "n": "Met with Maggie, Anna, and Sid to discuss the opportunity. KPMG wants to sub contract to Choice. I responded by letting Maggie know we are evaluating options now and asked for her to send rate card information."}]},
+    {"company": "Lamar", "type": "Prospect", "status": "outreach", "next": "Single outreach touch (3/12) — no follow-up logged", "contacts": [], "acts": [{"d": "3/12/2026", "c": "CalendarTask", "n": "Task done: \"Initial Outreach to Offer Construction Mgt Services\"."}]},
+    {"company": "Lemoine", "type": "Prospect", "status": "nofit", "next": "Posturing for a sale (Jan); no new deals to add us to", "contacts": ["Zack Martin"], "acts": [{"d": "1/12/2026", "c": "CalendarEvent", "n": "Event: \"Jason Edwards Scheduling Meeting to Offer Services\"."}, {"d": "1/12/2026", "c": "Deal Status Update", "n": "Company seems to be posturing for a company sale. They do not have new deals to add us to at this time."}, {"d": "3/10/2026", "c": "Email", "n": "Zach, I hope your ​Lemoine is going well and that the transition has been smooth for you. As promised, I’ve attached a one-page summary outlining our core capabilities and services. This overview can help your team quickly understand our offerings, and I’d appreciate it if you could share it with th…"}, {"d": "3/12/2026", "c": "CalendarTask", "n": "Task done: \"Send follow up email to Zach Martin\"."}]},
+    {"company": "OST Global", "type": "Existing account", "status": "owed", "next": "9/18 strategy meeting (BD beyond CDBG-DR) — outcome not logged", "contacts": ["Paul Huang"], "acts": [{"d": "3/16/2026", "c": "Phone Call", "n": "Conversation Notes – Discussion with PaulLeadership changes & org structurePat Alcorn is the new CTO; wants a more technical bench.Robert was let go due to flat revenue and C‑suite budget decisions.CDBG‑DR line of businessPaul still sees CDBG‑DR as a viable line of business.Acknowledges the need for…"}, {"d": "9/17/2026", "c": "Appointment", "n": "Meeting scheduled for Friday, September 18th to discuss business development approach and go forward strategy, beyond CDBG-DR."}]},
+    {"company": "Paragon Claims Group", "type": "Teaming partner", "status": "owed", "next": "TA/NDA for Pasco sent 7/30 — confirm it was executed", "contacts": ["Jennifer Flick"], "acts": [{"d": "7/30/2026", "c": "CalendarEvent", "n": "Event: \"Introductory Meeting\"."}, {"d": "7/30/2026", "c": "Phone Call", "n": "Met with Jennifer to discuss Pasco County teaming opportunity. She is on board with it. I sent TA/NDA along with scope of work details and data call."}]},
+    {"company": "Resilience Community Navigator", "type": "Prospect", "status": "convert", "next": "Return MNDA feedback, then open a deal once the joint strategy scope is set", "contacts": ["Richard Seline"], "acts": [{"d": "10/1/2026", "c": "Deal Status Update", "n": "Review and provide feedback on MNDA so that we can proceed with strategy discussions and scheduling joint meetings with decision makers."}]},
+    {"company": "Sullivan Land Services (SLSCO)", "type": "Prospect", "status": "owed", "next": "Discovery meeting was scheduled 6/30 — outcome never logged", "contacts": [], "acts": [{"d": "6/30/2026", "c": "CalendarTask", "n": "Task done: \"Schedule Discovery Meeting\"."}]},
+    {"company": "Sweet Group LLC.", "type": "Prospect", "status": "nurture", "next": "Capabilities forwarded to Steve Aloiso (exec) 3/16 — request a call", "contacts": ["Danielle Grillo-Pemberton"], "acts": [{"d": "3/9/2026", "c": "Email", "n": "Danielle, As promised, I’ve attached a one-page summary outlining our core capabilities and services. I’d appreciate it if you could share this with your team. ​​Thank you for helping me connect with the right people."}, {"d": "3/16/2026", "c": "CalendarTask", "n": "Task done: \"Initial Outreach to Offer Construction Mgt Services\"."}, {"d": "3/16/2026", "c": "Email", "n": "Received confirmation from Danielle that she has forwarded our capabilities to Steve Aloiso, an Executive at Sweet."}]},
+    {"company": "Thompson", "type": "Prospect", "status": "outreach", "next": "Single outreach touch (3/12) — no follow-up logged", "contacts": [], "acts": [{"d": "3/12/2026", "c": "CalendarTask", "n": "Task done: \"Initial Outreach to Offer Construction Mgt Services\"."}]},
+    {"company": "Tidal Basin Group", "type": "Prospect", "status": "nurture", "next": "Struggling with contracts (4/6); watch Manatee County inspection procurement", "contacts": ["Bailey deRouen"], "acts": [{"d": "4/6/2026", "c": "Appointment", "n": "Mike met with Bailey. They are struggling with contracts, Manatee County is going to self-perform eligibility and issue procurement for inspections."}]},
+    {"company": "Westerfeld", "type": "Prospect", "status": "nofit", "next": "Met at NHC (4/6) — does not appear to need our services", "contacts": ["Brandon Bey"], "acts": [{"d": "4/6/2026", "c": "CalendarTask", "n": "Task done: \"Initial Outreach to Offer Construction Mgt Services\"."}, {"d": "4/6/2026", "c": "Appointment", "n": "Jason met with Brandon at the NHC and it does not seem they will need our services."}]}],
+
   production: [
-    {"client":"Mora Housing Management, Inc.","claims":11,"revenue":14800},
-    {"client":"RM Quality Construction, LLC","claims":7,"revenue":3850},
-    {"client":"Ducky Recovery","claims":8,"revenue":1950},
-    {"client":"Timberline Construction Group, LLC","claims":7,"revenue":1800},
-    {"client":"Byrdson Services, LLC","claims":1,"revenue":750},
-    {"client":"GrantWorks","claims":1,"revenue":0}
+    {"client": "Mora Housing Management, Inc.", "claims": 8, "revenue": 9400},
+    {"client": "Timberline Construction Group, LLC", "claims": 3, "revenue": 3700},
+    {"client": "RM Quality Construction, LLC", "claims": 0, "revenue": 300},
+    {"client": "Ducky Recovery", "claims": 10, "revenue": 225}
   ],
-  assignmentCalendar: [1,2,8,5,0,0,0,3,3,1,1,0,1,3,2,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  // NOTE 10/8 (October roll): ProdReport October = $13,625 / 21 claims through 10/5 and ties to AllClaimsList
+  // invoices to the cent (10/2 $4,450; 10/5 $9,175). September finalized at $40,375 production (+$50 Mora vs 10/1)
+  // plus the September RBI T&E row that landed ($48,760 gross / $7,314 net) = $89,135. No October RBI row yet,
+  // so iemTERevenue = 0. RM Quality 10/2 $300 invoice was approved 10/2 (no month-boundary double-bill). Ducky shows
+  // 10 closed claims for $225 in October — count running ahead of billing again, as seen 9/24.
+  // NOTE 10/1 (September close-out): ProdReport September final = $40,325 / 114 claims and ties to
+  // AllClaimsList invoices to the cent. A 45-invoice $17,175 batch dated 9/30 was the revenue catch-up
+  // flagged on 9/24. Data runs through 9/30 with no October activity yet, so the dashboard stays on
+  // September this refresh; roll to October next refresh.
+  // NOTE 9/24: ProdReport's September Claim Closed Count jumped 35->61 with per-client revenue totals
+  // completely unchanged from 9/17 (AllClaimsList invoice snapshot is still dated through 9/16, no new
+  // invoices in a full week) — claim count grew across Mora/Ducky/Timberline/RM Quality/GrantWorks while
+  // dollars didn't move. Reads as more claims physically closing/processing without new billing yet
+  // (normal invoicing lag), not a data error, since it ties to the AllClaimsList assignment count (also
+  // 61 for September). Watching next refresh to confirm revenue catches up.
+  assignmentCalendar: [0,5,0,0,4,9,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   // Daily Revenue Pace: production revenue by invoice day (AllClaimsList InvoiceDate/InvoiceAmount,
   // reconciles to ProdReport MTD). te = current-month T&E total (spread across business days by the
   // builder). asOfDay = data current through this day of month. Refresh all three each update.
@@ -1308,7 +1493,7 @@ const DATA = {
   // NOTE 9/11: ProdReport has now cut its September row and it ties to AllClaimsList invoices to the
   // cent ($9,650). The 9/3 substitution is retired — ProdReport is once again the source of truth for
   // MTD production. No RM Quality month-boundary double-bill artifact this period.
-  revenuePace: { daily: [0,900,1750,0,0,0,0,5350,900,0,10650,0,0,600,1700,1300,0,0,0,0,0,0,0,0,0,0,0,0,0,0], te: 0, asOfDay: 16 },
+  revenuePace: { daily: [0,4450,0,0,9175,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], te: 0, asOfDay: 7 },
 };
 
 
@@ -2006,13 +2191,13 @@ dealsTbody.appendChild(dIdiqRow);
   const soonW  = soon30.reduce((s,d)=>s+d.wtd,0);
   document.getElementById('stallCallout').innerHTML =
     `<div style="background:#FDF4F4;border:1px solid #F0C4C5;border-left:4px solid var(--red);border-radius:6px;padding:12px 14px;font-size:11px;line-height:1.55;color:var(--charcoal)">
-       <strong style="color:var(--red)">The pipeline is not moving, and the CRM cannot tell us why.</strong>
+       <strong style="color:var(--red)">Most of the pipeline is not moving, and the CRM cannot tell us why.</strong>
        ${critN} of ${rows.length} open deals score 60+ on stall risk, and ${q30.length} deals carrying
        ${fmt$(q30W)} of weighted forecast \u2014 ${Math.round(q30W/wgtTot*100)}% of the pipeline \u2014
        have had no activity logged in over 30 days. ${soon30.length} of them, worth ${fmt$(soonW)} weighted,
        are scheduled to close within 30 days. Meanwhile the last stage change of any kind was
        ${CH.lastStageChange||'\u2014'} and the whole year holds only ${CH.totalActivities||0} logged activities.
-       <strong>Either these deals are genuinely dormant &mdash; in which case the September and October
+       <strong>Either these deals are genuinely dormant &mdash; in which case the October and November
        forecast is overstated &mdash; or they are being worked without being logged, in which case the
        dashboard cannot see the business.</strong> Deciding which is the single highest-leverage BD action available.
      </div>`;
@@ -2026,6 +2211,109 @@ dealsTbody.appendChild(dIdiqRow);
   };
   sl.addEventListener('input', paint);
   paint();
+})();
+
+// ── PRE-PIPELINE BD ACTIVITY ─────────────────────────────────────────────
+(function buildBDActivity(){
+  const B = DATA.bdActivity || [];
+  const pd = s => { const [m,d,y] = s.split('/').map(Number); return new Date(y, m-1, d); };
+  const asOf = pd(DATA.bdAsOf);
+  const days = s => Math.round((asOf - pd(s)) / 864e5);
+  const TYPE = {'Prospect':['bdt-prospect','#F26721'], 'Teaming partner':['bdt-teaming','#2E5496'], 'Existing account':['bdt-account','#B9B9B9']};
+  const STAT = {convert:['bds-convert','Ready to convert',0], owed:['bds-owed','Follow-up owed',1],
+                nurture:['bds-nurture','Nurture',2], outreach:['bds-outreach','Outreach only',3], nofit:['bds-nofit','No near-term fit',4]};
+  const rows = B.map(r => {
+    const last = r.acts[r.acts.length-1], first = r.acts[0];
+    const subst = r.acts.slice().reverse().find(a => !/^(Task done|Event):/.test(a.n) || a.n.length > 70) || last;
+    return {...r, last:last.d, first:first.d, ds:days(last.d), n:r.acts.length, latest:subst};
+  }).sort((a,b) => STAT[a.status][2]-STAT[b.status][2] || a.ds-b.ds);
+
+  document.getElementById('bdHdrNote').textContent =
+    'AS OF ' + DATA.bdAsOf + ' · ' + rows.length + ' COMPANIES · ' + rows.reduce((s,r)=>s+r.n,0) + ' ACTIVITIES';
+
+  /* tiles */
+  const prosp = rows.filter(r=>r.type!=='Existing account');
+  const conv  = rows.filter(r=>r.status==='convert');
+  const owed  = rows.filter(r=>r.status==='owed');
+  const t30   = rows.filter(r=>r.ds<=30);
+  const cold  = prosp.filter(r=>r.ds>90 && r.status!=='nofit');
+  const tile = (cls,l,v,s) => `<div class="idiq-tile ${cls}"><div class="idiq-tile-lbl">${l}</div><div class="idiq-tile-val">${v}</div><div class="idiq-tile-sub">${s}</div></div>`;
+  document.getElementById('bdTiles').innerHTML =
+    tile('neutral','New Relationships', prosp.length,
+         prosp.filter(r=>r.type==='Prospect').length + ' prospects · ' + prosp.filter(r=>r.type==='Teaming partner').length + ' teaming partners · no deal record') +
+    tile('', 'Ready to Convert', conv.length, conv.map(r=>r.company.replace(/,? (Inc|LLC)\.?$/,'')).join(' · ') || 'none') +
+    tile('warnt','Follow-ups Owed', owed.length, 'a promised meeting or reply with no logged outcome') +
+    tile('muted','Touched Last 30 Days', t30.length + ' of ' + rows.length, 'companies with a pre-pipeline touch since ' + (()=>{const d=new Date(asOf-30*864e5);return (d.getMonth()+1)+'/'+d.getDate();})()) +
+    tile('warnt','Prospects Gone Quiet', cold.length, 'new relationships with no touch in 90+ days');
+
+  /* monthly bars, stacked by type */
+  const curM = asOf.getMonth();
+  const MN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const mons = Array.from({length:12}, () => ({'Prospect':0,'Teaming partner':0,'Existing account':0}));
+  rows.forEach(r => r.acts.forEach(a => { const d = pd(a.d); if (d.getFullYear()===asOf.getFullYear()) mons[d.getMonth()][r.type]++; }));
+  const mx = Math.max(1, ...mons.map(m => m['Prospect']+m['Teaming partner']+m['Existing account']));
+  document.getElementById('bdMonths').innerHTML = mons.map((m,i) => {
+    const tot = m['Prospect']+m['Teaming partner']+m['Existing account'];
+    const seg = t => m[t] ? `<span title="${t}: ${m[t]}" style="height:calc((100% - 16px) * ${(m[t]/mx).toFixed(4)});background:${TYPE[t][1]}"></span>` : '';
+    return `<div class="bd-mcol" title="${DATA.forecast.labels[i]}: ${tot} touches">${i<=curM?`<div class="bd-mval">${tot}</div>`:''}${seg('Existing account')}${seg('Teaming partner')}${seg('Prospect')}</div>`;
+  }).join('');
+  document.getElementById('bdMonthLbls').innerHTML = DATA.forecast.labels.map((l,i)=>`<div class="${i>curM?'fut':''}">${l}</div>`).join('');
+
+  /* filters */
+  let fType = 'All', fStat = 'All';
+  const fb = document.getElementById('bdFilters');
+  const chips = () => {
+    const tc = ['All', ...Object.keys(TYPE)], sc = ['All', ...Object.keys(STAT)];
+    fb.innerHTML = '<span class="lbl">Type</span>' + tc.map(t=>`<button class="bd-chip ${fType===t?'on':''}" data-t="${t}">${t} (${t==='All'?rows.length:rows.filter(r=>r.type===t).length})</button>`).join('') +
+      '<span class="lbl" style="margin-left:10px">Status</span>' + sc.map(s=>`<button class="bd-chip ${fStat===s?'on':''}" data-s="${s}">${s==='All'?'All':STAT[s][1]} (${s==='All'?rows.length:rows.filter(r=>r.status===s).length})</button>`).join('');
+  };
+  fb.addEventListener('click', e => {
+    const b = e.target.closest('.bd-chip'); if (!b) return;
+    if (b.dataset.t) fType = b.dataset.t; if (b.dataset.s) fStat = b.dataset.s;
+    chips(); table();
+  });
+
+  /* table */
+  const tb = document.getElementById('bdTbody');
+  const table = () => {
+    const vis = rows.filter(r => (fType==='All'||r.type===fType) && (fStat==='All'||r.status===fStat));
+    tb.innerHTML = vis.map((r,i) => `
+      <tr class="bd-row" data-i="${i}">
+        <td><span class="bd-caret">▶</span> <strong>${r.company}</strong>
+            <div class="stall-sub" style="margin-left:14px">${r.contacts.length?r.contacts.join(', '):'no named contact'}</div></td>
+        <td><span class="bd-pill ${TYPE[r.type][0]}">${r.type}</span></td>
+        <td><span class="bd-pill ${STAT[r.status][0]}">${STAT[r.status][1]}</span></td>
+        <td class="text-right"><span class="stall-num">${r.n}</span><div class="stall-sub">since ${r.first}</div></td>
+        <td class="text-right">${r.last}<div class="stall-sub"><span class="stall-num ${r.ds>90?'hot':r.ds>30?'warm':''}">${r.ds===0?'today':r.ds+'d ago'}</span></div></td>
+        <td><div class="bd-note"><span class="stall-sub">${r.latest.d} · </span>${r.latest.n}</div></td>
+        <td><div class="bd-next">${r.next}</div></td>
+      </tr>
+      <tr class="bd-tl" data-for="${i}" style="display:none"><td colspan="7">${
+        r.acts.slice().reverse().map(a=>`<div class="bd-tl-item"><div class="bd-tl-d">${a.d}</div><div class="bd-tl-c">${a.c}</div><div>${a.n}</div></div>`).join('')
+      }</td></tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--lgray)">No relationships match this filter.</td></tr>';
+  };
+  tb.addEventListener('click', e => {
+    const tr = e.target.closest('.bd-row'); if (!tr) return;
+    const tl = tb.querySelector(`tr[data-for="${tr.dataset.i}"]`);
+    const open = tl.style.display === 'none';
+    tl.style.display = open ? '' : 'none'; tr.classList.toggle('open', open);
+  });
+  chips(); table();
+
+  /* callout */
+  const q1 = mons.slice(0,3).reduce((s,m)=>s+m['Prospect']+m['Teaming partner'],0);
+  const recentFrom = Math.max(0,curM-2);
+  const recent = mons.slice(recentFrom, curM+1).reduce((s,m)=>s+m['Prospect']+m['Teaming partner'],0);
+  document.getElementById('bdCallout').innerHTML =
+    `<div style="background:#FEF6F1;border:1px solid #F6D3B8;border-left:4px solid var(--orange);border-radius:6px;padding:12px 14px;font-size:11px;line-height:1.55;color:var(--charcoal)">
+       <strong style="color:#B04A0E">New-relationship work is where the next pipeline comes from &mdash; and it has thinned out.</strong>
+       ${prosp.length} companies have logged BD activity with no deal behind them. ${conv.length} are ready to become deals now
+       (${conv.map(r=>r.company).join(' and ')}), and ${owed.filter(r=>r.type!=='Existing account').length} new relationships have a promised
+       follow-up with no logged outcome. Touches with prospects and teaming partners ran ${q1} in Q1 but only ${recent} since ${MN[recentFrom]} 1, and
+       ${cold.length} of ${prosp.length} new relationships have gone 90+ days without a touch.
+       <strong>Converting the two ready relationships into deal records and closing out the owed follow-ups is the cheapest pipeline
+       growth available.</strong>
+     </div>`;
 })();
 
 const prodTbody=document.getElementById('prodTbody');
@@ -2235,7 +2523,7 @@ claimsOrdered.forEach(d=>{
 (function buildRevenuePace() {
   // To change reporting month: update YEAR/MONTH here (same pattern as buildAssignmentCalendar)
   // plus DATA.revenuePace {daily, te, asOfDay}.
-  const YEAR = 2026, MONTH = 9; // 1-based
+  const YEAR = 2026, MONTH = 10; // 1-based
   const MONTH_NAMES = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
   const rp = DATA.revenuePace;
   const target = DATA.forecast.forecast[MONTH - 1];
@@ -2317,7 +2605,7 @@ claimsOrdered.forEach(d=>{
 
   document.getElementById('revPaceNote').textContent =
     'Production revenue by invoice date (AllClaimsList), reconciled to the cent against the ProdReport ' +
-    'September row. T&E spread evenly across ' + totalBiz +
+    DATA.currentMonth + ' row. T&E spread evenly across ' + totalBiz +
     ' business days' + (rp.te > 0 ? '' : ' (' + DATA.currentMonth + ' T&E not yet invoiced by Pelican Assets \u2014 currently $0)') +
     '. Pace line = monthly forecast target prorated by business days elapsed. Data through ' +
     MONTH_NAMES[MONTH - 1].charAt(0) + MONTH_NAMES[MONTH - 1].slice(1).toLowerCase() + ' ' + asOf + ', ' + YEAR + '.';
@@ -2328,7 +2616,7 @@ claimsOrdered.forEach(d=>{
   if (!wrap) return;
 
   // ── Single source of truth: set the reporting month here each period ──
-  const YEAR = 2026, MONTH = 9; // MONTH is 1-based (1=Jan … 12=Dec)
+  const YEAR = 2026, MONTH = 10; // MONTH is 1-based (1=Jan … 12=Dec)
 
   const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   // Update the card heading (e.g. "JUNE 2026") from YEAR/MONTH
