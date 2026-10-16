@@ -1075,6 +1075,7 @@ tbody tr:hover td { background: #FEF0E6; }
   </div>
   <div class="chart-card" style="margin-bottom:14px;padding:20px 24px;">
     <div id="assignCalendar"></div>
+    <div style="font-size:10px;color:var(--lgray);margin-top:8px;line-height:1.5">Source: ClaimList &mdash; new claim records by Claim Created Date. Repeat service requests on existing claims are not counted.</div>
   </div>
 
   <!-- ── DAILY REVENUE PACE ────────────── -->
@@ -1494,7 +1495,10 @@ const DATA = {
   // dollars didn't move. Reads as more claims physically closing/processing without new billing yet
   // (normal invoicing lag), not a data error, since it ties to the AllClaimsList assignment count (also
   // 61 for September). Watching next refresh to confirm revenue catches up.
-  assignmentCalendar: [0,5,0,0,4,9,3,13,7,0,0,7,4,8,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  // SOURCE (from 10/16, Shane's direction): ClaimList.csv — one row per claim record, counted by Claim_Created_Date.
+  // Replaces AllClaimsList AssignmentReceivedDate, which also counted repeat service requests on existing claims
+  // (e.g. Mora RECON scope adjustments on claims created months earlier): Oct-to-date 65 assignments -> 50 new claims.
+  assignmentCalendar: [0,2,0,0,0,9,3,13,5,0,0,6,1,7,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   // Daily Revenue Pace: production revenue by invoice day (AllClaimsList InvoiceDate/InvoiceAmount,
   // reconciles to ProdReport MTD). te = current-month T&E total (spread across business days by the
   // builder). asOfDay = data current through this day of month. Refresh all three each update.
@@ -2683,7 +2687,7 @@ claimsOrdered.forEach(d=>{
   }
 
   html += '</div>';
-  html += `<div class="cal-month-total">${MONTH_NAMES[MONTH - 1]} Total: <span>${totalAssigned}</span> assignment${totalAssigned!==1?'s':''} received</div>`;
+  html += `<div class="cal-month-total">${MONTH_NAMES[MONTH - 1]} Total: <span>${totalAssigned}</span> new claim${totalAssigned!==1?'s':''} received</div>`;
 
   wrap.innerHTML = html;
 })();
