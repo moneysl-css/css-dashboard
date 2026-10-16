@@ -1237,8 +1237,8 @@ const DATA = {
     {client:'A Bartlett Roofing & Construction',                 claims:2, rev:975.00},
   ],
   kpi: {
-    totalPipeline:    16668390.17,
-    weightedForecast: 8858493,
+    totalPipeline:    16918390.17,
+    weightedForecast: 8983493,
     openDeals:        10,
     claimsMTD:        63,
     forecastMTD:      196813,
@@ -1316,9 +1316,10 @@ const DATA = {
     // reproduces the published 10/1 Oct-Dec pre-haircut arrays to the cent. 50% haircut re-applied.
     // Re-run 2026-10-16: CO - DOLA DRR Master Task Order RFQ ($750K IDIQ @ 50%, 11/24) moved Presentation->Lost 10/16
     // (RFQ v2 made Program Area 2 require construction delivery; Choice is not a GC), removing its $31,250/mo from
-    // Nov-Dec. New FL - FDEM Logistics Services RFP (Timberline, $250K, 2027 close) was entered and Lost (canceled)
-    // the same day — never in layer 3. No new wins; no other close-date changes. Legacy Construction ($0) is past its
-    // 10/9 close but adds nothing under the floor rule. Oct unchanged. 50% haircut re-applied.
+    // Nov-Dec. New FL - FDEM Logistics Services RFP (Timberline, $250K @ 50%, 2/1/2027 close) is OPEN in Presentation
+    // — 2027 close, so never in layer 3. Legacy Construction ($0) is the deal that was Lost/canceled 10/16 (Hurricane
+    // Isaias missed the coast); $0 so no model effect. (Corrected 10/16 from a revised deals export — the first
+    // export had these two swapped.) No new wins; no other close-date changes. Oct unchanged. 50% haircut re-applied.
     forecast: [0,0,41955,49587,91577,189749.74,235377.2,277974.03,178562.06,196812.67,203491.09,190444.44],
     core:     [0,0,41955,49587,91577,189749.74,235377.2,277974.03,178562.06,196812.67,203491.09,190444.44],
     preHaircut:     [0,0,41955,49587,91577,189749.74,235377.2,277974.03,357124.13,393625.34,406982.18,380888.87],
@@ -1338,8 +1339,8 @@ const DATA = {
   idiq: { captureRate: 25 },
   pipeline: {
     labels:  ["Prospecting","Qualified","Negotiation","Presentation"],
-    total:   [0,0,250000,16418390.17],
-    weighted:[0,0,187500,8670993],
+    total:   [0,0,250000,16668390.17],
+    weighted:[0,0,187500,8795993],
   },
   wonDeals: [
     {"name": "BCA and Engineering Technical Assistance — Ernst & Young", "strategy": "Sell To Winner", "value": 200000, "date": "1/26/2026"},
@@ -1365,7 +1366,7 @@ const DATA = {
     {"name": "FL - City of Miami Beach HQS-NSPIRE RFP 01-2026", "company": "Housing Authority of the City of Miami Beach (HACMB)", "strategy": "RFP Prime", "amount": 563475.0, "date": "5/21/2026", "reason": "Price", "notes": "See attached scoring sheet. Winning bidder was Gilson Software Solutions - PHA, LLC ."},
     {"name": "FL - Pasco County Post-disaster services", "company": "Pasco County", "strategy": "RFP Prime", "amount": 2500000.0, "date": "10/7/2026", "reason": "Competitor", "notes": "Received notification of short-listed vendor selection; Tidal Basin, Tetra Tech Inc., H2Bravo. The County intends to award a primary and a secondary contract to firms with whom an agreement is reached, up to two (2) contracts."},
     {"name": "CO \u2013 RFQ NLAA-2027000003 Pre-Disaster Request for Qualifications (DRR Program Master Task Order Contract)", "company": "Colorado Department of Local Affairs (DOLA), Division of Local Government", "strategy": "RFP Prime", "amount": 750000.0, "date": "10/16/2026", "reason": "RFP Requirements", "notes": "Version 2 and the Q&A make Program Area 2 a single area that requires construction delivery (labor, permits, bonding, 1-yr + 10-yr warranties), either in-house or through a named subcontractor. Choice is not a GC."},
-    {"name": "FL - RFP-DEM-26-27-009_46-0566308 Logistics Services for Emergency Sheltering and Housing Program", "company": "Timberline Construction Group", "strategy": "RFP Sub", "amount": 250000.0, "date": "10/16/2026", "reason": "Deal Canceled", "notes": ""}
+    {"name": "Logistical Staging Area - Staff Augmentation", "company": "Legacy Construction", "strategy": "Sell To Winner", "amount": 0.0, "date": "10/16/2026", "reason": "Deal Canceled", "notes": "Hurricane Isaias did not make the expected coastal impact."}
   ],
   openDeals: [
     {"name": "FED - HUD ARC NSPIRE Backlog Inspection", "company": "Akytech Consulting", "strategy": "RFP Sub", "amount": 9570973.17, "weighted": 5742584, "stage": "Presentation", "prob": 60, "close": "1/29/2027", "owner": "Shane Lucas"},
@@ -1377,7 +1378,7 @@ const DATA = {
     {"idiq": true, "name": "LA - OCD Program Management and Construction Management Services", "company": "Dynamic", "strategy": "RFP Sub", "amount": 400000.0, "weighted": 100000, "stage": "Presentation", "prob": 25, "close": "8/1/2027", "owner": "Shane Lucas"},
     {"idiq": true, "name": "LA - OCD Program Management and Construction Management Services", "company": "GrantWorks", "strategy": "RFP Sub", "amount": 400000.0, "weighted": 100000, "stage": "Presentation", "prob": 25, "close": "8/1/2027", "owner": "Shane Lucas"},
     {"name": "GA - Dept of Community Affairs ARRP", "company": "Timberline Construction Group", "strategy": "RFP Sub", "amount": 300000.0, "weighted": 75000, "stage": "Presentation", "prob": 25, "close": "10/31/2026", "owner": "Shane Lucas"},
-    {"name": "Logistical Staging Area - Staff Augmentation", "company": "Legacy Construction", "strategy": "Sell To Winner", "amount": 0.0, "weighted": 0, "stage": "Qualified", "prob": 25, "close": "10/9/2026", "owner": "Shane Lucas"}
+    {"name": "FL - RFP-DEM-26-27-009_46-0566308 Logistics Services for Emergency Sheltering and Housing Program", "company": "Timberline Construction Group", "strategy": "RFP Sub", "amount": 250000.0, "weighted": 125000, "stage": "Presentation", "prob": 50, "close": "2/1/2027", "owner": "Shane Lucas"}
   ],
 
   // ── DEAL MOMENTUM / STALLED PIPELINE ────────────────────────────────────
@@ -1419,8 +1420,10 @@ const DATA = {
   // ID to the LA - OCD deal discusses Hillsborough feed stock — likely mis-linked to the FL - Hillsboro
   // deal; still unresolved as of 9/24. Six deals below slipped their Expected close since 9/17 (Akytech,
   // PRDOH, Hillsboro, NC Renew NC, SC Timberline, GA CDBG-DR Allocation) — see forecast comment above.
-  // 10/16: CO - DOLA RFQ Presentation->Lost (construction-delivery requirement; Choice is not a GC) and new FL - FDEM
-  // Logistics (Timberline) entered and Lost/canceled same day — both drop out. OST meeting cadence moved to monthly;
+  // 10/16: CO - DOLA RFQ Presentation->Lost (construction-delivery requirement; Choice is not a GC) and Legacy
+  // Construction staff aug Qualified->Lost (Deal Canceled) — both drop out. New FL - FDEM Logistics (Timberline,
+  // $250K, Presentation, 2/1/2027) enters as Moving (logged 10/16; the activity log's Presentation->Lost row on it
+  // was reversed in the CRM per the revised deals export). OST meeting cadence moved to monthly;
   // DHSEM award still unreleased (outreach to Angel Roybal); Sarasota 1st evaluation meeting held 10/16.
   stalled: [
     {"name": "GA - Dept of Community Affairs ARRP", "company": "Timberline Construction Group", "strategy": "RFP Sub", "stage": "Presentation", "amount": 300000.0, "wtd": 75000, "prob": 25, "close": "10/31/2026", "dtc": 15, "dis": 308, "dsa": 85, "acts": 1, "task": "Meet with Jeff for updates", "taskDue": "10/2/2026", "over": 14, "idiq": false, "score": 77},
@@ -1429,8 +1432,8 @@ const DATA = {
     {"name": "LA - OCD Program Management and Construction Management Services", "company": "GrantWorks", "strategy": "RFP Sub", "stage": "Presentation", "amount": 400000.0, "wtd": 100000, "prob": 25, "close": "8/1/2027", "dtc": 289, "dis": 210, "dsa": 66, "acts": 3, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 65},
     {"name": "PR - PRDOH Cost Estimating Services — CDBG-DR / CDBG-MIT", "company": "BR +", "strategy": "RFP Sub", "stage": "Presentation", "amount": 750000.0, "wtd": 375000, "prob": 50, "close": "11/30/2026", "dtc": 45, "dis": 91, "dsa": 92, "acts": 4, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 63},
     {"name": "NM - RFP-26-795-0000-00020 CDBG-DR Damage Assessments", "company": "Department of Homeland Security and Emergency Management (DHSEM)", "strategy": "RFP Prime", "stage": "Presentation", "amount": 1101500.0, "wtd": 330450, "prob": 30, "close": "10/31/2026", "dtc": 15, "dis": 184, "dsa": 0, "acts": 4, "task": null, "taskDue": null, "over": null, "idiq": false, "score": 52},
-    {"name": "Logistical Staging Area - Staff Augmentation", "company": "Legacy Construction", "strategy": "Sell To Winner", "stage": "Qualified", "amount": 0.0, "wtd": 0, "prob": 25, "close": "10/9/2026", "dtc": -7, "dis": 8, "dsa": null, "acts": 0, "task": "Obtain task order", "taskDue": "10/12/2026", "over": 4, "idiq": false, "score": 52},
     {"name": "LA - OCD Program Management and Construction Management Services", "company": "Ducky Recovery", "strategy": "RFP Sub", "stage": "Presentation", "amount": 1395917.0, "wtd": 697958, "prob": 50, "close": "8/1/2027", "dtc": 289, "dis": 224, "dsa": 29, "acts": 8, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 52},
+    {"name": "FL - RFP-DEM-26-27-009_46-0566308 Logistics Services for Emergency Sheltering and Housing Program", "company": "Timberline Construction Group", "strategy": "RFP Sub", "stage": "Presentation", "amount": 250000.0, "wtd": 125000, "prob": 50, "close": "2/1/2027", "dtc": 108, "dis": 0, "dsa": 0, "acts": 2, "task": null, "taskDue": null, "over": null, "idiq": false, "score": 20},
     {"name": "FL - City of Sarasota Emergency Management Consulting Services", "company": "KPMG", "strategy": "RFP Sub", "stage": "Presentation", "amount": 2500000.0, "wtd": 1250000, "prob": 50, "close": "1/1/2027", "dtc": 77, "dis": 77, "dsa": 0, "acts": 3, "task": null, "taskDue": null, "over": null, "idiq": true, "score": 27},
     {"name": "NC - Staff Augmentation CDBG-DR Expert Administrative Support", "company": "OST Global", "strategy": "RFP Sub", "stage": "Negotiation", "amount": 250000.0, "wtd": 187500, "prob": 75, "close": "10/30/2026", "dtc": 14, "dis": 283, "dsa": 0, "acts": 34, "task": "Semi-monthly meeting with OST", "taskDue": "11/11/2026", "over": 0, "idiq": true, "score": 25}
   ],
@@ -2210,7 +2213,7 @@ dealsTbody.appendChild(dIdiqRow);
        ${critN} of ${rows.length} open deals score 60+ on stall risk, and ${q30.length} deals carrying
        ${fmt$(q30W)} of weighted forecast \u2014 ${Math.round(q30W/wgtTot*100)}% of the pipeline \u2014
        have had no activity logged in over 30 days. ${soon30.length} of them, worth ${fmt$(soonW)} weighted,
-       are scheduled to close within 30 days. Meanwhile the last stage change of any kind was
+       ${soon30.length===1?'is':'are'} scheduled to close within 30 days. Meanwhile the last stage change of any kind was
        ${CH.lastStageChange||'\u2014'} and the whole year holds only ${CH.totalActivities||0} logged activities.
        <strong>Either these deals are genuinely dormant &mdash; in which case the October and November
        forecast is overstated &mdash; or they are being worked without being logged, in which case the
